@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>order</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4">
+        <ion-list-header>
+          <h2 text-center>Detalle de Orden</h2>
+        </ion-list-header>
+        <ion-list>
+          <ion-item *ngFor="let product of order;let i = index">
+            <ion-thumbnail item-start>
+              <img src="assets/img/pechuga.jpg">
+            </ion-thumbnail>
+            <ion-label padding-start>{{product.title}}</ion-label>
+            <ion-button item-end shape="round" color="danger" (click)="deleteOrderProduct(product, i)">
+              <ion-icon name="trash"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+        <ion-button color="danger" expand="full" (click)="deleteOrder()" *ngIf="totalOrder > 0">Eliminar Orden</ion-button>
+      </ion-col>
+      <ion-col size="8">
+          <ion-grid>
+              <ion-row *ngFor="let row of rows">
+                <ion-col *ngFor="let product of products" size-sm="6" size-md="4">
+                  <ion-card (click)="addProduct(product)">
+                    <ion-img src="assets/img/pechuga.jpg"></ion-img>
+                    <ion-card-content>
+                      <ion-card-subtitle text-center>
+                          {{product.title}}
+                      </ion-card-subtitle>
+                    </ion-card-content>
+                  </ion-card>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-button expand="full" (click)="createOrder()">Crear Orden ${{totalOrder}}</ion-button>
+</ion-footer>
