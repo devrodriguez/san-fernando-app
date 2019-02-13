@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
+import { ProductService } from 'src/services/product/product.service';
 
 @Component({
   selector: 'app-order',
@@ -11,7 +12,7 @@ export class OrderPage implements OnInit {
   totalOrder:number = 0;
   order: Array<any> = [];
   rows: Array<any> = [1, 2]; 
-  products: Array<any> = [
+  /*products: Array<any> = [
     {
       title: 'Pechuga Plancha',
       price: 6000
@@ -24,11 +25,22 @@ export class OrderPage implements OnInit {
       title: 'Pechuga BBQ',
       price: 5500
     }
-  ];
+  ];*/
+  products: any = new Array();
   
-  constructor(public alertController: AlertController, public toastController: ToastController) { }
+  constructor(public alertController: AlertController, 
+              public toastController: ToastController,
+              public productService: ProductService) { 
+                this.getProducs();
+              }
 
   ngOnInit() {
+  }
+
+  getProducs() {
+    this.productService.getProducts().subscribe(products => {
+      this.products = products;
+    });
   }
 
   addProduct(product:any) {

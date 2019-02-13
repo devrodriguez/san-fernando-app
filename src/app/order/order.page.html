@@ -16,7 +16,7 @@
             <ion-thumbnail item-start>
               <img src="assets/img/pechuga.jpg">
             </ion-thumbnail>
-            <ion-label padding-start>{{product.title}}</ion-label>
+            <ion-label padding-start>{{product.name}}</ion-label>
             <ion-button item-end shape="round" color="danger" (click)="deleteOrderProduct(product, i)">
               <ion-icon name="trash"></ion-icon>
             </ion-button>
@@ -32,7 +32,7 @@
                     <ion-img src="assets/img/pechuga.jpg"></ion-img>
                     <ion-card-content>
                       <ion-card-subtitle text-center>
-                          {{product.title}}
+                          {{product.name}}
                       </ion-card-subtitle>
                     </ion-card-content>
                   </ion-card>
