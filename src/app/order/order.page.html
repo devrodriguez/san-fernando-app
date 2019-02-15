@@ -12,9 +12,9 @@
           <h2 text-center>Detalle de Orden</h2>
         </ion-list-header>
         <ion-list>
-          <ion-item *ngFor="let product of order;let i = index">
+          <ion-item *ngFor="let product of order;let i = index" class="picture-animated fade-in">
             <ion-thumbnail item-start>
-              <img src="assets/img/pechuga.jpg">
+              <img [src]="product.picture_url">
             </ion-thumbnail>
             <ion-label padding-start>{{product.name}}</ion-label>
             <ion-button item-end shape="round" color="danger" (click)="deleteOrderProduct(product, i)">
@@ -28,8 +28,9 @@
           <ion-grid>
               <ion-row *ngFor="let row of rows">
                 <ion-col *ngFor="let product of products" size-sm="6" size-md="4">
-                  <ion-card (click)="addProduct(product)">
-                    <ion-img src="assets/img/pechuga.jpg"></ion-img>
+                  <ion-card class="picture-animated fade-in" (click)="addProduct(product)" style="position: relative;">
+                    <ion-badge color="secondary" style="position: absolute;top:5px;left:5px;">${{product.price_per_unit}}</ion-badge>
+                    <ion-img [src]="product.picture_url"></ion-img>
                     <ion-card-content>
                       <ion-card-subtitle text-center>
                           {{product.name}}

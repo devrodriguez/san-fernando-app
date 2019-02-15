@@ -12,20 +12,6 @@ export class OrderPage implements OnInit {
   totalOrder:number = 0;
   order: Array<any> = [];
   rows: Array<any> = [1, 2]; 
-  /*products: Array<any> = [
-    {
-      title: 'Pechuga Plancha',
-      price: 6000
-    },
-    {
-      title: 'Pechuga Apanada',
-      price: 6500
-    },
-    {
-      title: 'Pechuga BBQ',
-      price: 5500
-    }
-  ];*/
   products: any = new Array();
   
   constructor(public alertController: AlertController, 
@@ -44,7 +30,7 @@ export class OrderPage implements OnInit {
   }
 
   addProduct(product:any) {
-    this.totalOrder += product["price"];
+    this.totalOrder += parseFloat(product.price_per_unit);
     this.order.push(product);
   }
 
@@ -84,7 +70,7 @@ export class OrderPage implements OnInit {
   }
 
   deleteOrderProduct(product: any, index: any) {
-    this.totalOrder -= product["price"];
+    this.totalOrder -= parseFloat(product.price_per_unit);
     this.order.splice(index, 1);
   }
 
