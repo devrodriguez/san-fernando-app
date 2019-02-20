@@ -27,6 +27,8 @@ export class OrderPage implements OnInit {
     this.productService.getProducts().subscribe(products => {
       this.products = products;
     });
+
+    this.productService.getLocalProducts();
   }
 
   addProduct(product:any) {

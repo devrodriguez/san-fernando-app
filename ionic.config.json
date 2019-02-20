@@ -1,5 +1,7 @@
 {
   "name": "san-fernando-app",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ProductService } from 'src/services/product/product.service';
 import { HttpClientModule } from '@angular/common/http';
+import { SQLite } from '@ionic-native/sqlite/ngx';
 
 
 
@@ -26,7 +27,8 @@ import { HttpClientModule } from '@angular/common/http';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    ProductService
+    ProductService,
+    SQLite
   ],
   bootstrap: [AppComponent]
 })
