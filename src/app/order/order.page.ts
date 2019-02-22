@@ -12,7 +12,7 @@ export class OrderPage implements OnInit {
   totalOrder:number = 0;
   order: Array<any> = [];
   rows: Array<any> = [1, 2]; 
-  products: any = new Array();
+  products: Array<any> = new Array();
   
   constructor(public alertController: AlertController, 
               public toastController: ToastController,
@@ -24,14 +24,28 @@ export class OrderPage implements OnInit {
   }
 
   getProducs() {
-    this.productService.getProducts().subscribe(products => {
-      this.products = products;
+    
+    this.productService.getProducts().subscribe((products: Array<any>) => {
+
+      //this.products = products;
+
+      products.forEach(item => {
+        this.productService.addProduct({
+          name: item.name,
+          description: item.description,
+          price: item.price_per_unit,
+          imgUrl: item.picture_url
+        });
+      });
     });
 
-    this.productService.getLocalProducts();
+    this.productService.getLocalProducts()
+    .then((data: Array<any>) => {
+      this.products = data;
+    });
   }
 
-  addProduct(product:any) {
+  addOrderProduct(product:any) {
     this.totalOrder += parseFloat(product.price_per_unit);
     this.order.push(product);
   }
@@ -84,6 +98,8 @@ export class OrderPage implements OnInit {
   async confirmOrder() {
     this.totalOrder = 0;
     this.order = [];
+
+
 
     const toast = await this.toastController.create({
       message: 'Orden creada correctamente',
