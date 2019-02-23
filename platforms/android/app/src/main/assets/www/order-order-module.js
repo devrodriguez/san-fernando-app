@@ -62,7 +62,7 @@ var OrderPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>order</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-grid>\n    <ion-row>\n      <ion-col size=\"4\">\n        <ion-list-header>\n          <h2 text-center>Detalle de Orden</h2>\n        </ion-list-header>\n        <ion-list>\n          <ion-item *ngFor=\"let product of order;let i = index\" class=\"picture-animated fade-in\">\n            <ion-thumbnail item-start>\n              <img [src]=\"product.picture_url\">\n            </ion-thumbnail>\n            <ion-label padding-start>{{product.name}}</ion-label>\n            <ion-button item-end shape=\"round\" color=\"danger\" (click)=\"deleteOrderProduct(product, i)\">\n              <ion-icon name=\"trash\"></ion-icon>\n            </ion-button>\n          </ion-item>\n        </ion-list>\n        <ion-button color=\"danger\" expand=\"full\" (click)=\"deleteOrder()\" *ngIf=\"totalOrder > 0\">Eliminar Orden</ion-button>\n      </ion-col>\n      <ion-col size=\"8\">\n          <ion-grid>\n              <ion-row *ngFor=\"let row of rows\">\n                <ion-col *ngFor=\"let product of products\" size-sm=\"6\" size-md=\"4\">\n                  <ion-card class=\"picture-animated fade-in\" (click)=\"addProduct(product)\" style=\"position: relative;\">\n                    <ion-badge color=\"secondary\" style=\"position: absolute;top:5px;left:5px;\">${{product.price_per_unit}}</ion-badge>\n                    <ion-img [src]=\"product.picture_url\"></ion-img>\n                    <ion-card-content>\n                      <ion-card-subtitle text-center>\n                          {{product.name}}\n                      </ion-card-subtitle>\n                    </ion-card-content>\n                  </ion-card>\n                </ion-col>\n              </ion-row>\n            </ion-grid>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n<ion-footer>\n  <ion-button expand=\"full\" (click)=\"createOrder()\">Crear Orden ${{totalOrder}}</ion-button>\n</ion-footer>\n"
+module.exports = "<ion-header>\r\n  <ion-toolbar>\r\n    <ion-buttons slot=\"start\">\r\n      <ion-menu-button></ion-menu-button>\r\n    </ion-buttons>\r\n    <ion-title>order</ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content padding>\r\n  <ion-grid>\r\n    <ion-row>\r\n      <ion-col size=\"4\">\r\n        <ion-list-header>\r\n          <h4 text-center>Detalle de Orden</h4>\r\n        </ion-list-header>\r\n        <ion-list>\r\n          <ion-item *ngFor=\"let product of order;let i = index\" class=\"picture-animated fade-in\">\r\n            <ion-thumbnail item-start>\r\n              <img [src]=\"product.picture_url\">\r\n            </ion-thumbnail>\r\n            <ion-label padding-start>{{product.name}}</ion-label>\r\n            <ion-button item-end shape=\"round\" color=\"danger\" (click)=\"deleteOrderProduct(product, i)\">\r\n              <ion-icon name=\"trash\"></ion-icon>\r\n            </ion-button>\r\n          </ion-item>\r\n        </ion-list>\r\n        <ion-button color=\"danger\" expand=\"full\" (click)=\"deleteOrder()\" *ngIf=\"totalOrder > 0\">Eliminar Orden</ion-button>\r\n      </ion-col>\r\n      <ion-col size=\"8\">\r\n          <ion-grid>\r\n              <ion-row *ngFor=\"let row of rows\">\r\n                <ion-col *ngFor=\"let product of products\" size-sm=\"6\" size-md=\"4\">\r\n                  <ion-card class=\"picture-animated fade-in\" (click)=\"addOrderProduct(product)\" style=\"position: relative;\">\r\n                    <ion-badge color=\"secondary\" style=\"position: absolute;top:5px;left:5px;\">${{product.price_per_unit}}</ion-badge>\r\n                    <ion-img [src]=\"product.picture_url\"></ion-img>\r\n                    <ion-card-content>\r\n                      <ion-card-subtitle text-center>\r\n                          {{product.name}}\r\n                      </ion-card-subtitle>\r\n                    </ion-card-content>\r\n                  </ion-card>\r\n                </ion-col>\r\n              </ion-row>\r\n            </ion-grid>\r\n      </ion-col>\r\n    </ion-row>\r\n  </ion-grid>\r\n</ion-content>\r\n<ion-footer>\r\n  <ion-button expand=\"full\" (click)=\"getProducs()\">Get Products</ion-button>\r\n  <ion-button expand=\"full\" (click)=\"createOrder()\">Crear Orden ${{totalOrder}}</ion-button>\r\n</ion-footer>\r\n"
 
 /***/ }),
 
@@ -73,7 +73,7 @@ module.exports = "<ion-header>\n  <ion-toolbar>\n    <ion-title>order</ion-title
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "@-webkit-keyframes fadeIn {\n  0% {\n    opacity: 0; }\n  100% {\n    opacity: 1; } }\n\n@keyframes fadeIn {\n  0% {\n    opacity: 0; }\n  100% {\n    opacity: 1; } }\n\n.picture-animated {\n  -webkit-animation-duration: 3s;\n          animation-duration: 3s; }\n\n.fade-in {\n  -webkit-animation-name: fadeIn;\n          animation-name: fadeIn; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvb3JkZXIvQzpcXHN3cHJvamVjdHNcXHNhbi1mZXJuYW5kby1hcHAvc3JjXFxhcHBcXG9yZGVyXFxvcmRlci5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSTtJQUFJLFVBQVUsRUFBQTtFQUNkO0lBQU0sVUFBVSxFQUFBLEVBQUE7O0FBRnBCO0VBQ0k7SUFBSSxVQUFVLEVBQUE7RUFDZDtJQUFNLFVBQVUsRUFBQSxFQUFBOztBQUduQjtFQUNJLDhCQUFzQjtVQUF0QixzQkFBc0IsRUFBQTs7QUFHMUI7RUFDSSw4QkFBc0I7VUFBdEIsc0JBQXNCLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9vcmRlci9vcmRlci5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJAa2V5ZnJhbWVzIGZhZGVJbiB7XHJcbiAgICAwJSB7b3BhY2l0eTogMDt9XHJcbiAgICAxMDAlIHtvcGFjaXR5OiAxO31cclxuIH1cclxuXHJcbiAucGljdHVyZS1hbmltYXRlZCB7XHJcbiAgICAgYW5pbWF0aW9uLWR1cmF0aW9uOiAzcztcclxuIH1cclxuXHJcbiAuZmFkZS1pbiB7XHJcbiAgICAgYW5pbWF0aW9uLW5hbWU6IGZhZGVJbjtcclxuIH0iXX0= */"
+module.exports = "@-webkit-keyframes fadeIn {\n  0% {\n    opacity: 0; }\n  100% {\n    opacity: 1; } }\n\n@keyframes fadeIn {\n  0% {\n    opacity: 0; }\n  100% {\n    opacity: 1; } }\n\n.picture-animated {\n  -webkit-animation-duration: 3s;\n          animation-duration: 3s; }\n\n.fade-in {\n  -webkit-animation-name: fadeIn;\n          animation-name: fadeIn; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvb3JkZXIvYzpcXHN3cHJvamVjdHNcXHNhbi1mZXJuYW5kby1hcHAvc3JjXFxhcHBcXG9yZGVyXFxvcmRlci5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSTtJQUFJLFVBQVUsRUFBQTtFQUNkO0lBQU0sVUFBVSxFQUFBLEVBQUE7O0FBRnBCO0VBQ0k7SUFBSSxVQUFVLEVBQUE7RUFDZDtJQUFNLFVBQVUsRUFBQSxFQUFBOztBQUduQjtFQUNJLDhCQUFzQjtVQUF0QixzQkFBc0IsRUFBQTs7QUFHMUI7RUFDSSw4QkFBc0I7VUFBdEIsc0JBQXNCLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9vcmRlci9vcmRlci5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJAa2V5ZnJhbWVzIGZhZGVJbiB7XHJcbiAgICAwJSB7b3BhY2l0eTogMDt9XHJcbiAgICAxMDAlIHtvcGFjaXR5OiAxO31cclxuIH1cclxuXHJcbiAucGljdHVyZS1hbmltYXRlZCB7XHJcbiAgICAgYW5pbWF0aW9uLWR1cmF0aW9uOiAzcztcclxuIH1cclxuXHJcbiAuZmFkZS1pbiB7XHJcbiAgICAgYW5pbWF0aW9uLW5hbWU6IGZhZGVJbjtcclxuIH0iXX0= */"
 
 /***/ }),
 
@@ -146,18 +146,28 @@ var OrderPage = /** @class */ (function () {
         this.order = [];
         this.rows = [1, 2];
         this.products = new Array();
-        this.getProducs();
     }
     OrderPage.prototype.ngOnInit = function () {
     };
     OrderPage.prototype.getProducs = function () {
         var _this = this;
         this.productService.getProducts().subscribe(function (products) {
-            _this.products = products;
+            //this.products = products;
+            products.forEach(function (item) {
+                _this.productService.addProduct({
+                    name: item.name,
+                    description: item.description,
+                    price_per_unit: item.price_per_unit,
+                    picture_url: item.picture_url
+                });
+            });
         });
-        this.productService.getLocalProducts();
+        this.productService.getLocalProducts()
+            .then(function (data) {
+            _this.products = data;
+        });
     };
-    OrderPage.prototype.addProduct = function (product) {
+    OrderPage.prototype.addOrderProduct = function (product) {
         this.totalOrder += parseFloat(product.price_per_unit);
         this.order.push(product);
     };

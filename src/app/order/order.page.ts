@@ -17,7 +17,7 @@ export class OrderPage implements OnInit {
   constructor(public alertController: AlertController, 
               public toastController: ToastController,
               public productService: ProductService) { 
-                this.getProducs();
+                
               }
 
   ngOnInit() {
@@ -33,8 +33,8 @@ export class OrderPage implements OnInit {
         this.productService.addProduct({
           name: item.name,
           description: item.description,
-          price: item.price_per_unit,
-          imgUrl: item.picture_url
+          price_per_unit: item.price_per_unit,
+          picture_url: item.picture_url
         });
       });
     });
