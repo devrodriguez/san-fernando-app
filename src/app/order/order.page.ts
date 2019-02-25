@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
 import { ProductService } from 'src/services/product/product.service';
+import { OrderService } from 'src/services/order/order.service';
+import { Order } from 'src/models/order.model';
+import { Product } from 'src/models/product.model';
 
 @Component({
   selector: 'app-order',
@@ -8,14 +11,13 @@ import { ProductService } from 'src/services/product/product.service';
   styleUrls: ['./order.page.scss'],
 })
 export class OrderPage implements OnInit {
-
-  totalOrder:number = 0;
-  order: Array<any> = [];
+  order: Order = new Order();
   rows: Array<any> = [1, 2]; 
-  products: Array<any> = new Array();
+  products: Array<Product> = new Array<Product>();
   
   constructor(public alertController: AlertController, 
               public toastController: ToastController,
+              public orderService: OrderService,
               public productService: ProductService) { 
                 
               }
@@ -24,34 +26,38 @@ export class OrderPage implements OnInit {
   }
 
   getProducs() {
-    
-    this.productService.getProducts().subscribe((products: Array<any>) => {
+    console.log('Get products');
 
-      //this.products = products;
-
-      products.forEach(item => {
-        this.productService.addProduct({
-          name: item.name,
-          description: item.description,
-          price_per_unit: item.price_per_unit,
-          picture_url: item.picture_url
-        });
+    // Get products from API source
+    this.productService.getProducts().subscribe((products: Array<Product>) => {
+      products.forEach(product => {
+        this.productService.addProduct(new Product(
+          Number(product.id),
+          product.name,
+          product.code,
+          product.description,
+          Number(product.price_per_unit),
+          product.image_url
+        ));
       });
     });
 
+    // Get products from local source
     this.productService.getLocalProducts()
-    .then((data: Array<any>) => {
-      this.products = data;
+    .then((products: Array<Product>) => {
+      this.products = products;
     });
   }
 
-  addOrderProduct(product:any) {
-    this.totalOrder += parseFloat(product.price_per_unit);
-    this.order.push(product);
+  addOrderProduct(product: Product) {
+    console.log(product);
+    console.log(this.order);
+    this.order.price_order += product.price_per_unit;
+    this.order.products.push(product);
   }
 
   async createOrder() {
-    if(this.totalOrder <= 0) {
+    if(this.order.price_order <= 0) {
       const alertNoTotal = await this.alertController.create({
         header: 'Orden',
         message: 'Seleccione por lo menos un producto',
@@ -65,7 +71,7 @@ export class OrderPage implements OnInit {
     const alertCreateOrder = await this.alertController.create({
       header: 'Orden',
       subHeader: 'Informacion de su orden',
-      message: `El total de la orden es ${this.totalOrder}`,
+      message: `El total de la orden es ${this.order.price_order}`,
       buttons: [
         {
           text: 'Aceptar',
@@ -85,28 +91,34 @@ export class OrderPage implements OnInit {
     await alertCreateOrder.present();
   }
 
-  deleteOrderProduct(product: any, index: any) {
-    this.totalOrder -= parseFloat(product.price_per_unit);
-    this.order.splice(index, 1);
+  deleteOrderProduct(product: Product, index: any) {
+    this.order.price_order -= product.price_per_unit;
+    this.order.products.splice(index, 1);
   }
 
   deleteOrder() {
-    this.totalOrder = 0;
-    this.order = [];
+    this.order = new Order();
   }
 
   async confirmOrder() {
-    this.totalOrder = 0;
-    this.order = [];
-
-
+    this.order.sale_date = new Date();
 
     const toast = await this.toastController.create({
       message: 'Orden creada correctamente',
       duration: 3000
     });
 
-    toast.present();
+    this.orderService.addLocalOrder(this.order)
+    .then((data) => {
+      console.log(data);
+  
+      this.order = new Order();
+  
+      toast.present();
+    })
+    .catch(err => {
+      console.log(err);
+    });
   }
 
 }

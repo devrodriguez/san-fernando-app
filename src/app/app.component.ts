@@ -16,14 +16,14 @@ export class AppComponent {
       icon: 'home'
     },
     {
-      title: 'List',
-      url: '/list',
-      icon: 'list'
-    },
-    {
-      title: 'Orden',
+      title: 'Crear Orden',
       url: '/order',
       icon: 'basket'
+    },
+    {
+      title: 'Ver Ordenes',
+      url: '/orders',
+      icon: 'list'
     }
   ];
 

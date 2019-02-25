@@ -8,11 +8,11 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { ProductService } from 'src/services/product/product.service';
 import { HttpClientModule } from '@angular/common/http';
 import { SQLite } from '@ionic-native/sqlite/ngx';
 
-
+import { OrderService } from 'src/services/order/order.service';
+import { ProductService } from 'src/services/product/product.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +27,7 @@ import { SQLite } from '@ionic-native/sqlite/ngx';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    OrderService,
     ProductService,
     SQLite
   ],
