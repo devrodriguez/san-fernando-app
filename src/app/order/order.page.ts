@@ -13,6 +13,7 @@ import { Product } from 'src/models/product.model';
 export class OrderPage implements OnInit {
   order: Order = new Order();
   rows: Array<any> = [1, 2]; 
+  dataLocal: boolean = false;
   products: Array<Product> = new Array<Product>();
   
   constructor(public alertController: AlertController, 
@@ -40,6 +41,9 @@ export class OrderPage implements OnInit {
           product.image_url
         ));
       });
+    }, 
+    (error)=> {
+      this.dataLocal = true;
     });
 
     // Get products from local source

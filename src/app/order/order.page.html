@@ -29,7 +29,7 @@
       </ion-col>
       <ion-col size="8">
           <ion-grid>
-              <ion-row *ngFor="let row of rows">
+              <ion-row>
                 <ion-col *ngFor="let product of products" size-sm="6" size-md="4">
                   <ion-card class="picture-animated fade-in" (click)="addOrderProduct(product)" style="position: relative;">
                     <ion-badge color="secondary" style="position: absolute;top:5px;left:5px;">${{product.price_per_unit}}</ion-badge>

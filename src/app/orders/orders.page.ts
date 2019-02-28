@@ -28,4 +28,8 @@ export class OrdersPage implements OnInit {
     });
   }
 
+  showDetail() {
+    
+  }
+
 }

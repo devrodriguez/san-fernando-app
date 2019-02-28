@@ -11,17 +11,13 @@ const routes: Routes = [
     path: 'home',
     loadChildren: './home/home.module#HomePageModule'
   },
-  {
-    path: 'list',
-    loadChildren: './list/list.module#ListPageModule'
-  },
   { 
     path: 'order', 
     loadChildren: './order/order.module#OrderPageModule' 
   },
   { 
     path: 'orders', 
-    loadChildren: './order/orders.module#OrdersPageModule' 
+    loadChildren: './orders/orders.module#OrdersPageModule' 
   }
 ];
 
