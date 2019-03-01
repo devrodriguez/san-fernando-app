@@ -18,6 +18,10 @@ const routes: Routes = [
   { 
     path: 'orders', 
     loadChildren: './orders/orders.module#OrdersPageModule' 
+  },
+  { 
+    path: 'create-order', 
+    loadChildren: './create-order/create-order.module#CreateOrderPageModule' 
   }
 ];
 

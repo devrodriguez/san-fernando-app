@@ -1,53 +1,12 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>order</ion-title>
+    <ion-title>Orden</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="4">
-        <ion-list-header>
-          <h4 text-center>Detalle de Orden</h4>
-        </ion-list-header>
-        <ion-list>
-          <ion-item *ngFor="let product of order.products;let i = index" class="picture-animated fade-in">
-            <ion-thumbnail item-start>
-              <img [src]="product.image_url">
-            </ion-thumbnail>
-            <ion-label padding-start>{{product.name}}</ion-label>
-            <ion-button item-end shape="round" color="danger" (click)="deleteOrderProduct(product, i)">
-              <ion-icon name="trash"></ion-icon>
-            </ion-button>
-          </ion-item>
-        </ion-list>
-        <ion-button color="danger" expand="full" (click)="deleteOrder()" *ngIf="order.price_order > 0">Eliminar Orden</ion-button>
-      </ion-col>
-      <ion-col size="8">
-          <ion-grid>
-              <ion-row>
-                <ion-col *ngFor="let product of products" size-sm="6" size-md="4">
-                  <ion-card class="picture-animated fade-in" (click)="addOrderProduct(product)" style="position: relative;">
-                    <ion-badge color="secondary" style="position: absolute;top:5px;left:5px;">${{product.price_per_unit}}</ion-badge>
-                    <ion-img [src]="product.image_url"></ion-img>
-                    <ion-card-content>
-                      <ion-card-subtitle text-center>
-                          {{product.name}}
-                      </ion-card-subtitle>
-                    </ion-card-content>
-                  </ion-card>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-content>
+  
 </ion-content>
-<ion-footer>
-  <ion-button expand="full" (click)="getProducs()">Get Products</ion-button>
-  <ion-button expand="full" (click)="createOrder()">Crear Orden ${{order.price_order}}</ion-button>
-</ion-footer>

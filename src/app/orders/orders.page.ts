@@ -12,7 +12,9 @@ export class OrdersPage implements OnInit {
   orders: Array<Order> = new Array<Order>();
 
   constructor(private orderService: OrderService) {
-    
+    setTimeout(() => {
+      this.getOrders();  
+    }, 1000);
   }
 
   ngOnInit() {

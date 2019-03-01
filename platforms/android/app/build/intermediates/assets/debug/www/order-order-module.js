@@ -62,7 +62,7 @@ var OrderPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\r\n  <ion-toolbar>\r\n    <ion-buttons slot=\"start\">\r\n      <ion-menu-button></ion-menu-button>\r\n    </ion-buttons>\r\n    <ion-title>order</ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content padding>\r\n  <ion-grid>\r\n    <ion-row>\r\n      <ion-col size=\"4\">\r\n        <ion-list-header>\r\n          <h4 text-center>Detalle de Orden</h4>\r\n        </ion-list-header>\r\n        <ion-list>\r\n          <ion-item *ngFor=\"let product of order;let i = index\" class=\"picture-animated fade-in\">\r\n            <ion-thumbnail item-start>\r\n              <img [src]=\"product.picture_url\">\r\n            </ion-thumbnail>\r\n            <ion-label padding-start>{{product.name}}</ion-label>\r\n            <ion-button item-end shape=\"round\" color=\"danger\" (click)=\"deleteOrderProduct(product, i)\">\r\n              <ion-icon name=\"trash\"></ion-icon>\r\n            </ion-button>\r\n          </ion-item>\r\n        </ion-list>\r\n        <ion-button color=\"danger\" expand=\"full\" (click)=\"deleteOrder()\" *ngIf=\"totalOrder > 0\">Eliminar Orden</ion-button>\r\n      </ion-col>\r\n      <ion-col size=\"8\">\r\n          <ion-grid>\r\n              <ion-row *ngFor=\"let row of rows\">\r\n                <ion-col *ngFor=\"let product of products\" size-sm=\"6\" size-md=\"4\">\r\n                  <ion-card class=\"picture-animated fade-in\" (click)=\"addOrderProduct(product)\" style=\"position: relative;\">\r\n                    <ion-badge color=\"secondary\" style=\"position: absolute;top:5px;left:5px;\">${{product.price_per_unit}}</ion-badge>\r\n                    <ion-img [src]=\"product.picture_url\"></ion-img>\r\n                    <ion-card-content>\r\n                      <ion-card-subtitle text-center>\r\n                          {{product.name}}\r\n                      </ion-card-subtitle>\r\n                    </ion-card-content>\r\n                  </ion-card>\r\n                </ion-col>\r\n              </ion-row>\r\n            </ion-grid>\r\n      </ion-col>\r\n    </ion-row>\r\n  </ion-grid>\r\n</ion-content>\r\n<ion-footer>\r\n  <ion-button expand=\"full\" (click)=\"getProducs()\">Get Products</ion-button>\r\n  <ion-button expand=\"full\" (click)=\"createOrder()\">Crear Orden ${{totalOrder}}</ion-button>\r\n</ion-footer>\r\n"
+module.exports = "<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <ion-buttons slot=\"start\">\r\n      <ion-menu-button></ion-menu-button>\r\n    </ion-buttons>\r\n    <ion-title>Orden</ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n  \r\n</ion-content>\r\n"
 
 /***/ }),
 
@@ -73,7 +73,7 @@ module.exports = "<ion-header>\r\n  <ion-toolbar>\r\n    <ion-buttons slot=\"sta
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "@-webkit-keyframes fadeIn {\n  0% {\n    opacity: 0; }\n  100% {\n    opacity: 1; } }\n\n@keyframes fadeIn {\n  0% {\n    opacity: 0; }\n  100% {\n    opacity: 1; } }\n\n.picture-animated {\n  -webkit-animation-duration: 3s;\n          animation-duration: 3s; }\n\n.fade-in {\n  -webkit-animation-name: fadeIn;\n          animation-name: fadeIn; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvb3JkZXIvYzpcXHN3cHJvamVjdHNcXHNhbi1mZXJuYW5kby1hcHAvc3JjXFxhcHBcXG9yZGVyXFxvcmRlci5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSTtJQUFJLFVBQVUsRUFBQTtFQUNkO0lBQU0sVUFBVSxFQUFBLEVBQUE7O0FBRnBCO0VBQ0k7SUFBSSxVQUFVLEVBQUE7RUFDZDtJQUFNLFVBQVUsRUFBQSxFQUFBOztBQUduQjtFQUNJLDhCQUFzQjtVQUF0QixzQkFBc0IsRUFBQTs7QUFHMUI7RUFDSSw4QkFBc0I7VUFBdEIsc0JBQXNCLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9vcmRlci9vcmRlci5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJAa2V5ZnJhbWVzIGZhZGVJbiB7XHJcbiAgICAwJSB7b3BhY2l0eTogMDt9XHJcbiAgICAxMDAlIHtvcGFjaXR5OiAxO31cclxuIH1cclxuXHJcbiAucGljdHVyZS1hbmltYXRlZCB7XHJcbiAgICAgYW5pbWF0aW9uLWR1cmF0aW9uOiAzcztcclxuIH1cclxuXHJcbiAuZmFkZS1pbiB7XHJcbiAgICAgYW5pbWF0aW9uLW5hbWU6IGZhZGVJbjtcclxuIH0iXX0= */"
+module.exports = "@-webkit-keyframes fadeIn {\n  0% {\n    opacity: 0; }\n  100% {\n    opacity: 1; } }\n\n@keyframes fadeIn {\n  0% {\n    opacity: 0; }\n  100% {\n    opacity: 1; } }\n\n.picture-animated {\n  -webkit-animation-duration: 3s;\n          animation-duration: 3s; }\n\n.fade-in {\n  -webkit-animation-name: fadeIn;\n          animation-name: fadeIn; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvb3JkZXIvQzpcXHN3cHJvamVjdHNcXHNhbi1mZXJuYW5kby1hcHAvc3JjXFxhcHBcXG9yZGVyXFxvcmRlci5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSTtJQUFJLFVBQVUsRUFBQTtFQUNkO0lBQU0sVUFBVSxFQUFBLEVBQUE7O0FBRnBCO0VBQ0k7SUFBSSxVQUFVLEVBQUE7RUFDZDtJQUFNLFVBQVUsRUFBQSxFQUFBOztBQUduQjtFQUNJLDhCQUFzQjtVQUF0QixzQkFBc0IsRUFBQTs7QUFHMUI7RUFDSSw4QkFBc0I7VUFBdEIsc0JBQXNCLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9vcmRlci9vcmRlci5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJAa2V5ZnJhbWVzIGZhZGVJbiB7XHJcbiAgICAwJSB7b3BhY2l0eTogMDt9XHJcbiAgICAxMDAlIHtvcGFjaXR5OiAxO31cclxuIH1cclxuXHJcbiAucGljdHVyZS1hbmltYXRlZCB7XHJcbiAgICAgYW5pbWF0aW9uLWR1cmF0aW9uOiAzcztcclxuIH1cclxuXHJcbiAuZmFkZS1pbiB7XHJcbiAgICAgYW5pbWF0aW9uLW5hbWU6IGZhZGVJbjtcclxuIH0iXX0= */"
 
 /***/ }),
 
@@ -88,8 +88,6 @@ module.exports = "@-webkit-keyframes fadeIn {\n  0% {\n    opacity: 0; }\n  100%
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrderPage", function() { return OrderPage; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ionic/angular */ "./node_modules/@ionic/angular/dist/fesm5.js");
-/* harmony import */ var src_services_product_product_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/services/product/product.service */ "./src/services/product/product.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -99,163 +97,18 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-
-
 
 var OrderPage = /** @class */ (function () {
-    function OrderPage(alertController, toastController, productService) {
-        this.alertController = alertController;
-        this.toastController = toastController;
-        this.productService = productService;
-        this.totalOrder = 0;
-        this.order = [];
-        this.rows = [1, 2];
-        this.products = new Array();
+    function OrderPage() {
     }
-    OrderPage.prototype.ngOnInit = function () {
-    };
-    OrderPage.prototype.getProducs = function () {
-        var _this = this;
-        this.productService.getProducts().subscribe(function (products) {
-            //this.products = products;
-            products.forEach(function (item) {
-                _this.productService.addProduct({
-                    name: item.name,
-                    description: item.description,
-                    price_per_unit: item.price_per_unit,
-                    picture_url: item.picture_url
-                });
-            });
-        });
-        this.productService.getLocalProducts()
-            .then(function (data) {
-            _this.products = data;
-        });
-    };
-    OrderPage.prototype.addOrderProduct = function (product) {
-        this.totalOrder += parseFloat(product.price_per_unit);
-        this.order.push(product);
-    };
-    OrderPage.prototype.createOrder = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var alertNoTotal, alertCreateOrder;
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!(this.totalOrder <= 0)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.alertController.create({
-                                header: 'Orden',
-                                message: 'Seleccione por lo menos un producto',
-                                buttons: ['Aceptar']
-                            })];
-                    case 1:
-                        alertNoTotal = _a.sent();
-                        return [4 /*yield*/, alertNoTotal.present()];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
-                    case 3: return [4 /*yield*/, this.alertController.create({
-                            header: 'Orden',
-                            subHeader: 'Informacion de su orden',
-                            message: "El total de la orden es " + this.totalOrder,
-                            buttons: [
-                                {
-                                    text: 'Aceptar',
-                                    cssClass: 'primary',
-                                    handler: function () {
-                                        _this.confirmOrder();
-                                    }
-                                },
-                                {
-                                    cssClass: 'secondary',
-                                    text: 'Cancel',
-                                    role: 'cancel'
-                                }
-                            ]
-                        })];
-                    case 4:
-                        alertCreateOrder = _a.sent();
-                        return [4 /*yield*/, alertCreateOrder.present()];
-                    case 5:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    OrderPage.prototype.deleteOrderProduct = function (product, index) {
-        this.totalOrder -= parseFloat(product.price_per_unit);
-        this.order.splice(index, 1);
-    };
-    OrderPage.prototype.deleteOrder = function () {
-        this.totalOrder = 0;
-        this.order = [];
-    };
-    OrderPage.prototype.confirmOrder = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var toast;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this.totalOrder = 0;
-                        this.order = [];
-                        return [4 /*yield*/, this.toastController.create({
-                                message: 'Orden creada correctamente',
-                                duration: 3000
-                            })];
-                    case 1:
-                        toast = _a.sent();
-                        toast.present();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
+    OrderPage.prototype.ngOnInit = function () { };
     OrderPage = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-order',
             template: __webpack_require__(/*! ./order.page.html */ "./src/app/order/order.page.html"),
             styles: [__webpack_require__(/*! ./order.page.scss */ "./src/app/order/order.page.scss")]
         }),
-        __metadata("design:paramtypes", [_ionic_angular__WEBPACK_IMPORTED_MODULE_1__["AlertController"],
-            _ionic_angular__WEBPACK_IMPORTED_MODULE_1__["ToastController"],
-            src_services_product_product_service__WEBPACK_IMPORTED_MODULE_2__["ProductService"]])
+        __metadata("design:paramtypes", [])
     ], OrderPage);
     return OrderPage;
 }());

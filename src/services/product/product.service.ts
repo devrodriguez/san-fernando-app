@@ -13,22 +13,24 @@ export class ProductService {
   private isOpen: boolean;
 
   constructor(private http: HttpClient, private sqlite: SQLite) {
-    console.log('Product constructor');
+    console.log('Product service constructor');
+    
     if(!this.isOpen) {
       this.sqlite = new SQLite();
 
       this.sqlite.create({ name: 'data.db', location: 'default' })
       .then((conn: SQLiteObject) => {
+
+        console.log('Order db connection created');
+
         this.conn = conn;
-        console.log('Get connection product');
-        console.log(this.conn);
         
         this.conn.executeSql('CREATE TABLE IF NOT EXISTS Products(id INTEGER, name VARCHAR(250), code VARCHAR(100), description VARCHAR(250), price_per_unit DECIMAL(18, 2), image_url VARCHAR(500))', [])
         .then(data => {
-          console.log('Create table Products');
+          console.log('Table products created');
         })
         .catch(err => {
-          console.log(err);
+          console.log('Error on create products table');
         });
 
         this.isOpen = true;
@@ -47,6 +49,7 @@ export class ProductService {
     return new Promise((resolve, reject) => {
       this.conn.executeSql('INSERT INTO Products (id, name, code, description, price_per_unit, image_url) VALUES(?,?,?,?,?,?)', [product.id, product.name, product.code, product.description, product.price_per_unit, product.image_url])
       .then(data => {
+        console.log('Se creo la tabla Products');
         resolve(data);
       })
       .catch(error => {
@@ -63,6 +66,9 @@ export class ProductService {
   getLocalProducts() {
     
     return new Promise((resolve, reject) => {
+      console.log('In products promise');
+      console.log(this.conn);
+
       this.conn.executeSql('SELECT * FROM Products', [])
       .then(data => {
         let products: Array<Product> = new Array<Product>();
@@ -81,6 +87,7 @@ export class ProductService {
         resolve(products);
       })
       .catch(error => {
+        console.log('Error in product promise');
         reject(error);
       });
     });

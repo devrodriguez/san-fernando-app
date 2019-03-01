@@ -17,7 +17,7 @@ export class AppComponent {
     },
     {
       title: 'Crear Orden',
-      url: '/order',
+      url: '/create-order',
       icon: 'basket'
     },
     {

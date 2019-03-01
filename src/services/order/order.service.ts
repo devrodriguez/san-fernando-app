@@ -11,7 +11,8 @@ export class OrderService {
   private isOpen: boolean;
 
   constructor(private sqlite: SQLite) {
-    console.log('Order constructor');
+    console.log('Product service constructor');
+
     if(!this.isOpen) {
       this.sqlite = new SQLite();
 
@@ -19,7 +20,7 @@ export class OrderService {
       .then((conn: SQLiteObject) => {
         this.conn = conn;
 
-        console.log('Get order connection');
+        console.log('Order db connection created');
 
         this.conn.executeSql('CREATE TABLE IF NOT EXISTS Orders(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, sale_date VARCHAR(100), price_order DECIMAL(18, 2))', [])
         .then(data => {
@@ -48,15 +49,12 @@ export class OrderService {
   }
 
   getLocalOrders() {
-    console.log('Get local orders');
-    console.log(this.conn);
 
     return new Promise((resolve, reject) => {
 
       this.conn.executeSql('SELECT * FROM Orders', [])
       .then(orders => {
-        console.log('Orders');
-        console.log(orders);
+
         let newOrders: Array<Order> = new Array<Order>();
 
         for(var i = 0; i < orders.rows.length; i++) {

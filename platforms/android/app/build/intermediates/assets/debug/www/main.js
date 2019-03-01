@@ -837,17 +837,21 @@ module.exports = webpackAsyncContext;
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./create-order/create-order.module": [
+		"./src/app/create-order/create-order.module.ts",
+		"create-order-create-order-module"
+	],
 	"./home/home.module": [
 		"./src/app/home/home.module.ts",
 		"home-home-module"
 	],
-	"./list/list.module": [
-		"./src/app/list/list.module.ts",
-		"list-list-module"
-	],
 	"./order/order.module": [
 		"./src/app/order/order.module.ts",
 		"order-order-module"
+	],
+	"./orders/orders.module": [
+		"./src/app/orders/orders.module.ts",
+		"orders-orders-module"
 	]
 };
 function webpackAsyncContext(req) {
@@ -903,12 +907,16 @@ var routes = [
         loadChildren: './home/home.module#HomePageModule'
     },
     {
-        path: 'list',
-        loadChildren: './list/list.module#ListPageModule'
-    },
-    {
         path: 'order',
         loadChildren: './order/order.module#OrderPageModule'
+    },
+    {
+        path: 'orders',
+        loadChildren: './orders/orders.module#OrdersPageModule'
+    },
+    {
+        path: 'create-order',
+        loadChildren: './create-order/create-order.module#CreateOrderPageModule'
     }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -977,14 +985,14 @@ var AppComponent = /** @class */ (function () {
                 icon: 'home'
             },
             {
-                title: 'List',
-                url: '/list',
-                icon: 'list'
+                title: 'Crear Orden',
+                url: '/create-order',
+                icon: 'basket'
             },
             {
-                title: 'Orden',
-                url: '/order',
-                icon: 'basket'
+                title: 'Ver Ordenes',
+                url: '/orders',
+                icon: 'list'
             }
         ];
         this.initializeApp();
@@ -1030,15 +1038,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ionic_native_status_bar_ngx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic-native/status-bar/ngx */ "./node_modules/@ionic-native/status-bar/ngx/index.js");
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var src_services_product_product_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/services/product/product.service */ "./src/services/product/product.service.ts");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "./node_modules/@ionic-native/sqlite/ngx/index.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "./node_modules/@ionic-native/sqlite/ngx/index.js");
+/* harmony import */ var src_services_order_order_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/services/order/order.service */ "./src/services/order/order.service.ts");
+/* harmony import */ var src_services_product_product_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! src/services/product/product.service */ "./src/services/product/product.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -1058,7 +1068,7 @@ var AppModule = /** @class */ (function () {
             declarations: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]],
             entryComponents: [],
             imports: [
-                _angular_common_http__WEBPACK_IMPORTED_MODULE_9__["HttpClientModule"],
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_8__["HttpClientModule"],
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
                 _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["IonicModule"].forRoot(),
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["AppRoutingModule"]
@@ -1067,8 +1077,9 @@ var AppModule = /** @class */ (function () {
                 _ionic_native_status_bar_ngx__WEBPACK_IMPORTED_MODULE_5__["StatusBar"],
                 _ionic_native_splash_screen_ngx__WEBPACK_IMPORTED_MODULE_4__["SplashScreen"],
                 { provide: _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouteReuseStrategy"], useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["IonicRouteStrategy"] },
-                src_services_product_product_service__WEBPACK_IMPORTED_MODULE_8__["ProductService"],
-                _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_10__["SQLite"]
+                src_services_order_order_service__WEBPACK_IMPORTED_MODULE_10__["OrderService"],
+                src_services_product_product_service__WEBPACK_IMPORTED_MODULE_11__["ProductService"],
+                _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_9__["SQLite"]
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]]
         })
@@ -1134,6 +1145,147 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 
 /***/ }),
 
+/***/ "./src/models/order.model.ts":
+/*!***********************************!*\
+  !*** ./src/models/order.model.ts ***!
+  \***********************************/
+/*! exports provided: Order */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Order", function() { return Order; });
+var Order = /** @class */ (function () {
+    function Order() {
+        this.products = new Array();
+        this.price_order = 0;
+    }
+    return Order;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/models/product.model.ts":
+/*!*************************************!*\
+  !*** ./src/models/product.model.ts ***!
+  \*************************************/
+/*! exports provided: Product */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Product", function() { return Product; });
+var Product = /** @class */ (function () {
+    function Product(id, name, code, description, price_per_unit, image_url) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+        this.description = description;
+        this.price_per_unit = price_per_unit;
+        this.image_url = image_url;
+    }
+    return Product;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/services/order/order.service.ts":
+/*!*********************************************!*\
+  !*** ./src/services/order/order.service.ts ***!
+  \*********************************************/
+/*! exports provided: OrderService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrderService", function() { return OrderService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "./node_modules/@ionic-native/sqlite/ngx/index.js");
+/* harmony import */ var src_models_order_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/models/order.model */ "./src/models/order.model.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var OrderService = /** @class */ (function () {
+    function OrderService(sqlite) {
+        var _this = this;
+        this.sqlite = sqlite;
+        console.log('Product service constructor');
+        if (!this.isOpen) {
+            this.sqlite = new _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_1__["SQLite"]();
+            this.sqlite.create({ name: 'data.db', location: 'default' })
+                .then(function (conn) {
+                _this.conn = conn;
+                console.log('Order db connection created');
+                _this.conn.executeSql('CREATE TABLE IF NOT EXISTS Orders(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, sale_date VARCHAR(100), price_order DECIMAL(18, 2))', [])
+                    .then(function (data) {
+                    console.log('Se creo la tabla Orders');
+                })
+                    .catch(function (error) {
+                    console.log('Error al crear tabla Orders');
+                    console.log(error);
+                });
+                _this.isOpen = true;
+            });
+        }
+    }
+    OrderService.prototype.addLocalOrder = function (order) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.conn.executeSql('INSERT INTO Orders(sale_date, price_order) VALUES(?,?)', [order.sale_date, order.price_order])
+                .then(function (data) {
+                resolve(data);
+            })
+                .catch(function (err) {
+                reject(err);
+            });
+        });
+    };
+    OrderService.prototype.getLocalOrders = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.conn.executeSql('SELECT * FROM Orders', [])
+                .then(function (orders) {
+                var newOrders = new Array();
+                for (var i = 0; i < orders.rows.length; i++) {
+                    var newOrder = new src_models_order_model__WEBPACK_IMPORTED_MODULE_2__["Order"]();
+                    newOrder.sale_date = orders.rows.item(i).sale_date;
+                    newOrder.price_order = orders.rows.item(i).price_order;
+                    newOrders.push(newOrder);
+                }
+                console.log(newOrders);
+                resolve(newOrders);
+            })
+                .catch(function (err) {
+                reject(err);
+            });
+        });
+    };
+    OrderService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_1__["SQLite"]])
+    ], OrderService);
+    return OrderService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/services/product/product.service.ts":
 /*!*************************************************!*\
   !*** ./src/services/product/product.service.ts ***!
@@ -1147,6 +1299,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "./node_modules/@ionic-native/sqlite/ngx/index.js");
+/* harmony import */ var src_models_product_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/models/product.model */ "./src/models/product.model.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1159,27 +1312,25 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var ProductService = /** @class */ (function () {
     function ProductService(http, sqlite) {
         var _this = this;
         this.http = http;
         this.sqlite = sqlite;
-        console.log('Init product service');
+        console.log('Product service constructor');
         if (!this.isOpen) {
             this.sqlite = new _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_2__["SQLite"]();
             this.sqlite.create({ name: 'data.db', location: 'default' })
                 .then(function (conn) {
+                console.log('Order db connection created');
                 _this.conn = conn;
-                console.log('Get connection');
-                console.log(_this.conn);
-                _this.conn.executeSql('CREATE TABLE IF NOT EXISTS Products(id integer PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(250), description VARCHAR(250), price_per_unit DECIMAL(18, 2), picture_url VARCHAR(500))', [])
+                _this.conn.executeSql('CREATE TABLE IF NOT EXISTS Products(id INTEGER, name VARCHAR(250), code VARCHAR(100), description VARCHAR(250), price_per_unit DECIMAL(18, 2), image_url VARCHAR(500))', [])
                     .then(function (data) {
-                    console.log('Table created');
-                    console.log(data);
+                    console.log('Table products created');
                 })
                     .catch(function (err) {
-                    console.log('Create table error');
-                    console.log(err);
+                    console.log('Error on create products table');
                 });
                 _this.isOpen = true;
             })
@@ -1192,12 +1343,10 @@ var ProductService = /** @class */ (function () {
     };
     ProductService.prototype.addProduct = function (product) {
         var _this = this;
-        console.log('Add product');
-        console.log(product);
-        console.log(this.conn);
         return new Promise(function (resolve, reject) {
-            _this.conn.executeSql('INSERT INTO Products (name, description, price_per_unit, picture_url) VALUES(?,?,?,?)', [product.name, product.description, product.price_per_unit, product.picture_url])
+            _this.conn.executeSql('INSERT INTO Products (id, name, code, description, price_per_unit, image_url) VALUES(?,?,?,?,?,?)', [product.id, product.name, product.code, product.description, product.price_per_unit, product.image_url])
                 .then(function (data) {
+                console.log('Se creo la tabla Products');
                 resolve(data);
             })
                 .catch(function (error) {
@@ -1206,29 +1355,23 @@ var ProductService = /** @class */ (function () {
         });
     };
     ProductService.prototype.getProducts = function () {
-        console.log('Getting products from API');
-        return this.http.get('http://192.168.0.26:8000/api/products');
+        return this.http.get('http://192.168.0.23:8000/api/products');
     };
     ProductService.prototype.getLocalProducts = function () {
         var _this = this;
-        console.log('Getting local products');
         return new Promise(function (resolve, reject) {
-            console.log(_this);
+            console.log('In products promise');
+            console.log(_this.conn);
             _this.conn.executeSql('SELECT * FROM Products', [])
                 .then(function (data) {
-                var products = [];
+                var products = new Array();
                 for (var i = 0; i < data.rows.length; i++) {
-                    console.log(data.rows.item(i).picture_url);
-                    products.push({
-                        name: data.rows.item(i).name,
-                        description: data.rows.item(i).description,
-                        price_per_unit: data.rows.item(i).price_per_unit,
-                        picture_url: data.rows.item(i).picture_url
-                    });
+                    products.push(new src_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(i).name), data.rows.item(i).name, data.rows.item(i).code, data.rows.item(i).description, Number(data.rows.item(i).price_per_unit), data.rows.item(i).image_url));
                 }
                 resolve(products);
             })
                 .catch(function (error) {
+                console.log('Error in product promise');
                 reject(error);
             });
         });
@@ -1253,7 +1396,7 @@ var ProductService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! c:\swprojects\san-fernando-app\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\swprojects\san-fernando-app\src\main.ts */"./src/main.ts");
 
 
 /***/ })
