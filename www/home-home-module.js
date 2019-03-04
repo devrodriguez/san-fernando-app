@@ -61,7 +61,7 @@ var HomePageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>\n      San Fernando\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n    <ion-card class=\"welcome-card\">\n      <ion-img src=\"/assets/img/san_fernando_icon.png\"></ion-img>\n      <ion-card-header>\n        <ion-card-subtitle>Ordenes e Inventarios</ion-card-subtitle>\n        <ion-card-title>San Fernando</ion-card-title>\n      </ion-card-header>\n      <ion-card-content>\n        <p>Aqui podras crear ordenes, consultar historial de ordenes y realizar inventarios.</p>\n      </ion-card-content>\n    </ion-card>\n</ion-content>\n"
+module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>\n      San Fernando\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n    <ion-card>\n      <ion-card-header>\n        <ion-card-title>Ultimo Inventario</ion-card-title>\n        <ion-card-subtitle>03/03/2019</ion-card-subtitle>\n      </ion-card-header>\n      <ion-card-content>\n        Datos del inventario\n      </ion-card-content>\n    </ion-card>\n    <ion-card>\n        <ion-card-header>\n          <ion-card-title>Ventas</ion-card-title>\n          <ion-card-subtitle>03/03/2019</ion-card-subtitle>\n        </ion-card-header>\n        <ion-card-content>\n          Datos de las ventas\n        </ion-card-content>\n      </ion-card>\n</ion-content>\n"
 
 /***/ }),
 

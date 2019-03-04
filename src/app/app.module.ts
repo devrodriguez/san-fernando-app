@@ -11,8 +11,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { SQLite } from '@ionic-native/sqlite/ngx';
 
+// Services
 import { OrderService } from 'src/services/order/order.service';
 import { ProductService } from 'src/services/product/product.service';
+
+// Pipes
+//import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,7 +33,8 @@ import { ProductService } from 'src/services/product/product.service';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     OrderService,
     ProductService,
-    SQLite
+    SQLite,
+    //DatePipe
   ],
   bootstrap: [AppComponent]
 })

@@ -1,30 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ToastController, LoadingController } from '@ionic/angular';
+
 import { ProductService } from 'src/services/product/product.service';
 import { OrderService } from 'src/services/order/order.service';
 import { Order } from 'src/models/order.model';
 import { Product } from 'src/models/product.model';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-create-order',
   templateUrl: './create-order.page.html',
   styleUrls: ['./create-order.page.scss'],
+  providers: [ CurrencyPipe ]
 })
 export class CreateOrderPage implements OnInit {
 
   order: Order = new Order();
-  rows: Array<any> = [1, 2]; 
   dataLocal: boolean = false;
   products: Array<Product> = new Array<Product>();
+  loading: any;
   
   constructor(public alertController: AlertController, 
               public toastController: ToastController,
               public loadingController: LoadingController,
               public orderService: OrderService,
-              public productService: ProductService) { 
-                setTimeout(() => {
-                  this.getProducts();
-                }, 1000);
+              public productService: ProductService,
+              private currencyPipe: CurrencyPipe) { 
+                this.loadingOn()
+                .then(() => {
+                  this.getLocalProducts();
+                });
                             
               }
 
@@ -32,40 +37,47 @@ export class CreateOrderPage implements OnInit {
     
   }
 
-  getProducts() {
-    console.log('Get products');
+  getRemoteProducts() {
+    this.loadingOn()
+    .then(() => {
+      // Get products from API source    
+      this.productService.getProducts().subscribe((products: Array<Product>) => {
+        this.productService.deleteProducts()
+        .then(data => {
+          products.forEach(product => {
+            this.productService.addProduct(new Product(
+              Number(product.id),
+              product.name,
+              product.code,
+              product.description,
+              Number(product.price_per_unit),
+              product.image_url
+            ));
+          });
 
-    // Get products from API source
-    /*this.productService.getProducts().subscribe((products: Array<Product>) => {
-      
-      products.forEach(product => {
-        this.productService.addProduct(new Product(
-          Number(product.id),
-          product.name,
-          product.code,
-          product.description,
-          Number(product.price_per_unit),
-          product.image_url
-        ));
+          this.getLocalProducts();
+          
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      }, 
+      (error)=> {
+        this.dataLocal = true;
       });
+    });
+  }
 
-    }, 
-    (error)=> {
-      this.dataLocal = true;
-    });*/
-
+  getLocalProducts() {
     // Get products from local source
     this.productService.getLocalProducts()
     .then((products: Array<Product>) => {
-      console.log('Local products loaded');
-      
+      this.loadingOff();
       this.products = products;
     });
   }
 
   addOrderProduct(product: Product) {
-    console.log(product);
-    console.log(this.order);
     this.order.price_order += product.price_per_unit;
     this.order.products.push(product);
   }
@@ -85,7 +97,7 @@ export class CreateOrderPage implements OnInit {
     const alertCreateOrder = await this.alertController.create({
       header: 'Orden',
       subHeader: 'Informacion de su orden',
-      message: `El total de la orden es ${this.order.price_order}`,
+      message: `El total de la orden es ${this.currencyPipe.transform(this.order.price_order, 'COP', '$', '1.0')}`,
       buttons: [
         {
           text: 'Aceptar',
@@ -124,7 +136,6 @@ export class CreateOrderPage implements OnInit {
 
     this.orderService.addLocalOrder(this.order)
     .then((data) => {
-      console.log(data);
   
       this.order = new Order();
   
@@ -133,6 +144,18 @@ export class CreateOrderPage implements OnInit {
     .catch(err => {
       console.log(err);
     });
+  }
+
+  async loadingOn() {
+    this.loading = await this.loadingController.create({
+      message: 'Cargando'
+    });
+
+    return await this.loading.present();
+  }
+
+  async loadingOff() {
+    return await this.loading.dismiss();
   }
 
 }

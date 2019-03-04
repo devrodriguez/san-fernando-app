@@ -13,7 +13,6 @@ export class ProductService {
   private isOpen: boolean;
 
   constructor(private http: HttpClient, private sqlite: SQLite) {
-    console.log('Product service constructor');
     
     if(!this.isOpen) {
       this.sqlite = new SQLite();
@@ -49,14 +48,25 @@ export class ProductService {
     return new Promise((resolve, reject) => {
       this.conn.executeSql('INSERT INTO Products (id, name, code, description, price_per_unit, image_url) VALUES(?,?,?,?,?,?)', [product.id, product.name, product.code, product.description, product.price_per_unit, product.image_url])
       .then(data => {
-        console.log('Se creo la tabla Products');
+        console.log('Producto insertado');
         resolve(data);
       })
       .catch(error => {
         reject(error);
       });
     });
+  }
 
+  deleteProducts() {
+    return new Promise((resolve, reject) => {
+      this.conn.executeSql('DELETE FROM Products', [])
+      .then(data => {
+        resolve(data);
+      })
+      .catch(err => {
+        reject(err);
+      });
+    });
   }
 
   getProducts() {
@@ -75,7 +85,7 @@ export class ProductService {
 
         for(var i = 0; i < data.rows.length; i++){
           products.push(new Product(
-            Number(data.rows.item(i).name),
+            Number(data.rows.item(i).id),
             data.rows.item(i).name,
             data.rows.item(i).code,
             data.rows.item(i).description,
@@ -90,6 +100,26 @@ export class ProductService {
         console.log('Error in product promise');
         reject(error);
       });
+    });
+  }
+
+  getProduct(id: number) {
+    return new Promise((resolve, reject) => {
+      this.conn.executeSql('SELECT * FROM Products WHERE id = ?', [id])
+      .then(data => {
+        let product: Product = new Product(
+          Number(data.rows.item(0).id),
+          data.rows.item(0).name,
+          data.rows.item(0).code,
+          data.rows.item(0).description,
+          Number(data.rows.item(0).price_per_unit),
+          data.rows.item(0).image_url
+        );
+        resolve(product);
+      })
+      .catch(err => {
+        reject(err);
+      })
     });
   }
 }
