@@ -62,7 +62,7 @@ var CreateOrderPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>\n      Crear Orden\n    </ion-title>\n    <ion-buttons slot=\"end\">\n      <ion-button (click)=\"getRemoteProducts()\">\n        <ion-icon slot=\"icon-only\" name=\"refresh\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-grid>\n    <ion-row>\n      <!-- Order Detail -->\n      <ion-col size=\"4\">\n        <ion-list-header>\n          <h4 text-center>Orden</h4>\n        </ion-list-header>\n        <ion-list>\n          <ion-item *ngFor=\"let product of order.products;let i = index\" class=\"picture-animated fade-in\">\n            <ion-thumbnail item-start>\n              <img [src]=\"product.image_url\">\n            </ion-thumbnail>\n            <ion-label padding-start>{{product.name}}</ion-label>\n            <ion-button item-end shape=\"round\" color=\"danger\" (click)=\"deleteOrderProduct(product, i)\">\n              <ion-icon name=\"trash\"></ion-icon>\n            </ion-button>\n          </ion-item>\n        </ion-list>\n        <ion-button color=\"danger\" expand=\"full\" (click)=\"deleteOrder()\" *ngIf=\"order.price_order > 0\">Eliminar Orden</ion-button>\n      </ion-col>\n      <!-- Products -->\n      <ion-col size=\"8\">\n          <ion-grid>\n            <ion-row>\n              <ion-col *ngFor=\"let product of products\" size-sm=\"6\" size-md=\"4\">\n                <ion-card class=\"picture-animated fade-in\" (click)=\"addOrderProduct(product)\" style=\"position: relative;\">\n                  <ion-badge color=\"secondary\" style=\"position: absolute;top:5px;left:5px;\">{{product.price_per_unit | currency:'COP':'$':'1.0'}}</ion-badge>\n                  <ion-img [src]=\"product.image_url\"></ion-img>\n                  <ion-card-content>\n                    <ion-card-subtitle text-center>\n                        {{product.name}}\n                    </ion-card-subtitle>\n                  </ion-card-content>\n                </ion-card>\n              </ion-col>\n            </ion-row>\n          </ion-grid>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n<ion-footer>\n  <ion-button color=\"secondary\" expand=\"full\" (click)=\"createOrder()\">Crear Orden {{order.price_order | currency:'COP':'$':'1.0'}}</ion-button>\n</ion-footer>\n"
+module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>\n      Crear Orden\n    </ion-title>\n    <ion-buttons slot=\"end\">\n      <ion-button (click)=\"getRemoteProducts()\">\n        <ion-icon slot=\"icon-only\" name=\"refresh\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-grid>\n    <ion-row>\n      <!-- Order Detail -->\n      <ion-col size=\"4\">\n        <ion-list-header>\n          <h4 text-center>Orden</h4>\n        </ion-list-header>\n        <ion-list>\n          <ion-item *ngFor=\"let product of order.products;let i = index\" class=\"picture-animated fade-in\">\n            <ion-thumbnail item-start>\n              <img [src]=\"product.image_url\">\n            </ion-thumbnail>\n            <ion-label padding-start>{{product.name}}</ion-label>\n            <ion-button item-end shape=\"round\" color=\"danger\" (click)=\"deleteOrderProduct(product, i)\">\n              <ion-icon name=\"trash\"></ion-icon>\n            </ion-button>\n          </ion-item>\n        </ion-list>\n        <ion-button color=\"danger\" expand=\"full\" (click)=\"deleteOrder()\" *ngIf=\"order.price_order > 0\">Eliminar Orden</ion-button>\n      </ion-col>\n      <!-- Products -->\n      <ion-col size=\"8\">\n          <ion-grid>\n            <ion-row>\n              <ion-col *ngFor=\"let dish of dishes\">\n                <ion-card>\n                  <ion-img [src]=\"dish.image_url\"></ion-img>\n                  <ion-card-content>\n                    <ion-card-subtitle>\n                      {{dish.name}}\n                    </ion-card-subtitle>\n                  </ion-card-content>\n                </ion-card>\n              </ion-col>\n              <ion-col *ngFor=\"let product of products\" size-sm=\"6\" size-md=\"4\">\n                <ion-card class=\"picture-animated fade-in\" (click)=\"addOrderProduct(product)\" style=\"position: relative;\">\n                  <ion-badge color=\"secondary\" style=\"position: absolute;top:5px;left:5px;\">{{product.price_per_unit | currency:'COP':'$':'1.0'}}</ion-badge>\n                  <ion-img [src]=\"product.image_url\"></ion-img>\n                  <ion-card-content>\n                    <ion-card-subtitle text-center>\n                        {{product.name}}\n                    </ion-card-subtitle>\n                  </ion-card-content>\n                </ion-card>\n              </ion-col>\n            </ion-row>\n          </ion-grid>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n<ion-footer>\n  <ion-button color=\"secondary\" expand=\"full\" (click)=\"createOrder()\">Crear Orden {{order.price_order | currency:'COP':'$':'1.0'}}</ion-button>\n</ion-footer>\n"
 
 /***/ }),
 
@@ -91,9 +91,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ionic/angular */ "./node_modules/@ionic/angular/dist/fesm5.js");
 /* harmony import */ var src_services_product_product_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/services/product/product.service */ "./src/services/product/product.service.ts");
 /* harmony import */ var src_services_order_order_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/services/order/order.service */ "./src/services/order/order.service.ts");
-/* harmony import */ var src_models_order_model__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/models/order.model */ "./src/models/order.model.ts");
-/* harmony import */ var src_models_product_model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/models/product.model */ "./src/models/product.model.ts");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var src_services_dishes_dishes_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/services/dishes/dishes.service */ "./src/services/dishes/dishes.service.ts");
+/* harmony import */ var src_models_order_model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/models/order.model */ "./src/models/order.model.ts");
+/* harmony import */ var src_models_product_model__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/models/product.model */ "./src/models/product.model.ts");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -145,21 +146,32 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var CreateOrderPage = /** @class */ (function () {
-    function CreateOrderPage(alertController, toastController, loadingController, orderService, productService, currencyPipe) {
+    function CreateOrderPage(alertController, toastController, loadingController, orderService, productService, dishesService, currencyPipe) {
         var _this = this;
         this.alertController = alertController;
         this.toastController = toastController;
         this.loadingController = loadingController;
         this.orderService = orderService;
         this.productService = productService;
+        this.dishesService = dishesService;
         this.currencyPipe = currencyPipe;
-        this.order = new src_models_order_model__WEBPACK_IMPORTED_MODULE_4__["Order"]();
+        this.order = new src_models_order_model__WEBPACK_IMPORTED_MODULE_5__["Order"]();
         this.dataLocal = false;
         this.products = new Array();
+        this.dishes = [];
         this.loadingOn()
             .then(function () {
-            _this.getLocalProducts();
+            Promise.all([
+                _this.getLocalProducts(),
+                _this.getDishes()
+            ])
+                .then(function (data) {
+                _this.loadingOff();
+                console.log('Promise all data');
+                console.log(data);
+            });
         });
     }
     CreateOrderPage.prototype.ngOnInit = function () {
@@ -173,7 +185,7 @@ var CreateOrderPage = /** @class */ (function () {
                 _this.productService.deleteProducts()
                     .then(function (data) {
                     products.forEach(function (product) {
-                        _this.productService.addProduct(new src_models_product_model__WEBPACK_IMPORTED_MODULE_5__["Product"](Number(product.id), product.name, product.code, product.description, Number(product.price_per_unit), product.image_url));
+                        _this.productService.addProduct(new src_models_product_model__WEBPACK_IMPORTED_MODULE_6__["Product"](Number(product.id), product.name, product.code, product.description, Number(product.price_per_unit), product.image_url));
                     });
                     _this.getLocalProducts();
                 })
@@ -188,10 +200,18 @@ var CreateOrderPage = /** @class */ (function () {
     CreateOrderPage.prototype.getLocalProducts = function () {
         var _this = this;
         // Get products from local source
-        this.productService.getLocalProducts()
+        return this.productService.getLocalProducts()
             .then(function (products) {
-            _this.loadingOff();
             _this.products = products;
+        });
+    };
+    CreateOrderPage.prototype.getDishes = function () {
+        var _this = this;
+        return this.dishesService.getDishes().subscribe(function (dishes) {
+            console.log(dishes);
+            _this.dishes = dishes;
+        }, function (error) {
+            console.error(error);
         });
     };
     CreateOrderPage.prototype.addOrderProduct = function (product) {
@@ -251,7 +271,7 @@ var CreateOrderPage = /** @class */ (function () {
         this.order.products.splice(index, 1);
     };
     CreateOrderPage.prototype.deleteOrder = function () {
-        this.order = new src_models_order_model__WEBPACK_IMPORTED_MODULE_4__["Order"]();
+        this.order = new src_models_order_model__WEBPACK_IMPORTED_MODULE_5__["Order"]();
     };
     CreateOrderPage.prototype.confirmOrder = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -269,7 +289,7 @@ var CreateOrderPage = /** @class */ (function () {
                         toast = _a.sent();
                         this.orderService.addLocalOrder(this.order)
                             .then(function (data) {
-                            _this.order = new src_models_order_model__WEBPACK_IMPORTED_MODULE_4__["Order"]();
+                            _this.order = new src_models_order_model__WEBPACK_IMPORTED_MODULE_5__["Order"]();
                             toast.present();
                         })
                             .catch(function (err) {
@@ -312,7 +332,7 @@ var CreateOrderPage = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-create-order',
             template: __webpack_require__(/*! ./create-order.page.html */ "./src/app/create-order/create-order.page.html"),
-            providers: [_angular_common__WEBPACK_IMPORTED_MODULE_6__["CurrencyPipe"]],
+            providers: [_angular_common__WEBPACK_IMPORTED_MODULE_7__["CurrencyPipe"]],
             styles: [__webpack_require__(/*! ./create-order.page.scss */ "./src/app/create-order/create-order.page.scss")]
         }),
         __metadata("design:paramtypes", [_ionic_angular__WEBPACK_IMPORTED_MODULE_1__["AlertController"],
@@ -320,7 +340,8 @@ var CreateOrderPage = /** @class */ (function () {
             _ionic_angular__WEBPACK_IMPORTED_MODULE_1__["LoadingController"],
             src_services_order_order_service__WEBPACK_IMPORTED_MODULE_3__["OrderService"],
             src_services_product_product_service__WEBPACK_IMPORTED_MODULE_2__["ProductService"],
-            _angular_common__WEBPACK_IMPORTED_MODULE_6__["CurrencyPipe"]])
+            src_services_dishes_dishes_service__WEBPACK_IMPORTED_MODULE_4__["DishesService"],
+            _angular_common__WEBPACK_IMPORTED_MODULE_7__["CurrencyPipe"]])
     ], CreateOrderPage);
     return CreateOrderPage;
 }());

@@ -39,6 +39,16 @@
       <ion-col size="8">
           <ion-grid>
             <ion-row>
+              <ion-col *ngFor="let dish of dishes">
+                <ion-card>
+                  <ion-img [src]="dish.image_url"></ion-img>
+                  <ion-card-content>
+                    <ion-card-subtitle>
+                      {{dish.name}}
+                    </ion-card-subtitle>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
               <ion-col *ngFor="let product of products" size-sm="6" size-md="4">
                 <ion-card class="picture-animated fade-in" (click)="addOrderProduct(product)" style="position: relative;">
                   <ion-badge color="secondary" style="position: absolute;top:5px;left:5px;">{{product.price_per_unit | currency:'COP':'$':'1.0'}}</ion-badge>

@@ -15,13 +15,14 @@ export class OrdersPage implements OnInit {
   loading: any;
 
   constructor(private orderService: OrderService, private router: Router, private loadingController: LoadingController) {
+    
+  }
+
+  ngOnInit() {
     this.loadingOn()
     .then(() => {
       this.getOrders();
     });
-  }
-
-  ngOnInit() {
   }
 
   getOrders() {

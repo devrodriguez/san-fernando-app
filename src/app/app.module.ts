@@ -14,6 +14,7 @@ import { SQLite } from '@ionic-native/sqlite/ngx';
 // Services
 import { OrderService } from 'src/services/order/order.service';
 import { ProductService } from 'src/services/product/product.service';
+import { DishesService } from 'src/services/dishes/dishes.service';
 
 // Pipes
 //import { DatePipe } from '@angular/common';
@@ -33,6 +34,7 @@ import { ProductService } from 'src/services/product/product.service';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     OrderService,
     ProductService,
+    DishesService,
     SQLite,
     //DatePipe
   ],

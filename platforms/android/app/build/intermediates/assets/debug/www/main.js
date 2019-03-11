@@ -1042,6 +1042,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "./node_modules/@ionic-native/sqlite/ngx/index.js");
 /* harmony import */ var src_services_order_order_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/services/order/order.service */ "./src/services/order/order.service.ts");
 /* harmony import */ var src_services_product_product_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! src/services/product/product.service */ "./src/services/product/product.service.ts");
+/* harmony import */ var src_services_dishes_dishes_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! src/services/dishes/dishes.service */ "./src/services/dishes/dishes.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1059,6 +1060,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 // Services
+
 
 
 // Pipes
@@ -1082,6 +1084,7 @@ var AppModule = /** @class */ (function () {
                 { provide: _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouteReuseStrategy"], useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["IonicRouteStrategy"] },
                 src_services_order_order_service__WEBPACK_IMPORTED_MODULE_10__["OrderService"],
                 src_services_product_product_service__WEBPACK_IMPORTED_MODULE_11__["ProductService"],
+                src_services_dishes_dishes_service__WEBPACK_IMPORTED_MODULE_12__["DishesService"],
                 _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_9__["SQLite"],
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]]
@@ -1190,6 +1193,52 @@ var Product = /** @class */ (function () {
         this.image_url = image_url;
     }
     return Product;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/services/dishes/dishes.service.ts":
+/*!***********************************************!*\
+  !*** ./src/services/dishes/dishes.service.ts ***!
+  \***********************************************/
+/*! exports provided: DishesService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DishesService", function() { return DishesService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var DishesService = /** @class */ (function () {
+    function DishesService(http) {
+        this.http = http;
+    }
+    DishesService.prototype.ngOnInit = function () {
+    };
+    DishesService.prototype.getDishes = function () {
+        console.log('Service dishes');
+        return this.http.get('http://192.168.0.23:8000/api/dishes');
+    };
+    DishesService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], DishesService);
+    return DishesService;
 }());
 
 

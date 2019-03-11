@@ -76,8 +76,6 @@ export class ProductService {
   getLocalProducts() {
     
     return new Promise((resolve, reject) => {
-      console.log('In products promise');
-      console.log(this.conn);
 
       this.conn.executeSql('SELECT * FROM Products', [])
       .then(data => {

@@ -141,17 +141,17 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 var OrdersPage = /** @class */ (function () {
     function OrdersPage(orderService, router, loadingController) {
-        var _this = this;
         this.orderService = orderService;
         this.router = router;
         this.loadingController = loadingController;
         this.orders = new Array();
+    }
+    OrdersPage.prototype.ngOnInit = function () {
+        var _this = this;
         this.loadingOn()
             .then(function () {
             _this.getOrders();
         });
-    }
-    OrdersPage.prototype.ngOnInit = function () {
     };
     OrdersPage.prototype.getOrders = function () {
         var _this = this;

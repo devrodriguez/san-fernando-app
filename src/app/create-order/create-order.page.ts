@@ -3,9 +3,11 @@ import { AlertController, ToastController, LoadingController } from '@ionic/angu
 
 import { ProductService } from 'src/services/product/product.service';
 import { OrderService } from 'src/services/order/order.service';
+import { DishesService } from 'src/services/dishes/dishes.service';
 import { Order } from 'src/models/order.model';
 import { Product } from 'src/models/product.model';
 import { CurrencyPipe } from '@angular/common';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-create-order',
@@ -18,6 +20,7 @@ export class CreateOrderPage implements OnInit {
   order: Order = new Order();
   dataLocal: boolean = false;
   products: Array<Product> = new Array<Product>();
+  dishes: any[] = []; 
   loading: any;
   
   constructor(public alertController: AlertController, 
@@ -25,12 +28,24 @@ export class CreateOrderPage implements OnInit {
               public loadingController: LoadingController,
               public orderService: OrderService,
               public productService: ProductService,
+              private dishesService: DishesService,
               private currencyPipe: CurrencyPipe) { 
                 this.loadingOn()
                 .then(() => {
-                  this.getLocalProducts();
+                  Promise.all([
+                    this.getLocalProducts(),
+                    this.getDishes()
+                  ])
+                  .then(data => {
+                    console.log(data);
+                  })
+                  .catch(err => {
+                    console.error('Error on load data');
+                  })
+                  .finally(() => {
+                    this.loadingOff();
+                  });
                 });
-                            
               }
 
   ngOnInit() {
@@ -64,16 +79,28 @@ export class CreateOrderPage implements OnInit {
       }, 
       (error)=> {
         this.dataLocal = true;
+        this.loadingOff();
       });
     });
   }
 
   getLocalProducts() {
     // Get products from local source
-    this.productService.getLocalProducts()
+    return this.productService.getLocalProducts()
     .then((products: Array<Product>) => {
-      this.loadingOff();
       this.products = products;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
+  getDishes() {
+    return this.dishesService.getDishes().subscribe((dishes: any[]) => {
+      this.dishes = dishes;
+    },
+    (error) => {
+      console.error(error);
     });
   }
 
