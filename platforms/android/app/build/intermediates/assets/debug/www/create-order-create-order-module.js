@@ -62,7 +62,7 @@ var CreateOrderPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>\n      Crear Orden\n    </ion-title>\n    <ion-buttons slot=\"end\">\n      <ion-button (click)=\"getRemoteProducts()\">\n        <ion-icon slot=\"icon-only\" name=\"refresh\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-grid>\n    <ion-row>\n      <!-- Order Detail -->\n      <ion-col size=\"4\">\n        <ion-list-header>\n          <h4 text-center>Orden</h4>\n        </ion-list-header>\n        <ion-list>\n          <ion-item *ngFor=\"let product of order.products;let i = index\" class=\"picture-animated fade-in\">\n            <ion-thumbnail item-start>\n              <img [src]=\"product.image_url\">\n            </ion-thumbnail>\n            <ion-label padding-start>{{product.name}}</ion-label>\n            <ion-button item-end shape=\"round\" color=\"danger\" (click)=\"deleteOrderProduct(product, i)\">\n              <ion-icon name=\"trash\"></ion-icon>\n            </ion-button>\n          </ion-item>\n        </ion-list>\n        <ion-button color=\"danger\" expand=\"full\" (click)=\"deleteOrder()\" *ngIf=\"order.price_order > 0\">Eliminar Orden</ion-button>\n      </ion-col>\n      <!-- Products -->\n      <ion-col size=\"8\">\n          <ion-grid>\n            <ion-row>\n              <ion-col *ngFor=\"let dish of dishes\">\n                <ion-card>\n                  <ion-img [src]=\"dish.image_url\"></ion-img>\n                  <ion-card-content>\n                    <ion-card-subtitle>\n                      {{dish.name}}\n                    </ion-card-subtitle>\n                  </ion-card-content>\n                </ion-card>\n              </ion-col>\n              <ion-col *ngFor=\"let product of products\" size-sm=\"6\" size-md=\"4\">\n                <ion-card class=\"picture-animated fade-in\" (click)=\"addOrderProduct(product)\" style=\"position: relative;\">\n                  <ion-badge color=\"secondary\" style=\"position: absolute;top:5px;left:5px;\">{{product.price_per_unit | currency:'COP':'$':'1.0'}}</ion-badge>\n                  <ion-img [src]=\"product.image_url\"></ion-img>\n                  <ion-card-content>\n                    <ion-card-subtitle text-center>\n                        {{product.name}}\n                    </ion-card-subtitle>\n                  </ion-card-content>\n                </ion-card>\n              </ion-col>\n            </ion-row>\n          </ion-grid>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n<ion-footer>\n  <ion-button color=\"secondary\" expand=\"full\" (click)=\"createOrder()\">Crear Orden {{order.price_order | currency:'COP':'$':'1.0'}}</ion-button>\n</ion-footer>\n"
+module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>\n      Crear Orden\n    </ion-title>\n    <ion-buttons slot=\"end\">\n      <ion-button (click)=\"getRemoteData()\">\n        <ion-icon slot=\"icon-only\" name=\"refresh\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-grid>\n    <ion-row>\n      <!-- Order Detail -->\n      <ion-col size=\"4\">\n        <ion-list-header>\n          <h4 text-center>Orden</h4>\n        </ion-list-header>\n        <ion-list>\n          <ion-item *ngFor=\"let product of order.products;let i = index\" class=\"picture-animated fade-in\">\n            <ion-thumbnail item-start>\n              <img [src]=\"product.image_url\">\n            </ion-thumbnail>\n            <ion-label padding-start>{{product.name}}</ion-label>\n            <ion-button item-end shape=\"round\" color=\"danger\" (click)=\"deletePartialOrderProduct(product, i)\">\n              <ion-icon name=\"trash\"></ion-icon>\n            </ion-button>\n          </ion-item>\n        </ion-list>\n        <ion-button color=\"danger\" expand=\"full\" (click)=\"deletePartialOrder()\" *ngIf=\"order.price_order > 0\">Eliminar Orden</ion-button>\n      </ion-col>\n      <!-- Products -->\n      <ion-col size=\"8\">\n          <ion-grid>\n            <ion-row>\n              <ion-col *ngFor=\"let dish of dishes\" size=\"12\" size-sm=\"6\" size-md=\"4\">\n                <ion-card>\n                  <ion-img [src]=\"dish.image_url\"></ion-img>\n                  <ion-card-content>\n                    <ion-card-subtitle>\n                      {{dish.name}}\n                    </ion-card-subtitle>\n                  </ion-card-content>\n                </ion-card>\n              </ion-col>\n              <ion-col *ngFor=\"let product of products\" size=\"12\" size-sm=\"6\" size-md=\"4\">\n                <ion-card class=\"picture-animated fade-in\" (click)=\"addPartialOrderProduct(product)\" style=\"position: relative;\">\n                  <ion-badge color=\"secondary\" style=\"position: absolute;top:5px;left:5px;\">{{product.price_per_unit | currency:'COP':'$':'1.0'}}</ion-badge>\n                  <ion-img [src]=\"product.image_url\"></ion-img>\n                  <ion-card-content>\n                    <ion-card-subtitle text-center>\n                        {{product.name}}\n                    </ion-card-subtitle>\n                  </ion-card-content>\n                </ion-card>\n              </ion-col>\n            </ion-row>\n          </ion-grid>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n<ion-footer>\n  <ion-button color=\"secondary\" expand=\"full\" (click)=\"createOrder()\">Crear Orden {{order.price_order | currency:'COP':'$':'1.0'}}</ion-button>\n</ion-footer>\n"
 
 /***/ }),
 
@@ -95,6 +95,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_models_order_model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/models/order.model */ "./src/models/order.model.ts");
 /* harmony import */ var src_models_product_model__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/models/product.model */ "./src/models/product.model.ts");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var src_models_dish_model__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/models/dish.model */ "./src/models/dish.model.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -147,6 +148,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var CreateOrderPage = /** @class */ (function () {
     function CreateOrderPage(alertController, toastController, loadingController, orderService, productService, dishesService, currencyPipe) {
         var _this = this;
@@ -159,62 +161,135 @@ var CreateOrderPage = /** @class */ (function () {
         this.currencyPipe = currencyPipe;
         this.order = new src_models_order_model__WEBPACK_IMPORTED_MODULE_5__["Order"]();
         this.dataLocal = false;
-        this.products = new Array();
+        this.products = [];
         this.dishes = [];
         this.loadingOn()
             .then(function () {
             Promise.all([
                 _this.getLocalProducts(),
-                _this.getDishes()
+                _this.getLocalDishes()
             ])
                 .then(function (data) {
-                _this.loadingOff();
-                console.log('Promise all data');
                 console.log(data);
+            })
+                .catch(function (err) {
+                console.error('Error on load data');
+            })
+                .finally(function () {
+                _this.loadingOff();
             });
         });
     }
     CreateOrderPage.prototype.ngOnInit = function () {
     };
+    CreateOrderPage.prototype.getRemoteData = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.loadingOn()
+                            .then(function () {
+                            Promise.all([
+                                _this.getRemoteProducts(),
+                                _this.getRemoteDishes()
+                            ])
+                                .then(function () {
+                                _this.getLocalProducts();
+                                _this.getLocalDishes();
+                            })
+                                .finally(function () {
+                                _this.loadingOff();
+                            });
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     CreateOrderPage.prototype.getRemoteProducts = function () {
-        var _this = this;
-        this.loadingOn()
-            .then(function () {
-            // Get products from API source    
-            _this.productService.getProducts().subscribe(function (products) {
-                _this.productService.deleteProducts()
-                    .then(function (data) {
-                    products.forEach(function (product) {
-                        _this.productService.addProduct(new src_models_product_model__WEBPACK_IMPORTED_MODULE_6__["Product"](Number(product.id), product.name, product.code, product.description, Number(product.price_per_unit), product.image_url));
-                    });
-                    _this.getLocalProducts();
-                })
-                    .catch(function (err) {
-                    console.log(err);
-                });
-            }, function (error) {
-                _this.dataLocal = true;
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.productService.getProducts().subscribe(function (products) {
+                            _this.productService.deleteProducts()
+                                .then(function () {
+                                products.forEach(function (product) {
+                                    _this.productService.addProduct(new src_models_product_model__WEBPACK_IMPORTED_MODULE_6__["Product"](product.id, product.name, product.code, product.description, product.price_per_unit, product.image_url));
+                                });
+                            })
+                                .catch(function (err) {
+                                console.log(err);
+                            });
+                        }, function (error) {
+                            _this.loadingOff();
+                        })];
+                    case 1: 
+                    // Get products from API source    
+                    return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    CreateOrderPage.prototype.getRemoteDishes = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.dishesService.getDishes().subscribe(function (dishes) {
+                            _this.dishesService.deleteDishes()
+                                .then(function () {
+                                dishes.forEach(function (dish) {
+                                    _this.dishesService.addDish(new src_models_dish_model__WEBPACK_IMPORTED_MODULE_8__["DishModel"](dish.id, dish.name, dish.price, dish.img_url));
+                                });
+                            });
+                        }, function (error) {
+                            console.error(error);
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
             });
         });
     };
     CreateOrderPage.prototype.getLocalProducts = function () {
-        var _this = this;
-        // Get products from local source
-        return this.productService.getLocalProducts()
-            .then(function (products) {
-            _this.products = products;
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.productService.getLocalProducts()
+                            .then(function (products) {
+                            _this.products = products;
+                        })
+                            .catch(function (err) {
+                            console.log(err);
+                        })];
+                    case 1: 
+                    // Get products from local source
+                    return [2 /*return*/, _a.sent()];
+                }
+            });
         });
     };
-    CreateOrderPage.prototype.getDishes = function () {
-        var _this = this;
-        return this.dishesService.getDishes().subscribe(function (dishes) {
-            console.log(dishes);
-            _this.dishes = dishes;
-        }, function (error) {
-            console.error(error);
+    CreateOrderPage.prototype.getLocalDishes = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.dishesService.getLocalDishes()
+                            .then(function (dishes) {
+                            console.log('Dishes geted');
+                            console.log(dishes);
+                            _this.dishes = dishes;
+                        })
+                            .catch(function (err) {
+                            console.log(err);
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
         });
     };
-    CreateOrderPage.prototype.addOrderProduct = function (product) {
+    CreateOrderPage.prototype.addPartialOrderProduct = function (product) {
         this.order.price_order += product.price_per_unit;
         this.order.products.push(product);
     };
@@ -266,11 +341,11 @@ var CreateOrderPage = /** @class */ (function () {
             });
         });
     };
-    CreateOrderPage.prototype.deleteOrderProduct = function (product, index) {
+    CreateOrderPage.prototype.deletePartialOrderProduct = function (product, index) {
         this.order.price_order -= product.price_per_unit;
         this.order.products.splice(index, 1);
     };
-    CreateOrderPage.prototype.deleteOrder = function () {
+    CreateOrderPage.prototype.deletePartialOrder = function () {
         this.order = new src_models_order_model__WEBPACK_IMPORTED_MODULE_5__["Order"]();
     };
     CreateOrderPage.prototype.confirmOrder = function () {

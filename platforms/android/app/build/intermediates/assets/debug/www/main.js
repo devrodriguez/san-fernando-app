@@ -1151,6 +1151,30 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 
 /***/ }),
 
+/***/ "./src/models/dish.model.ts":
+/*!**********************************!*\
+  !*** ./src/models/dish.model.ts ***!
+  \**********************************/
+/*! exports provided: DishModel */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DishModel", function() { return DishModel; });
+var DishModel = /** @class */ (function () {
+    function DishModel(id, name, price, img_url) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.img_url = img_url;
+    }
+    return DishModel;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/models/order.model.ts":
 /*!***********************************!*\
   !*** ./src/models/order.model.ts ***!
@@ -1211,6 +1235,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DishesService", function() { return DishesService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "./node_modules/@ionic-native/sqlite/ngx/index.js");
+/* harmony import */ var src_models_dish_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/models/dish.model */ "./src/models/dish.model.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1222,21 +1248,90 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+
 var DishesService = /** @class */ (function () {
-    function DishesService(http) {
+    function DishesService(http, sqlite) {
+        var _this = this;
         this.http = http;
+        this.sqlite = sqlite;
+        if (!this.isOpen) {
+            this.sqlite = new _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_2__["SQLite"]();
+            this.sqlite.create({ name: 'data.db', location: 'default' })
+                .then(function (conn) {
+                console.log('Order db connection created');
+                _this.conn = conn;
+                _this.conn.executeSql('CREATE TABLE IF NOT EXISTS Dishes(id INTEGER, name VARCHAR(250), price DECIMAL(18, 2), img_url VARCHAR(500))', [])
+                    .then(function (data) {
+                    console.log('Table DISHES created');
+                })
+                    .catch(function (err) {
+                    console.log('Error on create DISHES table');
+                });
+                _this.isOpen = true;
+            })
+                .catch(function (error) {
+                console.log(error);
+            });
+        }
     }
     DishesService.prototype.ngOnInit = function () {
     };
     DishesService.prototype.getDishes = function () {
-        console.log('Service dishes');
         return this.http.get('http://192.168.0.23:8000/api/dishes');
+    };
+    DishesService.prototype.getLocalDishes = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.conn.executeSql('SELECT * FROM Dishes', [])
+                .then(function (data) {
+                var dishes = [];
+                for (var i = 0; i < data.rows.length; i++) {
+                    dishes.push(new src_models_dish_model__WEBPACK_IMPORTED_MODULE_3__["DishModel"](Number(data.rows.item(i).id), data.rows.item(i).name, Number(data.rows.item(i).price), data.rows.item(i).img_url));
+                }
+                console.log(dishes);
+                resolve(dishes);
+            })
+                .catch(function (err) {
+                reject(err);
+            });
+        });
+    };
+    DishesService.prototype.addDish = function (dish) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.conn.executeSql('INSERT INTO Dishes(id, name, price, img_url) VALUES(?,?,?,?)', [dish.id, dish.name, dish.price, dish.img_url])
+                .then(function (data) {
+                console.log('Dish was inserted');
+                console.log(data);
+                resolve(data);
+            })
+                .catch(function (err) {
+                console.error('Error al insertar plato');
+                console.error(err);
+                reject(err);
+            });
+        });
+    };
+    DishesService.prototype.deleteDishes = function () {
+        var _this = this;
+        console.log('Deleting dishes');
+        return new Promise(function (resolve, reject) {
+            _this.conn.executeSql('DELETE FROM Dishes', [])
+                .then(function (data) {
+                console.log('Dishes deleted');
+                resolve(data);
+            })
+                .catch(function (err) {
+                reject(err);
+            });
+        });
     };
     DishesService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
         }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"], _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_2__["SQLite"]])
     ], DishesService);
     return DishesService;
 }());
@@ -1475,13 +1570,14 @@ var ProductService = /** @class */ (function () {
     ProductService.prototype.getLocalProducts = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            console.log('In products promise');
-            console.log(_this.conn);
             _this.conn.executeSql('SELECT * FROM Products', [])
                 .then(function (data) {
-                var products = new Array();
+                var products = [];
+                console.log('Products geted');
+                console.log(data);
                 for (var i = 0; i < data.rows.length; i++) {
                     products.push(new src_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(i).id), data.rows.item(i).name, data.rows.item(i).code, data.rows.item(i).description, Number(data.rows.item(i).price_per_unit), data.rows.item(i).image_url));
+                    console.log(products);
                 }
                 resolve(products);
             })

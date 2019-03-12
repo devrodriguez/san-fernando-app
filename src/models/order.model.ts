@@ -1,9 +1,11 @@
 import { Product } from "./product.model";
+import { DishModel } from "./dish.model";
 
 export class Order {
     id: number;
     price_order: number;
-    products: Array<Product>;
+    products: Product[];
+    dishes: DishModel[];
     sale_date: Date;
 
     constructor() {

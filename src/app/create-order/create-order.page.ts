@@ -7,7 +7,7 @@ import { DishesService } from 'src/services/dishes/dishes.service';
 import { Order } from 'src/models/order.model';
 import { Product } from 'src/models/product.model';
 import { CurrencyPipe } from '@angular/common';
-import { forkJoin } from 'rxjs';
+import { DishModel } from 'src/models/dish.model';
 
 @Component({
   selector: 'app-create-order',
@@ -19,8 +19,8 @@ export class CreateOrderPage implements OnInit {
 
   order: Order = new Order();
   dataLocal: boolean = false;
-  products: Array<Product> = new Array<Product>();
-  dishes: any[] = []; 
+  products: Product[] = [];
+  dishes: any[] = [];
   loading: any;
   
   constructor(public alertController: AlertController, 
@@ -34,7 +34,7 @@ export class CreateOrderPage implements OnInit {
                 .then(() => {
                   Promise.all([
                     this.getLocalProducts(),
-                    this.getDishes()
+                    this.getLocalDishes()
                   ])
                   .then(data => {
                     console.log(data);
@@ -52,42 +52,71 @@ export class CreateOrderPage implements OnInit {
     
   }
 
-  getRemoteProducts() {
-    this.loadingOn()
+  async getRemoteData() {
+    return await this.loadingOn()
     .then(() => {
-      // Get products from API source    
-      this.productService.getProducts().subscribe((products: Array<Product>) => {
-        this.productService.deleteProducts()
-        .then(data => {
-          products.forEach(product => {
-            this.productService.addProduct(new Product(
-              Number(product.id),
-              product.name,
-              product.code,
-              product.description,
-              Number(product.price_per_unit),
-              product.image_url
-            ));
-          });
-
-          this.getLocalProducts();
-          
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      }, 
-      (error)=> {
-        this.dataLocal = true;
+      Promise.all([
+        this.getRemoteProducts(),
+        this.getRemoteDishes()
+      ])
+      .then(() => {
+        this.getLocalProducts();
+        this.getLocalDishes();
+      })
+      .finally(() => {
         this.loadingOff();
       });
     });
   }
 
-  getLocalProducts() {
+  async getRemoteProducts() {
+    // Get products from API source    
+    return await this.productService.getProducts().subscribe((products: Product[]) => {
+      this.productService.deleteProducts()
+      .then(() => {
+        products.forEach(product => {
+          this.productService.addProduct(new Product(
+            product.id,
+            product.name,
+            product.code,
+            product.description,
+            product.price_per_unit,
+            product.image_url
+          ));
+        });          
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    }, 
+    (error)=> {
+      this.loadingOff();
+    });
+  }
+  
+  async getRemoteDishes() {
+    return await this.dishesService.getDishes().subscribe((dishes: DishModel[]) => {
+      this.dishesService.deleteDishes()
+      .then(() => {
+        dishes.forEach(dish => {
+          this.dishesService.addDish(new DishModel(
+            dish.id, 
+            dish.name, 
+            dish.price, 
+            dish.img_url
+          ));
+        });
+      });
+    },
+    (error) => {
+      console.error(error);
+    });
+  }
+
+  async getLocalProducts() {
     // Get products from local source
-    return this.productService.getLocalProducts()
-    .then((products: Array<Product>) => {
+    return await this.productService.getLocalProducts()
+    .then((products: Product[]) => {
       this.products = products;
     })
     .catch(err => {
@@ -95,18 +124,26 @@ export class CreateOrderPage implements OnInit {
     });
   }
 
-  getDishes() {
-    return this.dishesService.getDishes().subscribe((dishes: any[]) => {
+  async getLocalDishes() {
+    return await this.dishesService.getLocalDishes()
+    .then((dishes: DishModel[]) => {
+      console.log('Dishes geted');
+      console.log(dishes);
       this.dishes = dishes;
-    },
-    (error) => {
-      console.error(error);
+    })
+    .catch(err => {
+      console.log(err);
     });
   }
 
-  addOrderProduct(product: Product) {
+  addPartialOrderProduct(product: Product) {
     this.order.price_order += product.price_per_unit;
     this.order.products.push(product);
+  }
+
+  addPartialOrderDish(dish: DishModel) {
+    this.order.price_order += dish.price;
+    this.order.dishes.push(dish);
   }
 
   async createOrder() {
@@ -144,12 +181,12 @@ export class CreateOrderPage implements OnInit {
     await alertCreateOrder.present();
   }
 
-  deleteOrderProduct(product: Product, index: any) {
+  deletePartialOrderProduct(product: Product, index: any) {
     this.order.price_order -= product.price_per_unit;
     this.order.products.splice(index, 1);
   }
 
-  deleteOrder() {
+  deletePartialOrder() {
     this.order = new Order();
   }
 

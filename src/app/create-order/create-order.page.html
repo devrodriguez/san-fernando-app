@@ -7,7 +7,7 @@
       Crear Orden
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="getRemoteProducts()">
+      <ion-button (click)="getRemoteData()">
         <ion-icon slot="icon-only" name="refresh"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -28,19 +28,19 @@
               <img [src]="product.image_url">
             </ion-thumbnail>
             <ion-label padding-start>{{product.name}}</ion-label>
-            <ion-button item-end shape="round" color="danger" (click)="deleteOrderProduct(product, i)">
+            <ion-button item-end shape="round" color="danger" (click)="deletePartialOrderProduct(product, i)">
               <ion-icon name="trash"></ion-icon>
             </ion-button>
           </ion-item>
         </ion-list>
-        <ion-button color="danger" expand="full" (click)="deleteOrder()" *ngIf="order.price_order > 0">Eliminar Orden</ion-button>
+        <ion-button color="danger" expand="full" (click)="deletePartialOrder()" *ngIf="order.price_order > 0">Eliminar Orden</ion-button>
       </ion-col>
       <!-- Products -->
       <ion-col size="8">
           <ion-grid>
             <ion-row>
-              <ion-col *ngFor="let dish of dishes">
-                <ion-card>
+              <ion-col *ngFor="let dish of dishes" size="12" size-sm="6" size-md="4">
+                <ion-card class="picture-animated fade-in" (click)="addPartialOrderDish(dish)">
                   <ion-img [src]="dish.image_url"></ion-img>
                   <ion-card-content>
                     <ion-card-subtitle>
@@ -49,8 +49,8 @@
                   </ion-card-content>
                 </ion-card>
               </ion-col>
-              <ion-col *ngFor="let product of products" size-sm="6" size-md="4">
-                <ion-card class="picture-animated fade-in" (click)="addOrderProduct(product)" style="position: relative;">
+              <ion-col *ngFor="let product of products" size="12" size-sm="6" size-md="4">
+                <ion-card class="picture-animated fade-in" (click)="addPartialOrderProduct(product)" style="position: relative;">
                   <ion-badge color="secondary" style="position: absolute;top:5px;left:5px;">{{product.price_per_unit | currency:'COP':'$':'1.0'}}</ion-badge>
                   <ion-img [src]="product.image_url"></ion-img>
                   <ion-card-content>

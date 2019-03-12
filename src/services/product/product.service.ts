@@ -79,7 +79,10 @@ export class ProductService {
 
       this.conn.executeSql('SELECT * FROM Products', [])
       .then(data => {
-        let products: Array<Product> = new Array<Product>();
+        let products: Product[] = [];
+
+        console.log('Products geted');
+        console.log(data);
 
         for(var i = 0; i < data.rows.length; i++){
           products.push(new Product(
@@ -90,6 +93,7 @@ export class ProductService {
             Number(data.rows.item(i).price_per_unit),
             data.rows.item(i).image_url
           ));
+          console.log(products);
         }
 
         resolve(products);
