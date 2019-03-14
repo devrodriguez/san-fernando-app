@@ -3,6 +3,7 @@ import { OrderService } from 'src/services/order/order.service';
 import { Product } from 'src/models/product.model';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
+import { DishModel } from 'src/models/dish.model';
 
 @Component({
   selector: 'app-order',
@@ -12,6 +13,7 @@ import { LoadingController } from '@ionic/angular';
 export class OrderPage implements OnInit {
 
   products: Array<Product> = new Array<Product>();
+  dishes: DishModel[] = [];
   loading: any;
   
   constructor(private orderService: OrderService, private route: ActivatedRoute, private loadingController: LoadingController) {
@@ -28,12 +30,15 @@ export class OrderPage implements OnInit {
     this.route.paramMap.subscribe(params => {
 
       this.orderService.getLocalOrderDetail(params.get('orderId'))
-      .then((orderDetail: Product[]) => {
-        this.loadingOff();
-        this.products = orderDetail;
+      .then(data => {
+        this.dishes = data[0];
+        this.products = data[1];
       })
       .catch(err => {
         console.log(err);
+      })
+      .finally(() => {
+        this.loadingOff();
       });
       
     });

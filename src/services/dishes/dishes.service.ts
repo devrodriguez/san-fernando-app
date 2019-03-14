@@ -58,15 +58,32 @@ export class DishesService {
             Number(data.rows.item(i).id),
             data.rows.item(i).name,
             Number(data.rows.item(i).price),
-            data.rows.item(i).img_url
+            /*data.rows.item(i).img_url*/
+            "/assets/img/products/pechuga.jpg"
           ));
         }
-        console.log(dishes);
+      
         resolve(dishes);
       })
       .catch(err => {
         reject(err);
       });
+    })
+  }
+
+  getDish(id: Number) {
+    return new Promise((resolve, reject) => {
+      this.conn.executeSql('SELECT * FROM Dishes WHERE id = ?', [id])
+      .then(data => {
+        let dishes: DishModel = new DishModel(
+          Number(data.rows.item(0).id),
+          data.rows.item(0).name,
+          Number(data.rows.item(0).price),
+          data.rows.item(0).img_url
+        );
+
+        resolve(dishes);
+      })
     })
   }
 

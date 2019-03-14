@@ -7,8 +7,19 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
   <ion-list>
+    <ion-list-header color="secondary" text>
+        Platos
+    </ion-list-header>
+    <ion-item *ngFor="let dish of dishes">
+      {{dish.name}}
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header color="secondary">
+      Productos
+    </ion-list-header>
     <ion-item *ngFor="let product of products">
       <ion-label>{{product.name}}</ion-label>
     </ion-item>

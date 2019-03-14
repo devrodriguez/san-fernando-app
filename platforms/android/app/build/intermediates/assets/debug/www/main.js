@@ -1188,6 +1188,7 @@ __webpack_require__.r(__webpack_exports__);
 var Order = /** @class */ (function () {
     function Order() {
         this.products = new Array();
+        this.dishes = new Array();
         this.price_order = 0;
     }
     return Order;
@@ -1287,13 +1288,24 @@ var DishesService = /** @class */ (function () {
                 .then(function (data) {
                 var dishes = [];
                 for (var i = 0; i < data.rows.length; i++) {
-                    dishes.push(new src_models_dish_model__WEBPACK_IMPORTED_MODULE_3__["DishModel"](Number(data.rows.item(i).id), data.rows.item(i).name, Number(data.rows.item(i).price), data.rows.item(i).img_url));
+                    dishes.push(new src_models_dish_model__WEBPACK_IMPORTED_MODULE_3__["DishModel"](Number(data.rows.item(i).id), data.rows.item(i).name, Number(data.rows.item(i).price), 
+                    /*data.rows.item(i).img_url*/
+                    "/assets/img/products/pechuga.jpg"));
                 }
-                console.log(dishes);
                 resolve(dishes);
             })
                 .catch(function (err) {
                 reject(err);
+            });
+        });
+    };
+    DishesService.prototype.getDish = function (id) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.conn.executeSql('SELECT * FROM Dishes WHERE id = ?', [id])
+                .then(function (data) {
+                var dishes = new src_models_dish_model__WEBPACK_IMPORTED_MODULE_3__["DishModel"](Number(data.rows.item(0).id), data.rows.item(0).name, Number(data.rows.item(0).price), data.rows.item(0).img_url);
+                resolve(dishes);
             });
         });
     };
@@ -1354,6 +1366,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "./node_modules/@ionic-native/sqlite/ngx/index.js");
 /* harmony import */ var src_models_order_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/models/order.model */ "./src/models/order.model.ts");
 /* harmony import */ var _product_product_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../product/product.service */ "./src/services/product/product.service.ts");
+/* harmony import */ var _dishes_dishes_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dishes/dishes.service */ "./src/services/dishes/dishes.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1367,10 +1380,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var OrderService = /** @class */ (function () {
-    function OrderService(sqlite, productService) {
+    function OrderService(sqlite, dishService, productService) {
         var _this = this;
         this.sqlite = sqlite;
+        this.dishService = dishService;
         this.productService = productService;
         console.log('Product service constructor');
         if (!this.isOpen) {
@@ -1389,7 +1404,7 @@ var OrderService = /** @class */ (function () {
                     console.log(error);
                 });
                 //Create OrderDetail table
-                _this.conn.executeSql('CREATE TABLE IF NOT EXISTS OrderDetail(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, order_id NUMBER, product_id NUMBER)', [])
+                _this.conn.executeSql('CREATE TABLE IF NOT EXISTS OrderDetail(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, order_id NUMBER, dish_id NUMBER, product_id NUMBER)', [])
                     .then(function (data) {
                     console.log('Se creo la tabla [OrderDetail]');
                 })
@@ -1409,15 +1424,24 @@ var OrderService = /** @class */ (function () {
                 // Insert Order Detail
                 console.log('Data order');
                 console.log(dataOrder.insertId);
+                // Insert products
                 order.products.forEach(function (product) {
-                    console.log(dataOrder.insertId);
-                    console.log(product.id);
                     _this.conn.executeSql('INSERT INTO OrderDetail(order_id, product_id) VALUES(?, ?)', [dataOrder.insertId, product.id])
                         .then(function (data) {
                         console.log('OrderDetail data inserted');
                     })
                         .catch(function (err) {
                         console.log('OrderDetail error');
+                    });
+                });
+                // Insert dishes
+                order.dishes.forEach(function (dish) {
+                    _this.conn.executeSql('INSERT INTO OrderDetail(order_id, dish_id) VALUES(?, ?)', [dataOrder.insertId, dish.id])
+                        .then(function (data) {
+                        console.log('Dish inserted in order');
+                    })
+                        .catch(function (err) {
+                        console.log('Error on insert dish on order');
                     });
                 });
                 resolve(dataOrder);
@@ -1452,20 +1476,30 @@ var OrderService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             console.log(orderId);
             _this.conn.executeSql('SELECT * FROM OrderDetail WHERE order_id = ?', [orderId])
-                .then(function (ordDetailProd) {
-                var products = new Array();
-                for (var i = 0; i < ordDetailProd.rows.length; i++) {
-                    _this.productService.getProduct(ordDetailProd.rows.item(i).product_id)
-                        .then(function (product) {
-                        products.push(product);
-                    })
-                        .catch(function (err) {
-                        console.log(err);
-                    });
+                .then(function (ordDetail) {
+                var products = [];
+                var dishes = [];
+                for (var i = 0; i < ordDetail.rows.length; i++) {
+                    if (ordDetail.rows.item(i).product_id) {
+                        _this.productService.getProduct(ordDetail.rows.item(i).product_id)
+                            .then(function (product) {
+                            products.push(product);
+                        })
+                            .catch(function (err) {
+                            console.log(err);
+                        });
+                    }
+                    else {
+                        _this.dishService.getDish(ordDetail.rows.item(i).dish_id)
+                            .then(function (dish) {
+                            dishes.push(dish);
+                        })
+                            .catch(function (err) {
+                            console.log(err);
+                        });
+                    }
                 }
-                console.log('Products');
-                console.log(products);
-                resolve(products);
+                resolve([dishes, products]);
             })
                 .catch(function (err) {
                 reject(err);
@@ -1476,7 +1510,7 @@ var OrderService = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
         }),
-        __metadata("design:paramtypes", [_ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_1__["SQLite"], _product_product_service__WEBPACK_IMPORTED_MODULE_3__["ProductService"]])
+        __metadata("design:paramtypes", [_ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_1__["SQLite"], _dishes_dishes_service__WEBPACK_IMPORTED_MODULE_4__["DishesService"], _product_product_service__WEBPACK_IMPORTED_MODULE_3__["ProductService"]])
     ], OrderService);
     return OrderService;
 }());
@@ -1573,11 +1607,10 @@ var ProductService = /** @class */ (function () {
             _this.conn.executeSql('SELECT * FROM Products', [])
                 .then(function (data) {
                 var products = [];
-                console.log('Products geted');
-                console.log(data);
                 for (var i = 0; i < data.rows.length; i++) {
-                    products.push(new src_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(i).id), data.rows.item(i).name, data.rows.item(i).code, data.rows.item(i).description, Number(data.rows.item(i).price_per_unit), data.rows.item(i).image_url));
-                    console.log(products);
+                    products.push(new src_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(i).id), data.rows.item(i).name, data.rows.item(i).code, data.rows.item(i).description, Number(data.rows.item(i).price_per_unit), 
+                    /*data.rows.item(i).image_url*/
+                    "/assets/img/products/pechuga.jpg"));
                 }
                 resolve(products);
             })

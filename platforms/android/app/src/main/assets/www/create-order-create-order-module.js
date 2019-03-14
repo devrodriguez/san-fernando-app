@@ -62,7 +62,7 @@ var CreateOrderPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>\n      Crear Orden\n    </ion-title>\n    <ion-buttons slot=\"end\">\n      <ion-button (click)=\"getRemoteData()\">\n        <ion-icon slot=\"icon-only\" name=\"refresh\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-grid>\n    <ion-row>\n      <!-- Order Detail -->\n      <ion-col size=\"4\">\n        <ion-list-header>\n          <h4 text-center>Orden</h4>\n        </ion-list-header>\n        <ion-list>\n          <ion-item *ngFor=\"let product of order.products;let i = index\" class=\"picture-animated fade-in\">\n            <ion-thumbnail item-start>\n              <img [src]=\"product.image_url\">\n            </ion-thumbnail>\n            <ion-label padding-start>{{product.name}}</ion-label>\n            <ion-button item-end shape=\"round\" color=\"danger\" (click)=\"deletePartialOrderProduct(product, i)\">\n              <ion-icon name=\"trash\"></ion-icon>\n            </ion-button>\n          </ion-item>\n        </ion-list>\n        <ion-button color=\"danger\" expand=\"full\" (click)=\"deletePartialOrder()\" *ngIf=\"order.price_order > 0\">Eliminar Orden</ion-button>\n      </ion-col>\n      <!-- Products -->\n      <ion-col size=\"8\">\n          <ion-grid>\n            <ion-row>\n              <ion-col *ngFor=\"let dish of dishes\" size=\"12\" size-sm=\"6\" size-md=\"4\">\n                <ion-card>\n                  <ion-img [src]=\"dish.image_url\"></ion-img>\n                  <ion-card-content>\n                    <ion-card-subtitle>\n                      {{dish.name}}\n                    </ion-card-subtitle>\n                  </ion-card-content>\n                </ion-card>\n              </ion-col>\n              <ion-col *ngFor=\"let product of products\" size=\"12\" size-sm=\"6\" size-md=\"4\">\n                <ion-card class=\"picture-animated fade-in\" (click)=\"addPartialOrderProduct(product)\" style=\"position: relative;\">\n                  <ion-badge color=\"secondary\" style=\"position: absolute;top:5px;left:5px;\">{{product.price_per_unit | currency:'COP':'$':'1.0'}}</ion-badge>\n                  <ion-img [src]=\"product.image_url\"></ion-img>\n                  <ion-card-content>\n                    <ion-card-subtitle text-center>\n                        {{product.name}}\n                    </ion-card-subtitle>\n                  </ion-card-content>\n                </ion-card>\n              </ion-col>\n            </ion-row>\n          </ion-grid>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n<ion-footer>\n  <ion-button color=\"secondary\" expand=\"full\" (click)=\"createOrder()\">Crear Orden {{order.price_order | currency:'COP':'$':'1.0'}}</ion-button>\n</ion-footer>\n"
+module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>\n      Crear Orden\n    </ion-title>\n    <ion-buttons slot=\"end\">\n      <ion-button (click)=\"getRemoteData()\">\n        <ion-icon slot=\"icon-only\" name=\"refresh\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-grid>\n    <ion-row>\n      <!-- Order Detail -->\n      <ion-col size=\"4\">\n        <ion-list-header>\n          <h4 text-center>Orden</h4>\n        </ion-list-header>\n        <ion-list>\n          <ion-item *ngFor=\"let dish of order.dishes;let i = index\" class=\"picture-animated fade-in\">\n            <ion-thumbnail item-start>\n              <img [src]=\"dish.img_url\">\n            </ion-thumbnail>\n            <ion-label padding-start>{{dish.name}}</ion-label>\n            <ion-button item-end shape=\"round\" color=\"danger\" (click)=\"deletePartialDishOrder(dish, i)\">\n              <ion-icon name=\"trash\"></ion-icon>\n            </ion-button>\n          </ion-item>\n          <ion-item *ngFor=\"let product of order.products;let i = index\" class=\"picture-animated fade-in\">\n            <ion-thumbnail item-start>\n              <img [src]=\"product.image_url\">\n            </ion-thumbnail>\n            <ion-label padding-start>{{product.name}}</ion-label>\n            <ion-button item-end shape=\"round\" color=\"danger\" (click)=\"deletePartialProductOrder(product, i)\">\n              <ion-icon name=\"trash\"></ion-icon>\n            </ion-button>\n          </ion-item>\n        </ion-list>\n        <ion-button color=\"danger\" expand=\"full\" (click)=\"deletePartialOrder()\" *ngIf=\"order.price_order > 0\">Eliminar Orden</ion-button>\n      </ion-col>\n      <!-- Products -->\n      <ion-col size=\"8\">\n          <ion-grid>\n            <ion-row>\n              <ion-col *ngFor=\"let dish of dishes\" size=\"12\" size-sm=\"6\" size-md=\"4\">\n                <ion-card class=\"picture-animated fade-in\" (click)=\"addPartialDishOrder(dish)\">\n                    <ion-badge color=\"success\" style=\"position: absolute;top:5px;left:5px;\">{{dish.price | currency:'COP':'$':'1.0'}}</ion-badge>\n                  <ion-img [src]=\"dish.img_url\"></ion-img>\n                  <ion-card-content>\n                    <ion-card-subtitle>\n                      {{dish.name}}\n                    </ion-card-subtitle>\n                  </ion-card-content>\n                </ion-card>\n              </ion-col>\n              <ion-col *ngFor=\"let product of products\" size=\"12\" size-sm=\"6\" size-md=\"4\">\n                <ion-card class=\"picture-animated fade-in\" (click)=\"addPartialProductOrder(product)\" style=\"position: relative;\">\n                  <ion-badge color=\"success\" style=\"position: absolute;top:5px;left:5px;\">{{product.price_per_unit | currency:'COP':'$':'1.0'}}</ion-badge>\n                  <ion-img [src]=\"product.image_url\"></ion-img>\n                  <ion-card-content>\n                    <ion-card-subtitle text-center>\n                        {{product.name}}\n                    </ion-card-subtitle>\n                  </ion-card-content>\n                </ion-card>\n              </ion-col>\n            </ion-row>\n          </ion-grid>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n<ion-footer>\n  <ion-button color=\"secondary\" expand=\"full\" (click)=\"createOrder()\">Crear Orden {{order.price_order | currency:'COP':'$':'1.0'}}</ion-button>\n</ion-footer>\n"
 
 /***/ }),
 
@@ -151,7 +151,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 var CreateOrderPage = /** @class */ (function () {
     function CreateOrderPage(alertController, toastController, loadingController, orderService, productService, dishesService, currencyPipe) {
-        var _this = this;
         this.alertController = alertController;
         this.toastController = toastController;
         this.loadingController = loadingController;
@@ -163,6 +162,9 @@ var CreateOrderPage = /** @class */ (function () {
         this.dataLocal = false;
         this.products = [];
         this.dishes = [];
+    }
+    CreateOrderPage.prototype.ngOnInit = function () {
+        var _this = this;
         this.loadingOn()
             .then(function () {
             Promise.all([
@@ -179,8 +181,6 @@ var CreateOrderPage = /** @class */ (function () {
                 _this.loadingOff();
             });
         });
-    }
-    CreateOrderPage.prototype.ngOnInit = function () {
     };
     CreateOrderPage.prototype.getRemoteData = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -261,7 +261,7 @@ var CreateOrderPage = /** @class */ (function () {
                             _this.products = products;
                         })
                             .catch(function (err) {
-                            console.log(err);
+                            console.error(err);
                         })];
                     case 1: 
                     // Get products from local source
@@ -277,21 +277,23 @@ var CreateOrderPage = /** @class */ (function () {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.dishesService.getLocalDishes()
                             .then(function (dishes) {
-                            console.log('Dishes geted');
-                            console.log(dishes);
                             _this.dishes = dishes;
                         })
                             .catch(function (err) {
-                            console.log(err);
+                            console.error(err);
                         })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    CreateOrderPage.prototype.addPartialOrderProduct = function (product) {
+    CreateOrderPage.prototype.addPartialProductOrder = function (product) {
         this.order.price_order += product.price_per_unit;
         this.order.products.push(product);
+    };
+    CreateOrderPage.prototype.addPartialDishOrder = function (dish) {
+        this.order.price_order += dish.price;
+        this.order.dishes.push(dish);
     };
     CreateOrderPage.prototype.createOrder = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -341,9 +343,13 @@ var CreateOrderPage = /** @class */ (function () {
             });
         });
     };
-    CreateOrderPage.prototype.deletePartialOrderProduct = function (product, index) {
+    CreateOrderPage.prototype.deletePartialProductOrder = function (product, index) {
         this.order.price_order -= product.price_per_unit;
         this.order.products.splice(index, 1);
+    };
+    CreateOrderPage.prototype.deletePartialDishOrder = function (dish, index) {
+        this.order.price_order -= dish.price;
+        this.order.dishes.splice(index, 1);
     };
     CreateOrderPage.prototype.deletePartialOrder = function () {
         this.order = new src_models_order_model__WEBPACK_IMPORTED_MODULE_5__["Order"]();
@@ -358,7 +364,7 @@ var CreateOrderPage = /** @class */ (function () {
                         this.order.sale_date = new Date();
                         return [4 /*yield*/, this.toastController.create({
                                 message: 'Orden creada correctamente',
-                                duration: 3000
+                                duration: 5000
                             })];
                     case 1:
                         toast = _a.sent();

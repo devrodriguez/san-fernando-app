@@ -23,12 +23,21 @@
           <h4 text-center>Orden</h4>
         </ion-list-header>
         <ion-list>
+          <ion-item *ngFor="let dish of order.dishes;let i = index" class="picture-animated fade-in">
+            <ion-thumbnail item-start>
+              <img [src]="dish.img_url">
+            </ion-thumbnail>
+            <ion-label padding-start>{{dish.name}}</ion-label>
+            <ion-button item-end shape="round" color="danger" (click)="deletePartialDishOrder(dish, i)">
+              <ion-icon name="trash"></ion-icon>
+            </ion-button>
+          </ion-item>
           <ion-item *ngFor="let product of order.products;let i = index" class="picture-animated fade-in">
             <ion-thumbnail item-start>
               <img [src]="product.image_url">
             </ion-thumbnail>
             <ion-label padding-start>{{product.name}}</ion-label>
-            <ion-button item-end shape="round" color="danger" (click)="deletePartialOrderProduct(product, i)">
+            <ion-button item-end shape="round" color="danger" (click)="deletePartialProductOrder(product, i)">
               <ion-icon name="trash"></ion-icon>
             </ion-button>
           </ion-item>
@@ -40,8 +49,9 @@
           <ion-grid>
             <ion-row>
               <ion-col *ngFor="let dish of dishes" size="12" size-sm="6" size-md="4">
-                <ion-card class="picture-animated fade-in" (click)="addPartialOrderDish(dish)">
-                  <ion-img [src]="dish.image_url"></ion-img>
+                <ion-card class="picture-animated fade-in" (click)="addPartialDishOrder(dish)">
+                    <ion-badge color="success" style="position: absolute;top:5px;left:5px;">{{dish.price | currency:'COP':'$':'1.0'}}</ion-badge>
+                  <ion-img [src]="dish.img_url"></ion-img>
                   <ion-card-content>
                     <ion-card-subtitle>
                       {{dish.name}}
@@ -50,8 +60,8 @@
                 </ion-card>
               </ion-col>
               <ion-col *ngFor="let product of products" size="12" size-sm="6" size-md="4">
-                <ion-card class="picture-animated fade-in" (click)="addPartialOrderProduct(product)" style="position: relative;">
-                  <ion-badge color="secondary" style="position: absolute;top:5px;left:5px;">{{product.price_per_unit | currency:'COP':'$':'1.0'}}</ion-badge>
+                <ion-card class="picture-animated fade-in" (click)="addPartialProductOrder(product)" style="position: relative;">
+                  <ion-badge color="success" style="position: absolute;top:5px;left:5px;">{{product.price_per_unit | currency:'COP':'$':'1.0'}}</ion-badge>
                   <ion-img [src]="product.image_url"></ion-img>
                   <ion-card-content>
                     <ion-card-subtitle text-center>

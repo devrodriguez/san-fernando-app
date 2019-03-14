@@ -3,6 +3,8 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { Order } from 'src/models/order.model';
 import { Product } from 'src/models/product.model';
 import { ProductService } from '../product/product.service';
+import { DishModel } from 'src/models/dish.model';
+import { DishesService } from '../dishes/dishes.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,7 @@ export class OrderService {
   private conn: SQLiteObject;
   private isOpen: boolean;
 
-  constructor(private sqlite: SQLite, private productService: ProductService) {
+  constructor(private sqlite: SQLite, private dishService: DishesService, private productService: ProductService) {
     console.log('Product service constructor');
 
     if(!this.isOpen) {
@@ -35,7 +37,7 @@ export class OrderService {
         });
 
         //Create OrderDetail table
-        this.conn.executeSql('CREATE TABLE IF NOT EXISTS OrderDetail(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, order_id NUMBER, product_id NUMBER)', [])
+        this.conn.executeSql('CREATE TABLE IF NOT EXISTS OrderDetail(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, order_id NUMBER, dish_id NUMBER, product_id NUMBER)', [])
         .then(data => {
           console.log('Se creo la tabla [OrderDetail]');
         })
@@ -57,9 +59,8 @@ export class OrderService {
         console.log('Data order');
         console.log(dataOrder.insertId);
 
+        // Insert products
         order.products.forEach((product: Product) => {
-          console.log(dataOrder.insertId);
-          console.log(product.id);
 
           this.conn.executeSql('INSERT INTO OrderDetail(order_id, product_id) VALUES(?, ?)', [dataOrder.insertId, product.id])
           .then(data => {
@@ -67,6 +68,17 @@ export class OrderService {
           })
           .catch(err => {
             console.log('OrderDetail error');
+          });
+        });
+
+        // Insert dishes
+        order.dishes.forEach((dish: DishModel) => {
+          this.conn.executeSql('INSERT INTO OrderDetail(order_id, dish_id) VALUES(?, ?)', [dataOrder.insertId, dish.id])
+          .then(data => {
+            console.log('Dish inserted in order');
+          })
+          .catch(err => {
+            console.log('Error on insert dish on order');
           });
         });
 
@@ -107,23 +119,33 @@ export class OrderService {
     return new Promise((resolve, reject) => {
       console.log(orderId);
       this.conn.executeSql('SELECT * FROM OrderDetail WHERE order_id = ?', [orderId])
-      .then(ordDetailProd => {
-        let products: Array<Product> = new Array<Product>();
+      .then(ordDetail => {
+        let products: Product[] = [];
+        let dishes: DishModel[] = [];
 
-        for(var i = 0; i < ordDetailProd.rows.length; i++) {
-          this.productService.getProduct(ordDetailProd.rows.item(i).product_id)
-          .then((product: Product) => {
-            products.push(product);
-          })
-          .catch(err => {
-            console.log(err);
-          })
+        for(var i = 0; i < ordDetail.rows.length; i++) {
+          if(ordDetail.rows.item(i).product_id){
+            this.productService.getProduct(ordDetail.rows.item(i).product_id)
+            .then((product: Product) => {
+              products.push(product);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          }
+          else
+          {
+            this.dishService.getDish(ordDetail.rows.item(i).dish_id)
+            .then((dish: DishModel) => {
+              dishes.push(dish);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          }
         }
 
-        console.log('Products');
-        console.log(products);
-
-        resolve(products);
+        resolve([dishes, products]);
       })
       .catch(err => {
         reject(err);

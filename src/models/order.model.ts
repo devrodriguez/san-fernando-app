@@ -10,6 +10,7 @@ export class Order {
 
     constructor() {
         this.products = new Array<Product>();
+        this.dishes = new Array<DishModel>();
         this.price_order = 0;
     }
 }

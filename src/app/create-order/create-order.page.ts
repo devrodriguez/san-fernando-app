@@ -20,7 +20,7 @@ export class CreateOrderPage implements OnInit {
   order: Order = new Order();
   dataLocal: boolean = false;
   products: Product[] = [];
-  dishes: any[] = [];
+  dishes: DishModel[] = [];
   loading: any;
   
   constructor(public alertController: AlertController, 
@@ -30,26 +30,26 @@ export class CreateOrderPage implements OnInit {
               public productService: ProductService,
               private dishesService: DishesService,
               private currencyPipe: CurrencyPipe) { 
-                this.loadingOn()
-                .then(() => {
-                  Promise.all([
-                    this.getLocalProducts(),
-                    this.getLocalDishes()
-                  ])
-                  .then(data => {
-                    console.log(data);
-                  })
-                  .catch(err => {
-                    console.error('Error on load data');
-                  })
-                  .finally(() => {
-                    this.loadingOff();
-                  });
-                });
+                
               }
 
   ngOnInit() {
-    
+    this.loadingOn()
+      .then(() => {
+        Promise.all([
+          this.getLocalProducts(),
+          this.getLocalDishes()
+        ])
+        .then(data => {
+          console.log(data);
+        })
+        .catch(err => {
+          console.error('Error on load data');
+        })
+        .finally(() => {
+          this.loadingOff();
+        });
+      });
   }
 
   async getRemoteData() {
@@ -120,28 +120,26 @@ export class CreateOrderPage implements OnInit {
       this.products = products;
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
     });
   }
 
   async getLocalDishes() {
     return await this.dishesService.getLocalDishes()
     .then((dishes: DishModel[]) => {
-      console.log('Dishes geted');
-      console.log(dishes);
       this.dishes = dishes;
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
     });
   }
 
-  addPartialOrderProduct(product: Product) {
+  addPartialProductOrder(product: Product) {
     this.order.price_order += product.price_per_unit;
     this.order.products.push(product);
   }
 
-  addPartialOrderDish(dish: DishModel) {
+  addPartialDishOrder(dish: DishModel) {
     this.order.price_order += dish.price;
     this.order.dishes.push(dish);
   }
@@ -181,9 +179,14 @@ export class CreateOrderPage implements OnInit {
     await alertCreateOrder.present();
   }
 
-  deletePartialOrderProduct(product: Product, index: any) {
+  deletePartialProductOrder(product: Product, index: number) {
     this.order.price_order -= product.price_per_unit;
     this.order.products.splice(index, 1);
+  }
+
+  deletePartialDishOrder(dish: DishModel, index: number) {
+    this.order.price_order -= dish.price;
+    this.order.dishes.splice(index, 1);
   }
 
   deletePartialOrder() {
@@ -195,7 +198,7 @@ export class CreateOrderPage implements OnInit {
 
     const toast = await this.toastController.create({
       message: 'Orden creada correctamente',
-      duration: 3000
+      duration: 5000
     });
 
     this.orderService.addLocalOrder(this.order)

@@ -62,7 +62,7 @@ var OrderPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <ion-buttons slot=\"start\">\r\n      <ion-back-button></ion-back-button>\r\n    </ion-buttons>\r\n    <ion-title>Orden</ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n  <ion-list>\r\n    <ion-item *ngFor=\"let product of products\">\r\n      <ion-label>{{product.name}}</ion-label>\r\n    </ion-item>\r\n  </ion-list>\r\n</ion-content>\r\n"
+module.exports = "<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <ion-buttons slot=\"start\">\r\n      <ion-back-button></ion-back-button>\r\n    </ion-buttons>\r\n    <ion-title>Orden</ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content padding>\r\n  <ion-list>\r\n    <ion-list-header color=\"secondary\" text>\r\n        Platos\r\n    </ion-list-header>\r\n    <ion-item *ngFor=\"let dish of dishes\">\r\n      {{dish.name}}\r\n    </ion-item>\r\n  </ion-list>\r\n  <ion-list>\r\n    <ion-list-header color=\"secondary\">\r\n      Productos\r\n    </ion-list-header>\r\n    <ion-item *ngFor=\"let product of products\">\r\n      <ion-label>{{product.name}}</ion-label>\r\n    </ion-item>\r\n  </ion-list>\r\n</ion-content>\r\n"
 
 /***/ }),
 
@@ -146,6 +146,7 @@ var OrderPage = /** @class */ (function () {
         this.route = route;
         this.loadingController = loadingController;
         this.products = new Array();
+        this.dishes = [];
         this.loadingOn()
             .then(function () {
             _this.getOrderDetail();
@@ -156,12 +157,15 @@ var OrderPage = /** @class */ (function () {
         var _this = this;
         this.route.paramMap.subscribe(function (params) {
             _this.orderService.getLocalOrderDetail(params.get('orderId'))
-                .then(function (orderDetail) {
-                _this.loadingOff();
-                _this.products = orderDetail;
+                .then(function (data) {
+                _this.dishes = data[0];
+                _this.products = data[1];
             })
                 .catch(function (err) {
                 console.log(err);
+            })
+                .finally(function () {
+                _this.loadingOff();
             });
         });
     };

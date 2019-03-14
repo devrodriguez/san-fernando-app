@@ -1,4 +1,4 @@
-#Mon Mar 11 23:32:16 COT 2019
+#Wed Mar 13 22:56:13 COT 2019
 base.0=C\:\\swprojects\\san-fernando-app\\platforms\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\19
 path.0=classes.dex
 renamed.0=classes.dex

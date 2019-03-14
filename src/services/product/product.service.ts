@@ -81,9 +81,6 @@ export class ProductService {
       .then(data => {
         let products: Product[] = [];
 
-        console.log('Products geted');
-        console.log(data);
-
         for(var i = 0; i < data.rows.length; i++){
           products.push(new Product(
             Number(data.rows.item(i).id),
@@ -91,9 +88,9 @@ export class ProductService {
             data.rows.item(i).code,
             data.rows.item(i).description,
             Number(data.rows.item(i).price_per_unit),
-            data.rows.item(i).image_url
+            /*data.rows.item(i).image_url*/
+            "/assets/img/products/pechuga.jpg"
           ));
-          console.log(products);
         }
 
         resolve(products);
