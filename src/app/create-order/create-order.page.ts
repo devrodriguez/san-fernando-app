@@ -80,8 +80,8 @@ export class CreateOrderPage implements OnInit {
             product.name,
             product.code,
             product.description,
-            product.price_per_unit,
-            product.image_url
+            product.price,
+            product.img_url
           ));
         });          
       })
@@ -135,7 +135,7 @@ export class CreateOrderPage implements OnInit {
   }
 
   addPartialProductOrder(product: Product) {
-    this.order.price_order += product.price_per_unit;
+    this.order.price_order += product.price;
     this.order.products.push(product);
   }
 
@@ -180,7 +180,7 @@ export class CreateOrderPage implements OnInit {
   }
 
   deletePartialProductOrder(product: Product, index: number) {
-    this.order.price_order -= product.price_per_unit;
+    this.order.price_order -= product.price;
     this.order.products.splice(index, 1);
   }
 

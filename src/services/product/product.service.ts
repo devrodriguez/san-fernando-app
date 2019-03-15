@@ -24,7 +24,7 @@ export class ProductService {
 
         this.conn = conn;
         
-        this.conn.executeSql('CREATE TABLE IF NOT EXISTS Products(id INTEGER, name VARCHAR(250), code VARCHAR(100), description VARCHAR(250), price_per_unit DECIMAL(18, 2), image_url VARCHAR(500))', [])
+        this.conn.executeSql('CREATE TABLE IF NOT EXISTS Products(id INTEGER, name VARCHAR(250), code VARCHAR(100), description VARCHAR(250), price DECIMAL(18, 2), img_url VARCHAR(500))', [])
         .then(data => {
           console.log('Table products created');
         })
@@ -46,7 +46,7 @@ export class ProductService {
 
   addProduct(product: Product) {
     return new Promise((resolve, reject) => {
-      this.conn.executeSql('INSERT INTO Products (id, name, code, description, price_per_unit, image_url) VALUES(?,?,?,?,?,?)', [product.id, product.name, product.code, product.description, product.price_per_unit, product.image_url])
+      this.conn.executeSql('INSERT INTO Products (id, name, code, description, price, img_url) VALUES(?,?,?,?,?,?)', [product.id, product.name, product.code, product.description, product.price, product.img_url])
       .then(data => {
         console.log('Producto insertado');
         resolve(data);
@@ -87,8 +87,8 @@ export class ProductService {
             data.rows.item(i).name,
             data.rows.item(i).code,
             data.rows.item(i).description,
-            Number(data.rows.item(i).price_per_unit),
-            /*data.rows.item(i).image_url*/
+            Number(data.rows.item(i).price),
+            /*data.rows.item(i).img_url*/
             "/assets/img/products/pechuga.jpg"
           ));
         }
@@ -111,8 +111,8 @@ export class ProductService {
           data.rows.item(0).name,
           data.rows.item(0).code,
           data.rows.item(0).description,
-          Number(data.rows.item(0).price_per_unit),
-          data.rows.item(0).image_url
+          Number(data.rows.item(0).price),
+          data.rows.item(0).img_url
         );
         resolve(product);
       })

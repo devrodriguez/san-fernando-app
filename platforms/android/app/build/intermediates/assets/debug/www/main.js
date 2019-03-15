@@ -1209,13 +1209,13 @@ var Order = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Product", function() { return Product; });
 var Product = /** @class */ (function () {
-    function Product(id, name, code, description, price_per_unit, image_url) {
+    function Product(id, name, code, description, price, img_url) {
         this.id = id;
         this.name = name;
         this.code = code;
         this.description = description;
-        this.price_per_unit = price_per_unit;
-        this.image_url = image_url;
+        this.price = price;
+        this.img_url = img_url;
     }
     return Product;
 }());
@@ -1557,7 +1557,7 @@ var ProductService = /** @class */ (function () {
                 .then(function (conn) {
                 console.log('Order db connection created');
                 _this.conn = conn;
-                _this.conn.executeSql('CREATE TABLE IF NOT EXISTS Products(id INTEGER, name VARCHAR(250), code VARCHAR(100), description VARCHAR(250), price_per_unit DECIMAL(18, 2), image_url VARCHAR(500))', [])
+                _this.conn.executeSql('CREATE TABLE IF NOT EXISTS Products(id INTEGER, name VARCHAR(250), code VARCHAR(100), description VARCHAR(250), price DECIMAL(18, 2), img_url VARCHAR(500))', [])
                     .then(function (data) {
                     console.log('Table products created');
                 })
@@ -1576,7 +1576,7 @@ var ProductService = /** @class */ (function () {
     ProductService.prototype.addProduct = function (product) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.conn.executeSql('INSERT INTO Products (id, name, code, description, price_per_unit, image_url) VALUES(?,?,?,?,?,?)', [product.id, product.name, product.code, product.description, product.price_per_unit, product.image_url])
+            _this.conn.executeSql('INSERT INTO Products (id, name, code, description, price, img_url) VALUES(?,?,?,?,?,?)', [product.id, product.name, product.code, product.description, product.price, product.img_url])
                 .then(function (data) {
                 console.log('Producto insertado');
                 resolve(data);
@@ -1608,8 +1608,8 @@ var ProductService = /** @class */ (function () {
                 .then(function (data) {
                 var products = [];
                 for (var i = 0; i < data.rows.length; i++) {
-                    products.push(new src_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(i).id), data.rows.item(i).name, data.rows.item(i).code, data.rows.item(i).description, Number(data.rows.item(i).price_per_unit), 
-                    /*data.rows.item(i).image_url*/
+                    products.push(new src_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(i).id), data.rows.item(i).name, data.rows.item(i).code, data.rows.item(i).description, Number(data.rows.item(i).price), 
+                    /*data.rows.item(i).img_url*/
                     "/assets/img/products/pechuga.jpg"));
                 }
                 resolve(products);
@@ -1625,7 +1625,7 @@ var ProductService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             _this.conn.executeSql('SELECT * FROM Products WHERE id = ?', [id])
                 .then(function (data) {
-                var product = new src_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(0).id), data.rows.item(0).name, data.rows.item(0).code, data.rows.item(0).description, Number(data.rows.item(0).price_per_unit), data.rows.item(0).image_url);
+                var product = new src_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(0).id), data.rows.item(0).name, data.rows.item(0).code, data.rows.item(0).description, Number(data.rows.item(0).price), data.rows.item(0).img_url);
                 resolve(product);
             })
                 .catch(function (err) {
@@ -1653,7 +1653,7 @@ var ProductService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\swprojects\san-fernando-app\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! c:\swprojects\san-fernando-app\src\main.ts */"./src/main.ts");
 
 
 /***/ })
