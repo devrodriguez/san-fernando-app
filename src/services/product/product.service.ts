@@ -20,8 +20,6 @@ export class ProductService {
       this.sqlite.create({ name: 'data.db', location: 'default' })
       .then((conn: SQLiteObject) => {
 
-        console.log('Order db connection created');
-
         this.conn = conn;
         
         this.conn.executeSql('CREATE TABLE IF NOT EXISTS Products(id INTEGER, name VARCHAR(250), code VARCHAR(100), description VARCHAR(250), price DECIMAL(18, 2), img_url VARCHAR(500))', [])
@@ -41,20 +39,11 @@ export class ProductService {
   }
 
   ngOnInit(): void {
-    
+
   }
 
   addProduct(product: Product) {
-    return new Promise((resolve, reject) => {
-      this.conn.executeSql('INSERT INTO Products (id, name, code, description, price, img_url) VALUES(?,?,?,?,?,?)', [product.id, product.name, product.code, product.description, product.price, product.img_url])
-      .then(data => {
-        console.log('Producto insertado');
-        resolve(data);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return this.conn.executeSql('INSERT INTO Products (id, name, code, description, price, img_url) VALUES(?,?,?,?,?,?)', [product.id, product.name, product.code, product.description, product.price, product.img_url]);
   }
 
   deleteProducts() {
@@ -70,14 +59,12 @@ export class ProductService {
   }
 
   getProducts() {
-    return this.http.get('http://192.168.0.23:8000/api/products');
+    return this.http.get('http://192.168.0.27:8000/api/products');
   }
 
-  getLocalProducts() {
-    
-    return new Promise((resolve, reject) => {
-
-      this.conn.executeSql('SELECT * FROM Products', [])
+  async getLocalProducts() {
+    return await new Promise(async (resolve, reject) => {
+      await this.conn.executeSql('SELECT id, name, code, description, price, img_url FROM Products ORDER BY name ASC', [])
       .then(data => {
         let products: Product[] = [];
 

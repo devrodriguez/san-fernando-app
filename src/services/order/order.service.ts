@@ -6,6 +6,8 @@ import { ProductService } from '../product/product.service';
 import { DishModel } from 'src/models/dish.model';
 import { DishesService } from '../dishes/dishes.service';
 
+import * as moment from 'moment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,9 +16,10 @@ export class OrderService {
   private conn: SQLiteObject;
   private isOpen: boolean;
 
-  constructor(private sqlite: SQLite, private dishService: DishesService, private productService: ProductService) {
-    console.log('Product service constructor');
-
+  constructor(private sqlite: SQLite, 
+              private dishService: DishesService, 
+              private productService: ProductService) {
+    
     if(!this.isOpen) {
       this.sqlite = new SQLite();
 
@@ -27,7 +30,7 @@ export class OrderService {
         console.log('Order db connection created');
         
         //Create Orders table
-        this.conn.executeSql('CREATE TABLE IF NOT EXISTS Orders(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, sale_date VARCHAR(100), price_order DECIMAL(18, 2))', [])
+        this.conn.executeSql('CREATE TABLE IF NOT EXISTS Orders(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, sale_date DATE, price_order DECIMAL(18, 2), payment_method VARCHAR(5))', [])
         .then(data => {
           console.log('Se creo la tabla Orders');
         })
@@ -52,12 +55,10 @@ export class OrderService {
   }
 
   addLocalOrder(order: Order) {
+    console.log(order.sale_date);
     return new Promise((resolve, reject) => {
-      this.conn.executeSql('INSERT INTO Orders(sale_date, price_order) VALUES(?, ?)', [order.sale_date, order.price_order])
+      this.conn.executeSql('INSERT INTO Orders(sale_date, price_order, payment_method) VALUES(?, ?, ?)', [order.sale_date, order.price_order, order.payment_method])
       .then(dataOrder => {
-        // Insert Order Detail
-        console.log('Data order');
-        console.log(dataOrder.insertId);
 
         // Insert products
         order.products.forEach((product: Product) => {
@@ -67,7 +68,7 @@ export class OrderService {
             console.log('OrderDetail data inserted');
           })
           .catch(err => {
-            console.log('OrderDetail error');
+            console.error('OrderDetail error');
           });
         });
 
@@ -78,7 +79,7 @@ export class OrderService {
             console.log('Dish inserted in order');
           })
           .catch(err => {
-            console.log('Error on insert dish on order');
+            console.error('Error on insert dish on order');
           });
         });
 
@@ -90,20 +91,24 @@ export class OrderService {
     });
   }
 
-  getLocalOrders() {
-
+  getLocalOrders(date?: string) {
+    
     return new Promise((resolve, reject) => {
 
-      this.conn.executeSql('SELECT * FROM Orders', [])
+      let query: string = "SELECT id, strftime('%d/%m/%Y %H:%M:%S', sale_date) sale_date, price_order, payment_method FROM Orders WHERE strftime('%Y-%m-%d', sale_date) = '" + date + "' ORDER BY sale_date ASC";
+      
+      this.conn.executeSql(query, [])
       .then(orders => {
 
-        let newOrders: Array<Order> = new Array<Order>();
+        let newOrders: Order[] = [];
 
         for(var i = 0; i < orders.rows.length; i++) {
           let newOrder: Order = new Order();
           newOrder.id = orders.rows.item(i).id;
           newOrder.sale_date = orders.rows.item(i).sale_date;
           newOrder.price_order = orders.rows.item(i).price_order;
+          newOrder.payment_method = orders.rows.item(i).payment_method;
+          console.log('Date: ', orders.rows.item(i).sale_date);
           newOrders.push(newOrder);
         }
         

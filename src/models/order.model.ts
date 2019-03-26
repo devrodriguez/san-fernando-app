@@ -6,7 +6,8 @@ export class Order {
     price_order: number;
     products: Product[];
     dishes: DishModel[];
-    sale_date: Date;
+    sale_date: string;
+    payment_method: string;
 
     constructor() {
         this.products = new Array<Product>();

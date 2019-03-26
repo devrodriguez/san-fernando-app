@@ -839,6 +839,8 @@ module.exports = webpackAsyncContext;
 var map = {
 	"./create-order/create-order.module": [
 		"./src/app/create-order/create-order.module.ts",
+		"default~create-order-create-order-module~orders-orders-module",
+		"common",
 		"create-order-create-order-module"
 	],
 	"./home/home.module": [
@@ -851,6 +853,8 @@ var map = {
 	],
 	"./orders/orders.module": [
 		"./src/app/orders/orders.module.ts",
+		"default~create-order-create-order-module~orders-orders-module",
+		"common",
 		"orders-orders-module"
 	]
 };
@@ -863,7 +867,7 @@ function webpackAsyncContext(req) {
 			throw e;
 		});
 	}
-	return __webpack_require__.e(ids[1]).then(function() {
+	return Promise.all(ids.slice(1).map(__webpack_require__.e)).then(function() {
 		var id = ids[0];
 		return __webpack_require__(id);
 	});
@@ -1247,6 +1251,41 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 
 
 
@@ -1279,7 +1318,7 @@ var DishesService = /** @class */ (function () {
     DishesService.prototype.ngOnInit = function () {
     };
     DishesService.prototype.getDishes = function () {
-        return this.http.get('http://192.168.0.23:8000/api/dishes');
+        return this.http.get('http://192.168.0.27:8000/api/dishes');
     };
     DishesService.prototype.getLocalDishes = function () {
         var _this = this;
@@ -1302,7 +1341,7 @@ var DishesService = /** @class */ (function () {
     DishesService.prototype.getDish = function (id) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.conn.executeSql('SELECT * FROM Dishes WHERE id = ?', [id])
+            _this.conn.executeSql('SELECT id, name, price, img_url FROM Dishes WHERE id = ? ORDER BY name ASC', [id])
                 .then(function (data) {
                 var dishes = new src_models_dish_model__WEBPACK_IMPORTED_MODULE_3__["DishModel"](Number(data.rows.item(0).id), data.rows.item(0).name, Number(data.rows.item(0).price), data.rows.item(0).img_url);
                 resolve(dishes);
@@ -1326,16 +1365,28 @@ var DishesService = /** @class */ (function () {
         });
     };
     DishesService.prototype.deleteDishes = function () {
-        var _this = this;
-        console.log('Deleting dishes');
-        return new Promise(function (resolve, reject) {
-            _this.conn.executeSql('DELETE FROM Dishes', [])
-                .then(function (data) {
-                console.log('Dishes deleted');
-                resolve(data);
-            })
-                .catch(function (err) {
-                reject(err);
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, this.conn.executeSql('DELETE FROM Dishes', [])
+                                            .then(function (data) {
+                                            resolve(data);
+                                        })
+                                            .catch(function (err) {
+                                            reject(err);
+                                        })];
+                                    case 1:
+                                        _a.sent();
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
             });
         });
     };
@@ -1387,7 +1438,6 @@ var OrderService = /** @class */ (function () {
         this.sqlite = sqlite;
         this.dishService = dishService;
         this.productService = productService;
-        console.log('Product service constructor');
         if (!this.isOpen) {
             this.sqlite = new _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_1__["SQLite"]();
             this.sqlite.create({ name: 'data.db', location: 'default' })
@@ -1395,7 +1445,7 @@ var OrderService = /** @class */ (function () {
                 _this.conn = conn;
                 console.log('Order db connection created');
                 //Create Orders table
-                _this.conn.executeSql('CREATE TABLE IF NOT EXISTS Orders(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, sale_date VARCHAR(100), price_order DECIMAL(18, 2))', [])
+                _this.conn.executeSql('CREATE TABLE IF NOT EXISTS Orders(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, sale_date DATE, price_order DECIMAL(18, 2), payment_method VARCHAR(5))', [])
                     .then(function (data) {
                     console.log('Se creo la tabla Orders');
                 })
@@ -1418,12 +1468,10 @@ var OrderService = /** @class */ (function () {
     }
     OrderService.prototype.addLocalOrder = function (order) {
         var _this = this;
+        console.log(order.sale_date);
         return new Promise(function (resolve, reject) {
-            _this.conn.executeSql('INSERT INTO Orders(sale_date, price_order) VALUES(?, ?)', [order.sale_date, order.price_order])
+            _this.conn.executeSql('INSERT INTO Orders(sale_date, price_order, payment_method) VALUES(?, ?, ?)', [order.sale_date, order.price_order, order.payment_method])
                 .then(function (dataOrder) {
-                // Insert Order Detail
-                console.log('Data order');
-                console.log(dataOrder.insertId);
                 // Insert products
                 order.products.forEach(function (product) {
                     _this.conn.executeSql('INSERT INTO OrderDetail(order_id, product_id) VALUES(?, ?)', [dataOrder.insertId, product.id])
@@ -1431,7 +1479,7 @@ var OrderService = /** @class */ (function () {
                         console.log('OrderDetail data inserted');
                     })
                         .catch(function (err) {
-                        console.log('OrderDetail error');
+                        console.error('OrderDetail error');
                     });
                 });
                 // Insert dishes
@@ -1441,7 +1489,7 @@ var OrderService = /** @class */ (function () {
                         console.log('Dish inserted in order');
                     })
                         .catch(function (err) {
-                        console.log('Error on insert dish on order');
+                        console.error('Error on insert dish on order');
                     });
                 });
                 resolve(dataOrder);
@@ -1451,17 +1499,20 @@ var OrderService = /** @class */ (function () {
             });
         });
     };
-    OrderService.prototype.getLocalOrders = function () {
+    OrderService.prototype.getLocalOrders = function (date) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.conn.executeSql('SELECT * FROM Orders', [])
+            var query = "SELECT id, strftime('%d/%m/%Y %H:%M:%S', sale_date) sale_date, price_order, payment_method FROM Orders WHERE strftime('%Y-%m-%d', sale_date) = '" + date + "' ORDER BY sale_date ASC";
+            _this.conn.executeSql(query, [])
                 .then(function (orders) {
-                var newOrders = new Array();
+                var newOrders = [];
                 for (var i = 0; i < orders.rows.length; i++) {
                     var newOrder = new src_models_order_model__WEBPACK_IMPORTED_MODULE_2__["Order"]();
                     newOrder.id = orders.rows.item(i).id;
                     newOrder.sale_date = orders.rows.item(i).sale_date;
                     newOrder.price_order = orders.rows.item(i).price_order;
+                    newOrder.payment_method = orders.rows.item(i).payment_method;
+                    console.log('Date: ', orders.rows.item(i).sale_date);
                     newOrders.push(newOrder);
                 }
                 resolve(newOrders);
@@ -1510,7 +1561,9 @@ var OrderService = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
         }),
-        __metadata("design:paramtypes", [_ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_1__["SQLite"], _dishes_dishes_service__WEBPACK_IMPORTED_MODULE_4__["DishesService"], _product_product_service__WEBPACK_IMPORTED_MODULE_3__["ProductService"]])
+        __metadata("design:paramtypes", [_ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_1__["SQLite"],
+            _dishes_dishes_service__WEBPACK_IMPORTED_MODULE_4__["DishesService"],
+            _product_product_service__WEBPACK_IMPORTED_MODULE_3__["ProductService"]])
     ], OrderService);
     return OrderService;
 }());
@@ -1542,6 +1595,41 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 
 
 
@@ -1555,7 +1643,6 @@ var ProductService = /** @class */ (function () {
             this.sqlite = new _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_2__["SQLite"]();
             this.sqlite.create({ name: 'data.db', location: 'default' })
                 .then(function (conn) {
-                console.log('Order db connection created');
                 _this.conn = conn;
                 _this.conn.executeSql('CREATE TABLE IF NOT EXISTS Products(id INTEGER, name VARCHAR(250), code VARCHAR(100), description VARCHAR(250), price DECIMAL(18, 2), img_url VARCHAR(500))', [])
                     .then(function (data) {
@@ -1574,17 +1661,7 @@ var ProductService = /** @class */ (function () {
     ProductService.prototype.ngOnInit = function () {
     };
     ProductService.prototype.addProduct = function (product) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.conn.executeSql('INSERT INTO Products (id, name, code, description, price, img_url) VALUES(?,?,?,?,?,?)', [product.id, product.name, product.code, product.description, product.price, product.img_url])
-                .then(function (data) {
-                console.log('Producto insertado');
-                resolve(data);
-            })
-                .catch(function (error) {
-                reject(error);
-            });
-        });
+        return this.conn.executeSql('INSERT INTO Products (id, name, code, description, price, img_url) VALUES(?,?,?,?,?,?)', [product.id, product.name, product.code, product.description, product.price, product.img_url]);
     };
     ProductService.prototype.deleteProducts = function () {
         var _this = this;
@@ -1599,24 +1676,38 @@ var ProductService = /** @class */ (function () {
         });
     };
     ProductService.prototype.getProducts = function () {
-        return this.http.get('http://192.168.0.23:8000/api/products');
+        return this.http.get('http://192.168.0.27:8000/api/products');
     };
     ProductService.prototype.getLocalProducts = function () {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.conn.executeSql('SELECT * FROM Products', [])
-                .then(function (data) {
-                var products = [];
-                for (var i = 0; i < data.rows.length; i++) {
-                    products.push(new src_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(i).id), data.rows.item(i).name, data.rows.item(i).code, data.rows.item(i).description, Number(data.rows.item(i).price), 
-                    /*data.rows.item(i).img_url*/
-                    "/assets/img/products/pechuga.jpg"));
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, this.conn.executeSql('SELECT id, name, code, description, price, img_url FROM Products ORDER BY name ASC', [])
+                                            .then(function (data) {
+                                            var products = [];
+                                            for (var i = 0; i < data.rows.length; i++) {
+                                                products.push(new src_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(i).id), data.rows.item(i).name, data.rows.item(i).code, data.rows.item(i).description, Number(data.rows.item(i).price), 
+                                                /*data.rows.item(i).img_url*/
+                                                "/assets/img/products/pechuga.jpg"));
+                                            }
+                                            resolve(products);
+                                        })
+                                            .catch(function (error) {
+                                            console.log('Error in product promise');
+                                            reject(error);
+                                        })];
+                                    case 1:
+                                        _a.sent();
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); })];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
-                resolve(products);
-            })
-                .catch(function (error) {
-                console.log('Error in product promise');
-                reject(error);
             });
         });
     };
@@ -1653,7 +1744,7 @@ var ProductService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! c:\swprojects\san-fernando-app\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\swprojects\san-fernando-app\src\main.ts */"./src/main.ts");
 
 
 /***/ })

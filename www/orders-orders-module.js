@@ -62,7 +62,7 @@ var OrdersPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>Ordenes</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n    <ion-item *ngFor=\"let order of orders\" (click)=\"showDetail(order)\">\n      <ion-label>{{order.sale_date | date:'dd/MM/yyyy h:mm a'}}</ion-label>\n      <p slot=\"end\">{{order.price_order | currency:'COP':'$':'1.0'}}</p>\n    </ion-item>\n  </ion-list>\n</ion-content>\n"
+module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>Ordenes</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <ion-item>\n    <ion-label>Fecha</ion-label>\n    <ion-datetime display-format=\"DD/MM/YYYY\" cancelText=\"Cancelar\" [(ngModel)]=\"orderDate\" (ionChange)=\"dateChange($event)\"></ion-datetime>\n  </ion-item>\n  <ion-list>\n    <ion-item *ngFor=\"let order of orders\" (click)=\"showDetail(order)\">\n      <ion-icon [name]=\"order.payment_method == 'E' ? 'cash' : order.payment_method == 'T' ? 'card' : 'bicycle'\" slot=\"start\"></ion-icon>\n      <ion-label>{{order.sale_date}}</ion-label>\n      <p slot=\"end\">{{order.price_order | currency:'COP':'$':'1.0'}}</p>\n    </ion-item>\n  </ion-list>\n</ion-content>\n"
 
 /***/ }),
 
@@ -91,6 +91,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_services_order_order_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/services/order/order.service */ "./src/services/order/order.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ionic/angular */ "./node_modules/@ionic/angular/dist/fesm5.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_4__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -139,33 +141,39 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var OrdersPage = /** @class */ (function () {
     function OrdersPage(orderService, router, loadingController) {
         this.orderService = orderService;
         this.router = router;
         this.loadingController = loadingController;
         this.orders = new Array();
+        this.orderDate = moment__WEBPACK_IMPORTED_MODULE_4__().toISOString();
     }
     OrdersPage.prototype.ngOnInit = function () {
         var _this = this;
         this.loadingOn()
             .then(function () {
-            _this.getOrders();
+            _this.getOrders(moment__WEBPACK_IMPORTED_MODULE_4__().format('YYYY-MM-DD'));
         });
     };
-    OrdersPage.prototype.getOrders = function () {
+    OrdersPage.prototype.getOrders = function (date) {
         var _this = this;
-        this.orderService.getLocalOrders()
+        this.orderService.getLocalOrders(date)
             .then(function (orders) {
             _this.orders = orders;
             _this.loadingOff();
         })
             .catch(function (err) {
-            console.log(err);
+            console.error(err);
         });
     };
     OrdersPage.prototype.showDetail = function (order) {
         this.router.navigate(['order', { orderId: order.id }]);
+    };
+    OrdersPage.prototype.dateChange = function (event) {
+        var date = moment__WEBPACK_IMPORTED_MODULE_4__(event.detail.value, 'YYYY-MM-DD').format('YYYY-MM-DD');
+        this.getOrders(date);
     };
     OrdersPage.prototype.loadingOn = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -201,7 +209,9 @@ var OrdersPage = /** @class */ (function () {
             template: __webpack_require__(/*! ./orders.page.html */ "./src/app/orders/orders.page.html"),
             styles: [__webpack_require__(/*! ./orders.page.scss */ "./src/app/orders/orders.page.scss")]
         }),
-        __metadata("design:paramtypes", [src_services_order_order_service__WEBPACK_IMPORTED_MODULE_1__["OrderService"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["LoadingController"]])
+        __metadata("design:paramtypes", [src_services_order_order_service__WEBPACK_IMPORTED_MODULE_1__["OrderService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["LoadingController"]])
     ], OrdersPage);
     return OrdersPage;
 }());

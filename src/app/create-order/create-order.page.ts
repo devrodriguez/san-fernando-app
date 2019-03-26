@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ToastController, LoadingController } from '@ionic/angular';
+import { AlertController, ToastController, LoadingController, ActionSheetController } from '@ionic/angular';
 
 import { ProductService } from 'src/services/product/product.service';
 import { OrderService } from 'src/services/order/order.service';
@@ -8,6 +8,8 @@ import { Order } from 'src/models/order.model';
 import { Product } from 'src/models/product.model';
 import { CurrencyPipe } from '@angular/common';
 import { DishModel } from 'src/models/dish.model';
+
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-create-order',
@@ -29,7 +31,8 @@ export class CreateOrderPage implements OnInit {
               public orderService: OrderService,
               public productService: ProductService,
               private dishesService: DishesService,
-              private currencyPipe: CurrencyPipe) { 
+              private currencyPipe: CurrencyPipe,
+              private actionSheetController: ActionSheetController) { 
                 
               }
 
@@ -52,38 +55,71 @@ export class CreateOrderPage implements OnInit {
       });
   }
 
-  async getRemoteData() {
-    return await this.loadingOn()
-    .then(() => {
-      Promise.all([
-        this.getRemoteProducts(),
-        this.getRemoteDishes()
+  getRemoteData() {
+    this.loadingOn()
+    .then(async () => {
+      await Promise.all([
+        this.getRemoteDishes(),
+        this.getRemoteProducts()
       ])
       .then(() => {
-        this.getLocalProducts();
-        this.getLocalDishes();
-      })
-      .finally(() => {
         this.loadingOff();
       });
+    })
+    .finally(() => {
+      this.loadingOff();
+    });
+  }
+
+  async getRemoteDishes() {
+    await this.dishesService.getDishes().subscribe(async (dishes: DishModel[]) => {
+      await this.dishesService.deleteDishes()
+      .then(async () => {
+        let promises = [];
+
+        dishes.forEach(async (dish) => {
+          promises.push(this.dishesService.addDish(new DishModel(
+            dish.id, 
+            dish.name, 
+            dish.price, 
+            dish.img_url
+          )));
+        });
+
+        await Promise.all(promises)
+        .then(async (data) => {
+          await this.getLocalDishes();
+        });
+      });
+    },
+    (error) => {
+      console.error(error);
     });
   }
 
   async getRemoteProducts() {
     // Get products from API source    
-    return await this.productService.getProducts().subscribe((products: Product[]) => {
-      this.productService.deleteProducts()
-      .then(() => {
-        products.forEach(product => {
-          this.productService.addProduct(new Product(
-            product.id,
-            product.name,
-            product.code,
-            product.description,
-            product.price,
-            product.img_url
-          ));
-        });          
+    await this.productService.getProducts().subscribe(async (products: Product[]) => {
+      await this.productService.deleteProducts()
+      .then(async () => {
+        let promises = [];
+
+        products.forEach((product) => {
+          promises.push(this.productService.addProduct(
+            new Product(
+              product.id,
+              product.name,
+              product.code,
+              product.description,
+              product.price,
+              product.img_url
+          )));
+        });
+        
+        await Promise.all(promises)
+        .then(async (data) => {
+          await this.getLocalProducts();
+        });
       })
       .catch(err => {
         console.log(err);
@@ -93,29 +129,10 @@ export class CreateOrderPage implements OnInit {
       this.loadingOff();
     });
   }
-  
-  async getRemoteDishes() {
-    return await this.dishesService.getDishes().subscribe((dishes: DishModel[]) => {
-      this.dishesService.deleteDishes()
-      .then(() => {
-        dishes.forEach(dish => {
-          this.dishesService.addDish(new DishModel(
-            dish.id, 
-            dish.name, 
-            dish.price, 
-            dish.img_url
-          ));
-        });
-      });
-    },
-    (error) => {
-      console.error(error);
-    });
-  }
 
   async getLocalProducts() {
     // Get products from local source
-    return await this.productService.getLocalProducts()
+    await this.productService.getLocalProducts()
     .then((products: Product[]) => {
       this.products = products;
     })
@@ -125,7 +142,7 @@ export class CreateOrderPage implements OnInit {
   }
 
   async getLocalDishes() {
-    return await this.dishesService.getLocalDishes()
+    await this.dishesService.getLocalDishes()
     .then((dishes: DishModel[]) => {
       this.dishes = dishes;
     })
@@ -156,6 +173,7 @@ export class CreateOrderPage implements OnInit {
       return;
     }
 
+    /*
     const alertCreateOrder = await this.alertController.create({
       header: 'Orden',
       subHeader: 'Informacion de su orden',
@@ -177,6 +195,32 @@ export class CreateOrderPage implements OnInit {
     });
 
     await alertCreateOrder.present();
+    */
+
+    this.presentActionSheet();
+  }
+
+  async alertDeliver() {
+    const deliver = await this.alertController.create({
+      header: 'Domiciliario',
+      message: 'Seleccione la empresa de domicilios',
+      buttons: [
+        {
+          text: 'Crear',
+          handler: () => {
+            this.confirmOrder();
+          }
+        }
+      ],
+      inputs: [
+        {
+          name: 'Rappi',
+          type: 'radio'
+        }
+      ]
+    });
+
+    deliver.present();
   }
 
   deletePartialProductOrder(product: Product, index: number) {
@@ -194,7 +238,7 @@ export class CreateOrderPage implements OnInit {
   }
 
   async confirmOrder() {
-    this.order.sale_date = new Date();
+    this.order.sale_date = moment().format('YYYY-MM-DD hh:mm:ss');
 
     const toast = await this.toastController.create({
       message: 'Orden creada correctamente',
@@ -223,6 +267,45 @@ export class CreateOrderPage implements OnInit {
 
   async loadingOff() {
     return await this.loading.dismiss();
+  }
+
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Metodo Pago',
+      buttons: [
+        {
+          text: 'Efectivo',
+          icon: 'cash',
+          handler: () => {
+            this.order.payment_method = 'E';
+            this.confirmOrder();
+          }
+        },
+        {
+          text: 'Tarjeta',
+          icon: 'card',
+          handler: () => {
+            this.order.payment_method = 'T';
+            this.confirmOrder();
+          }
+        },
+        {
+          text: 'Domicilio',
+          icon: 'bicycle',
+          handler: () => {
+            this.order.payment_method = 'D';
+            this.alertDeliver();
+          }
+        },
+        {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel'
+        }
+      ]
+    });
+
+    await actionSheet.present();
   }
 
 }

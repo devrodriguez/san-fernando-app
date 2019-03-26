@@ -8,9 +8,14 @@
 </ion-header>
 
 <ion-content>
+  <ion-item>
+    <ion-label>Fecha</ion-label>
+    <ion-datetime display-format="DD/MM/YYYY" cancelText="Cancelar" [(ngModel)]="orderDate" (ionChange)="dateChange($event)"></ion-datetime>
+  </ion-item>
   <ion-list>
     <ion-item *ngFor="let order of orders" (click)="showDetail(order)">
-      <ion-label>{{order.sale_date | date:'dd/MM/yyyy h:mm a'}}</ion-label>
+      <ion-icon [name]="order.payment_method == 'E' ? 'cash' : order.payment_method == 'T' ? 'card' : 'bicycle'" slot="start"></ion-icon>
+      <ion-label>{{order.sale_date}}</ion-label>
       <p slot="end">{{order.price_order | currency:'COP':'$':'1.0'}}</p>
     </ion-item>
   </ion-list>

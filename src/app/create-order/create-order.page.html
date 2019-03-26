@@ -19,9 +19,9 @@
     <ion-row>
       <!-- Order Detail -->
       <ion-col size="4">
-        <ion-list-header>
-          <h4 text-center>Orden</h4>
-        </ion-list-header>
+        <ion-item text-center *ngIf="order.dishes.length > 0 || order.products > 0">
+          <ion-label>Orden</ion-label>
+        </ion-item>
         <ion-list>
           <ion-item *ngFor="let dish of order.dishes;let i = index" class="picture-animated fade-in">
             <ion-thumbnail item-start>
@@ -44,34 +44,36 @@
         </ion-list>
         <ion-button color="danger" expand="full" (click)="deletePartialOrder()" *ngIf="order.price_order > 0">Eliminar Orden</ion-button>
       </ion-col>
-      <!-- Products -->
+      <!-- Dishes & Products -->
       <ion-col size="8">
-          <ion-grid>
-            <ion-row>
-              <ion-col *ngFor="let dish of dishes" size="12" size-sm="6" size-md="4">
-                <ion-card class="picture-animated fade-in" (click)="addPartialDishOrder(dish)">
-                    <ion-badge color="success" style="position: absolute;top:5px;left:5px;">{{dish.price | currency:'COP':'$':'1.0'}}</ion-badge>
-                  <ion-img [src]="dish.img_url"></ion-img>
-                  <ion-card-content>
-                    <ion-card-subtitle>
-                      {{dish.name}}
-                    </ion-card-subtitle>
-                  </ion-card-content>
-                </ion-card>
-              </ion-col>
-              <ion-col *ngFor="let product of products" size="12" size-sm="6" size-md="4">
-                <ion-card class="picture-animated fade-in" (click)="addPartialProductOrder(product)" style="position: relative;">
-                  <ion-badge color="success" style="position: absolute;top:5px;left:5px;">{{product.price | currency:'COP':'$':'1.0'}}</ion-badge>
-                  <ion-img [src]="product.img_url"></ion-img>
-                  <ion-card-content>
-                    <ion-card-subtitle text-center>
-                        {{product.name}}
-                    </ion-card-subtitle>
-                  </ion-card-content>
-                </ion-card>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
+          <div scrollY="true">
+            <ion-grid>
+                <ion-row>
+                  <ion-col *ngFor="let dish of dishes" size="12" size-sm="6" size-md="4">
+                    <ion-card class="picture-animated fade-in" (click)="addPartialDishOrder(dish)">
+                      <ion-badge color="success" style="position: absolute;top:5px;left:5px;">{{dish.price | currency:'COP':'$':'1.0'}}</ion-badge>
+                      <ion-img [src]="dish.img_url"></ion-img>
+                      <ion-card-content>
+                        <ion-card-subtitle>
+                          {{dish.name}}
+                        </ion-card-subtitle>
+                      </ion-card-content>
+                    </ion-card>
+                  </ion-col>
+                  <ion-col *ngFor="let product of products" size="12" size-sm="6" size-md="4">
+                    <ion-card class="picture-animated fade-in" (click)="addPartialProductOrder(product)" style="position: relative;">
+                      <ion-badge color="success" style="position: absolute;top:5px;left:5px;">{{product.price | currency:'COP':'$':'1.0'}}</ion-badge>
+                      <ion-img [src]="product.img_url"></ion-img>
+                      <ion-card-content>
+                        <ion-card-subtitle text-center>
+                            {{product.name}}
+                        </ion-card-subtitle>
+                      </ion-card-content>
+                    </ion-card>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+          </div>
       </ion-col>
     </ion-row>
   </ion-grid>

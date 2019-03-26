@@ -44,7 +44,7 @@ export class DishesService {
   }
 
   getDishes() {
-    return this.http.get('http://192.168.0.23:8000/api/dishes');
+    return this.http.get('http://192.168.0.27:8000/api/dishes');
   }
 
   getLocalDishes() {
@@ -73,7 +73,7 @@ export class DishesService {
 
   getDish(id: Number) {
     return new Promise((resolve, reject) => {
-      this.conn.executeSql('SELECT * FROM Dishes WHERE id = ?', [id])
+      this.conn.executeSql('SELECT id, name, price, img_url FROM Dishes WHERE id = ? ORDER BY name ASC', [id])
       .then(data => {
         let dishes: DishModel = new DishModel(
           Number(data.rows.item(0).id),
@@ -103,12 +103,11 @@ export class DishesService {
     })
   }
 
-  deleteDishes() {
-    console.log('Deleting dishes');
-    return new Promise((resolve, reject) => {
-      this.conn.executeSql('DELETE FROM Dishes', [])
+  async deleteDishes() {
+    
+    return await new Promise(async (resolve, reject) => {
+      await this.conn.executeSql('DELETE FROM Dishes', [])
       .then(data => {
-        console.log('Dishes deleted');
         resolve(data);
       })
       .catch(err => {
