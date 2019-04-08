@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { Product } from 'src/models/product.model';
+import { Util } from 'src/app/util';
+
 
 
 @Injectable({
@@ -11,6 +13,7 @@ export class ProductService {
 
   private conn: SQLiteObject;
   private isOpen: boolean;
+  private util: Util = new Util();
 
   constructor(private http: HttpClient, private sqlite: SQLite) {
     
@@ -59,7 +62,7 @@ export class ProductService {
   }
 
   getProducts() {
-    return this.http.get('http://192.168.0.27:8000/api/products');
+    return this.http.get(`${this.util.apiUrl}/products`);
   }
 
   async getLocalProducts() {
@@ -75,8 +78,7 @@ export class ProductService {
             data.rows.item(i).code,
             data.rows.item(i).description,
             Number(data.rows.item(i).price),
-            /*data.rows.item(i).img_url*/
-            "/assets/img/products/pechuga.jpg"
+            `${this.util.storageUrl}/${data.rows.item(i).code}`
           ));
         }
 

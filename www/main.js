@@ -1101,6 +1101,28 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/util.ts":
+/*!*************************!*\
+  !*** ./src/app/util.ts ***!
+  \*************************/
+/*! exports provided: Util */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Util", function() { return Util; });
+var Util = /** @class */ (function () {
+    function Util() {
+        this.apiUrl = "http://192.168.0.29:8000/api";
+        this.storageUrl = "http://192.168.0.29:8000/storage";
+    }
+    return Util;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/environments/environment.ts":
 /*!*****************************************!*\
   !*** ./src/environments/environment.ts ***!
@@ -1242,6 +1264,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "./node_modules/@ionic-native/sqlite/ngx/index.js");
 /* harmony import */ var src_models_dish_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/models/dish.model */ "./src/models/dish.model.ts");
+/* harmony import */ var src_app_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/util */ "./src/app/util.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1290,11 +1313,13 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var DishesService = /** @class */ (function () {
     function DishesService(http, sqlite) {
         var _this = this;
         this.http = http;
         this.sqlite = sqlite;
+        this.util = new src_app_util__WEBPACK_IMPORTED_MODULE_4__["Util"]();
         if (!this.isOpen) {
             this.sqlite = new _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_2__["SQLite"]();
             this.sqlite.create({ name: 'data.db', location: 'default' })
@@ -1318,7 +1343,8 @@ var DishesService = /** @class */ (function () {
     DishesService.prototype.ngOnInit = function () {
     };
     DishesService.prototype.getDishes = function () {
-        return this.http.get('http://192.168.0.27:8000/api/dishes');
+        console.log(this.util.apiUrl + "/dishes");
+        return this.http.get(this.util.apiUrl + "/dishes");
     };
     DishesService.prototype.getLocalDishes = function () {
         var _this = this;
@@ -1586,6 +1612,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "./node_modules/@ionic-native/sqlite/ngx/index.js");
 /* harmony import */ var src_models_product_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/models/product.model */ "./src/models/product.model.ts");
+/* harmony import */ var src_app_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/util */ "./src/app/util.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1634,11 +1661,13 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var ProductService = /** @class */ (function () {
     function ProductService(http, sqlite) {
         var _this = this;
         this.http = http;
         this.sqlite = sqlite;
+        this.util = new src_app_util__WEBPACK_IMPORTED_MODULE_4__["Util"]();
         if (!this.isOpen) {
             this.sqlite = new _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_2__["SQLite"]();
             this.sqlite.create({ name: 'data.db', location: 'default' })
@@ -1676,7 +1705,7 @@ var ProductService = /** @class */ (function () {
         });
     };
     ProductService.prototype.getProducts = function () {
-        return this.http.get('http://192.168.0.27:8000/api/products');
+        return this.http.get(this.util.apiUrl + "/products");
     };
     ProductService.prototype.getLocalProducts = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -1684,15 +1713,14 @@ var ProductService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+                            var _this = this;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
                                     case 0: return [4 /*yield*/, this.conn.executeSql('SELECT id, name, code, description, price, img_url FROM Products ORDER BY name ASC', [])
                                             .then(function (data) {
                                             var products = [];
                                             for (var i = 0; i < data.rows.length; i++) {
-                                                products.push(new src_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(i).id), data.rows.item(i).name, data.rows.item(i).code, data.rows.item(i).description, Number(data.rows.item(i).price), 
-                                                /*data.rows.item(i).img_url*/
-                                                "/assets/img/products/pechuga.jpg"));
+                                                products.push(new src_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(i).id), data.rows.item(i).name, data.rows.item(i).code, data.rows.item(i).description, Number(data.rows.item(i).price), _this.util.storageUrl + "/" + data.rows.item(i).code));
                                             }
                                             resolve(products);
                                         })

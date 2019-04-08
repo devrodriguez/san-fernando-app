@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { DishModel } from 'src/models/dish.model';
 
+import { Util } from 'src/app/util';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,6 +12,7 @@ export class DishesService {
 
   private conn: SQLiteObject;
   private isOpen: boolean;
+  private util: Util = new Util();
 
   constructor(private http: HttpClient, private sqlite: SQLite) { 
 
@@ -44,7 +47,8 @@ export class DishesService {
   }
 
   getDishes() {
-    return this.http.get('http://192.168.0.27:8000/api/dishes');
+    console.log(`${this.util.apiUrl}/dishes`);
+    return this.http.get(`${this.util.apiUrl}/dishes`);
   }
 
   getLocalDishes() {
