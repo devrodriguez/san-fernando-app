@@ -12,9 +12,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { SQLite } from '@ionic-native/sqlite/ngx';
 
 // Services
-import { OrderService } from 'src/services/order/order.service';
-import { ProductService } from 'src/services/product/product.service';
-import { DishesService } from 'src/services/dishes/dishes.service';
+import { ProductService } from './services/product/product.service';
+import { DishesService } from './services/dishes/dishes.service';
+import { OrderService } from './services/order/order.service';
 
 // Pipes
 //import { DatePipe } from '@angular/common';

@@ -28,6 +28,9 @@
     },
     "cordova-sqlite-storage": {
       "PACKAGE_NAME": "io.ionic.sanfernando"
+    },
+    "cordova-plugin-nativestorage": {
+      "PACKAGE_NAME": "io.ionic.sanfernando"
     }
   },
   "dependent_plugins": {}

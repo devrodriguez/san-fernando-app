@@ -9,19 +9,19 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: './home/home.module#HomePageModule'
+    loadChildren: './components/home/home.module#HomePageModule'
   },
   { 
     path: 'order', 
-    loadChildren: './order/order.module#OrderPageModule' 
+    loadChildren: './components/order/order.module#OrderPageModule' 
   },
   { 
     path: 'orders', 
-    loadChildren: './orders/orders.module#OrdersPageModule' 
+    loadChildren: './components/orders/orders.module#OrdersPageModule' 
   },
   { 
     path: 'create-order', 
-    loadChildren: './create-order/create-order.module#CreateOrderPageModule' 
+    loadChildren: './components/create-order/create-order.module#CreateOrderPageModule' 
   }
 ];
 

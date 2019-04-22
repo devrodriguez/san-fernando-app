@@ -1,7 +1,8 @@
 export class Util {
-    
-    public apiUrl : string = "http://192.168.0.29:8000/api";
+    private ip: string = "192.168.0.24";
+    private port: number = 8000;
 
-    public storageUrl : string = "http://192.168.0.29:8000/storage";
-    
+    public apiUrl : string = `http://${this.ip}:${this.port}/api`;
+
+    public storageUrl : string = `http://${this.ip}:${this.port}/storage`;    
 }

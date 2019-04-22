@@ -837,25 +837,25 @@ module.exports = webpackAsyncContext;
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./create-order/create-order.module": [
-		"./src/app/create-order/create-order.module.ts",
-		"default~create-order-create-order-module~orders-orders-module",
+	"./components/create-order/create-order.module": [
+		"./src/app/components/create-order/create-order.module.ts",
+		"default~components-create-order-create-order-module~components-orders-orders-module",
 		"common",
-		"create-order-create-order-module"
+		"components-create-order-create-order-module"
 	],
-	"./home/home.module": [
-		"./src/app/home/home.module.ts",
-		"home-home-module"
+	"./components/home/home.module": [
+		"./src/app/components/home/home.module.ts",
+		"components-home-home-module"
 	],
-	"./order/order.module": [
-		"./src/app/order/order.module.ts",
-		"order-order-module"
+	"./components/order/order.module": [
+		"./src/app/components/order/order.module.ts",
+		"components-order-order-module"
 	],
-	"./orders/orders.module": [
-		"./src/app/orders/orders.module.ts",
-		"default~create-order-create-order-module~orders-orders-module",
+	"./components/orders/orders.module": [
+		"./src/app/components/orders/orders.module.ts",
+		"default~components-create-order-create-order-module~components-orders-orders-module",
 		"common",
-		"orders-orders-module"
+		"components-orders-orders-module"
 	]
 };
 function webpackAsyncContext(req) {
@@ -908,19 +908,19 @@ var routes = [
     },
     {
         path: 'home',
-        loadChildren: './home/home.module#HomePageModule'
+        loadChildren: './components/home/home.module#HomePageModule'
     },
     {
         path: 'order',
-        loadChildren: './order/order.module#OrderPageModule'
+        loadChildren: './components/order/order.module#OrderPageModule'
     },
     {
         path: 'orders',
-        loadChildren: './orders/orders.module#OrdersPageModule'
+        loadChildren: './components/orders/orders.module#OrdersPageModule'
     },
     {
         path: 'create-order',
-        loadChildren: './create-order/create-order.module#CreateOrderPageModule'
+        loadChildren: './components/create-order/create-order.module#CreateOrderPageModule'
     }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -1044,9 +1044,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "./node_modules/@ionic-native/sqlite/ngx/index.js");
-/* harmony import */ var src_services_order_order_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/services/order/order.service */ "./src/services/order/order.service.ts");
-/* harmony import */ var src_services_product_product_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! src/services/product/product.service */ "./src/services/product/product.service.ts");
-/* harmony import */ var src_services_dishes_dishes_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! src/services/dishes/dishes.service */ "./src/services/dishes/dishes.service.ts");
+/* harmony import */ var _services_product_product_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./services/product/product.service */ "./src/app/services/product/product.service.ts");
+/* harmony import */ var _services_dishes_dishes_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./services/dishes/dishes.service */ "./src/app/services/dishes/dishes.service.ts");
+/* harmony import */ var _services_order_order_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./services/order/order.service */ "./src/app/services/order/order.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1086,9 +1086,9 @@ var AppModule = /** @class */ (function () {
                 _ionic_native_status_bar_ngx__WEBPACK_IMPORTED_MODULE_5__["StatusBar"],
                 _ionic_native_splash_screen_ngx__WEBPACK_IMPORTED_MODULE_4__["SplashScreen"],
                 { provide: _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouteReuseStrategy"], useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["IonicRouteStrategy"] },
-                src_services_order_order_service__WEBPACK_IMPORTED_MODULE_10__["OrderService"],
-                src_services_product_product_service__WEBPACK_IMPORTED_MODULE_11__["ProductService"],
-                src_services_dishes_dishes_service__WEBPACK_IMPORTED_MODULE_12__["DishesService"],
+                _services_order_order_service__WEBPACK_IMPORTED_MODULE_12__["OrderService"],
+                _services_product_product_service__WEBPACK_IMPORTED_MODULE_10__["ProductService"],
+                _services_dishes_dishes_service__WEBPACK_IMPORTED_MODULE_11__["DishesService"],
                 _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_9__["SQLite"],
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]]
@@ -1101,86 +1101,10 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/util.ts":
-/*!*************************!*\
-  !*** ./src/app/util.ts ***!
-  \*************************/
-/*! exports provided: Util */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Util", function() { return Util; });
-var Util = /** @class */ (function () {
-    function Util() {
-        this.apiUrl = "http://192.168.0.29:8000/api";
-        this.storageUrl = "http://192.168.0.29:8000/storage";
-    }
-    return Util;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/environments/environment.ts":
-/*!*****************************************!*\
-  !*** ./src/environments/environment.ts ***!
-  \*****************************************/
-/*! exports provided: environment */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "environment", function() { return environment; });
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-var environment = {
-    production: false
-};
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
-
-
-/***/ }),
-
-/***/ "./src/main.ts":
-/*!*********************!*\
-  !*** ./src/main.ts ***!
-  \*********************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser-dynamic */ "./node_modules/@angular/platform-browser-dynamic/fesm5/platform-browser-dynamic.js");
-/* harmony import */ var _app_app_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app/app.module */ "./src/app/app.module.ts");
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./environments/environment */ "./src/environments/environment.ts");
-
-
-
-
-if (_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].production) {
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["enableProdMode"])();
-}
-Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformBrowserDynamic"])().bootstrapModule(_app_app_module__WEBPACK_IMPORTED_MODULE_2__["AppModule"])
-    .catch(function (err) { return console.log(err); });
-
-
-/***/ }),
-
-/***/ "./src/models/dish.model.ts":
-/*!**********************************!*\
-  !*** ./src/models/dish.model.ts ***!
-  \**********************************/
+/***/ "./src/app/models/dish.model.ts":
+/*!**************************************!*\
+  !*** ./src/app/models/dish.model.ts ***!
+  \**************************************/
 /*! exports provided: DishModel */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1201,10 +1125,10 @@ var DishModel = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/models/order.model.ts":
-/*!***********************************!*\
-  !*** ./src/models/order.model.ts ***!
-  \***********************************/
+/***/ "./src/app/models/order.model.ts":
+/*!***************************************!*\
+  !*** ./src/app/models/order.model.ts ***!
+  \***************************************/
 /*! exports provided: Order */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1224,10 +1148,10 @@ var Order = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/models/product.model.ts":
-/*!*************************************!*\
-  !*** ./src/models/product.model.ts ***!
-  \*************************************/
+/***/ "./src/app/models/product.model.ts":
+/*!*****************************************!*\
+  !*** ./src/app/models/product.model.ts ***!
+  \*****************************************/
 /*! exports provided: Product */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1250,10 +1174,10 @@ var Product = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/services/dishes/dishes.service.ts":
-/*!***********************************************!*\
-  !*** ./src/services/dishes/dishes.service.ts ***!
-  \***********************************************/
+/***/ "./src/app/services/dishes/dishes.service.ts":
+/*!***************************************************!*\
+  !*** ./src/app/services/dishes/dishes.service.ts ***!
+  \***************************************************/
 /*! exports provided: DishesService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1263,7 +1187,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "./node_modules/@ionic-native/sqlite/ngx/index.js");
-/* harmony import */ var src_models_dish_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/models/dish.model */ "./src/models/dish.model.ts");
+/* harmony import */ var src_app_models_dish_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/models/dish.model */ "./src/app/models/dish.model.ts");
 /* harmony import */ var src_app_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/util */ "./src/app/util.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1353,7 +1277,7 @@ var DishesService = /** @class */ (function () {
                 .then(function (data) {
                 var dishes = [];
                 for (var i = 0; i < data.rows.length; i++) {
-                    dishes.push(new src_models_dish_model__WEBPACK_IMPORTED_MODULE_3__["DishModel"](Number(data.rows.item(i).id), data.rows.item(i).name, Number(data.rows.item(i).price), 
+                    dishes.push(new src_app_models_dish_model__WEBPACK_IMPORTED_MODULE_3__["DishModel"](Number(data.rows.item(i).id), data.rows.item(i).name, Number(data.rows.item(i).price), 
                     /*data.rows.item(i).img_url*/
                     "/assets/img/products/pechuga.jpg"));
                 }
@@ -1369,7 +1293,7 @@ var DishesService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             _this.conn.executeSql('SELECT id, name, price, img_url FROM Dishes WHERE id = ? ORDER BY name ASC', [id])
                 .then(function (data) {
-                var dishes = new src_models_dish_model__WEBPACK_IMPORTED_MODULE_3__["DishModel"](Number(data.rows.item(0).id), data.rows.item(0).name, Number(data.rows.item(0).price), data.rows.item(0).img_url);
+                var dishes = new src_app_models_dish_model__WEBPACK_IMPORTED_MODULE_3__["DishModel"](Number(data.rows.item(0).id), data.rows.item(0).name, Number(data.rows.item(0).price), data.rows.item(0).img_url);
                 resolve(dishes);
             });
         });
@@ -1429,10 +1353,10 @@ var DishesService = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/services/order/order.service.ts":
-/*!*********************************************!*\
-  !*** ./src/services/order/order.service.ts ***!
-  \*********************************************/
+/***/ "./src/app/services/order/order.service.ts":
+/*!*************************************************!*\
+  !*** ./src/app/services/order/order.service.ts ***!
+  \*************************************************/
 /*! exports provided: OrderService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1441,9 +1365,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrderService", function() { return OrderService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "./node_modules/@ionic-native/sqlite/ngx/index.js");
-/* harmony import */ var src_models_order_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/models/order.model */ "./src/models/order.model.ts");
-/* harmony import */ var _product_product_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../product/product.service */ "./src/services/product/product.service.ts");
-/* harmony import */ var _dishes_dishes_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dishes/dishes.service */ "./src/services/dishes/dishes.service.ts");
+/* harmony import */ var src_app_models_order_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/models/order.model */ "./src/app/models/order.model.ts");
+/* harmony import */ var _dishes_dishes_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dishes/dishes.service */ "./src/app/services/dishes/dishes.service.ts");
+/* harmony import */ var _product_product_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../product/product.service */ "./src/app/services/product/product.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1533,7 +1457,7 @@ var OrderService = /** @class */ (function () {
                 .then(function (orders) {
                 var newOrders = [];
                 for (var i = 0; i < orders.rows.length; i++) {
-                    var newOrder = new src_models_order_model__WEBPACK_IMPORTED_MODULE_2__["Order"]();
+                    var newOrder = new src_app_models_order_model__WEBPACK_IMPORTED_MODULE_2__["Order"]();
                     newOrder.id = orders.rows.item(i).id;
                     newOrder.sale_date = orders.rows.item(i).sale_date;
                     newOrder.price_order = orders.rows.item(i).price_order;
@@ -1588,8 +1512,8 @@ var OrderService = /** @class */ (function () {
             providedIn: 'root'
         }),
         __metadata("design:paramtypes", [_ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_1__["SQLite"],
-            _dishes_dishes_service__WEBPACK_IMPORTED_MODULE_4__["DishesService"],
-            _product_product_service__WEBPACK_IMPORTED_MODULE_3__["ProductService"]])
+            _dishes_dishes_service__WEBPACK_IMPORTED_MODULE_3__["DishesService"],
+            _product_product_service__WEBPACK_IMPORTED_MODULE_4__["ProductService"]])
     ], OrderService);
     return OrderService;
 }());
@@ -1598,10 +1522,10 @@ var OrderService = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/services/product/product.service.ts":
-/*!*************************************************!*\
-  !*** ./src/services/product/product.service.ts ***!
-  \*************************************************/
+/***/ "./src/app/services/product/product.service.ts":
+/*!*****************************************************!*\
+  !*** ./src/app/services/product/product.service.ts ***!
+  \*****************************************************/
 /*! exports provided: ProductService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1611,7 +1535,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "./node_modules/@ionic-native/sqlite/ngx/index.js");
-/* harmony import */ var src_models_product_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/models/product.model */ "./src/models/product.model.ts");
+/* harmony import */ var src_app_models_product_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/models/product.model */ "./src/app/models/product.model.ts");
 /* harmony import */ var src_app_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/util */ "./src/app/util.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1705,7 +1629,7 @@ var ProductService = /** @class */ (function () {
         });
     };
     ProductService.prototype.getProducts = function () {
-        return this.http.get(this.util.apiUrl + "/products");
+        return this.http.get(this.util.apiUrl + "/products/image/1");
     };
     ProductService.prototype.getLocalProducts = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -1720,7 +1644,7 @@ var ProductService = /** @class */ (function () {
                                             .then(function (data) {
                                             var products = [];
                                             for (var i = 0; i < data.rows.length; i++) {
-                                                products.push(new src_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(i).id), data.rows.item(i).name, data.rows.item(i).code, data.rows.item(i).description, Number(data.rows.item(i).price), _this.util.storageUrl + "/" + data.rows.item(i).code));
+                                                products.push(new src_app_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(i).id), data.rows.item(i).name, data.rows.item(i).code, data.rows.item(i).description, Number(data.rows.item(i).price), _this.util.storageUrl + "/" + data.rows.item(i).code));
                                             }
                                             resolve(products);
                                         })
@@ -1744,7 +1668,7 @@ var ProductService = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             _this.conn.executeSql('SELECT * FROM Products WHERE id = ?', [id])
                 .then(function (data) {
-                var product = new src_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(0).id), data.rows.item(0).name, data.rows.item(0).code, data.rows.item(0).description, Number(data.rows.item(0).price), data.rows.item(0).img_url);
+                var product = new src_app_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(0).id), data.rows.item(0).name, data.rows.item(0).code, data.rows.item(0).description, Number(data.rows.item(0).price), data.rows.item(0).img_url);
                 resolve(product);
             })
                 .catch(function (err) {
@@ -1761,6 +1685,84 @@ var ProductService = /** @class */ (function () {
     return ProductService;
 }());
 
+
+
+/***/ }),
+
+/***/ "./src/app/util.ts":
+/*!*************************!*\
+  !*** ./src/app/util.ts ***!
+  \*************************/
+/*! exports provided: Util */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Util", function() { return Util; });
+var Util = /** @class */ (function () {
+    function Util() {
+        this.ip = "192.168.0.23";
+        this.port = 8000;
+        this.apiUrl = "http://" + this.ip + ":" + this.port + "/api";
+        this.storageUrl = "http://" + this.ip + ":" + this.port + "/storage";
+    }
+    return Util;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/environments/environment.ts":
+/*!*****************************************!*\
+  !*** ./src/environments/environment.ts ***!
+  \*****************************************/
+/*! exports provided: environment */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "environment", function() { return environment; });
+// This file can be replaced during build by using the `fileReplacements` array.
+// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
+// The list of file replacements can be found in `angular.json`.
+var environment = {
+    production: false
+};
+/*
+ * For easier debugging in development mode, you can import the following file
+ * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
+ *
+ * This import should be commented out in production mode because it will have a negative impact
+ * on performance if an error is thrown.
+ */
+// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+
+
+/***/ }),
+
+/***/ "./src/main.ts":
+/*!*********************!*\
+  !*** ./src/main.ts ***!
+  \*********************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser-dynamic */ "./node_modules/@angular/platform-browser-dynamic/fesm5/platform-browser-dynamic.js");
+/* harmony import */ var _app_app_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app/app.module */ "./src/app/app.module.ts");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./environments/environment */ "./src/environments/environment.ts");
+
+
+
+
+if (_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].production) {
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["enableProdMode"])();
+}
+Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformBrowserDynamic"])().bootstrapModule(_app_app_module__WEBPACK_IMPORTED_MODULE_2__["AppModule"])
+    .catch(function (err) { return console.log(err); });
 
 
 /***/ }),
