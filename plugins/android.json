@@ -17,6 +17,9 @@
       "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+",
       "PACKAGE_NAME": "io.ionic.sanfernando"
     },
+    "cordova-plugin-nativestorage": {
+      "PACKAGE_NAME": "io.ionic.sanfernando"
+    },
     "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "io.ionic.sanfernando"
     },
@@ -27,9 +30,6 @@
       "PACKAGE_NAME": "io.ionic.sanfernando"
     },
     "cordova-sqlite-storage": {
-      "PACKAGE_NAME": "io.ionic.sanfernando"
-    },
-    "cordova-plugin-nativestorage": {
       "PACKAGE_NAME": "io.ionic.sanfernando"
     }
   },

@@ -61,7 +61,7 @@ export class ProductService {
   }
 
   getProducts() {
-    return this.http.get(`${this.util.apiUrl}/products/image/1`);
+    return this.http.get(`${this.util.apiUrl}/products?image=1`);
   }
 
   async getLocalProducts() {

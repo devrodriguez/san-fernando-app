@@ -48,8 +48,7 @@ export class DishesService {
   }
 
   getDishes() {
-    console.log(`${this.util.apiUrl}/dishes`);
-    return this.http.get(`${this.util.apiUrl}/dishes`);
+    return this.http.get(`${this.util.apiUrl}/dishes?image=1`);
   }
 
   getLocalDishes() {
