@@ -1139,7 +1139,7 @@ var Order = /** @class */ (function () {
     function Order() {
         this.products = new Array();
         this.dishes = new Array();
-        this.price_order = 0;
+        this.price = 0;
     }
     return Order;
 }());
@@ -1166,6 +1166,7 @@ var Product = /** @class */ (function () {
         this.description = description;
         this.price = price;
         this.img_url = img_url;
+        this.data_img = "";
     }
     return Product;
 }());
@@ -1267,8 +1268,7 @@ var DishesService = /** @class */ (function () {
     DishesService.prototype.ngOnInit = function () {
     };
     DishesService.prototype.getDishes = function () {
-        console.log(this.util.apiUrl + "/dishes");
-        return this.http.get(this.util.apiUrl + "/dishes");
+        return this.http.get(this.util.apiUrl + "/dishes?image=1");
     };
     DishesService.prototype.getLocalDishes = function () {
         var _this = this;
@@ -1365,9 +1365,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrderService", function() { return OrderService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ionic-native/sqlite/ngx */ "./node_modules/@ionic-native/sqlite/ngx/index.js");
-/* harmony import */ var src_app_models_order_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/models/order.model */ "./src/app/models/order.model.ts");
-/* harmony import */ var _dishes_dishes_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dishes/dishes.service */ "./src/app/services/dishes/dishes.service.ts");
-/* harmony import */ var _product_product_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../product/product.service */ "./src/app/services/product/product.service.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var src_app_models_order_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/models/order.model */ "./src/app/models/order.model.ts");
+/* harmony import */ var _dishes_dishes_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dishes/dishes.service */ "./src/app/services/dishes/dishes.service.ts");
+/* harmony import */ var _product_product_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../product/product.service */ "./src/app/services/product/product.service.ts");
+/* harmony import */ var src_app_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/util */ "./src/app/util.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1382,12 +1384,16 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
 var OrderService = /** @class */ (function () {
-    function OrderService(sqlite, dishService, productService) {
+    function OrderService(sqlite, dishService, productService, http) {
         var _this = this;
         this.sqlite = sqlite;
         this.dishService = dishService;
         this.productService = productService;
+        this.http = http;
+        this.util = new src_app_util__WEBPACK_IMPORTED_MODULE_6__["Util"]();
         if (!this.isOpen) {
             this.sqlite = new _ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_1__["SQLite"]();
             this.sqlite.create({ name: 'data.db', location: 'default' })
@@ -1395,7 +1401,7 @@ var OrderService = /** @class */ (function () {
                 _this.conn = conn;
                 console.log('Order db connection created');
                 //Create Orders table
-                _this.conn.executeSql('CREATE TABLE IF NOT EXISTS Orders(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, sale_date DATE, price_order DECIMAL(18, 2), payment_method VARCHAR(5))', [])
+                _this.conn.executeSql('CREATE TABLE IF NOT EXISTS Orders(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, sale_date DATE, price DECIMAL(18, 2), payment_method VARCHAR(5), carrier VARCHAR(5))', [])
                     .then(function (data) {
                     console.log('Se creo la tabla Orders');
                 })
@@ -1418,9 +1424,9 @@ var OrderService = /** @class */ (function () {
     }
     OrderService.prototype.addLocalOrder = function (order) {
         var _this = this;
-        console.log(order.sale_date);
+        console.log(order);
         return new Promise(function (resolve, reject) {
-            _this.conn.executeSql('INSERT INTO Orders(sale_date, price_order, payment_method) VALUES(?, ?, ?)', [order.sale_date, order.price_order, order.payment_method])
+            _this.conn.executeSql('INSERT INTO Orders(sale_date, price, payment_method, carrier) VALUES(?, ?, ?, ?)', [order.sale_date, order.price, order.payment_method, order.carrier])
                 .then(function (dataOrder) {
                 // Insert products
                 order.products.forEach(function (product) {
@@ -1452,17 +1458,17 @@ var OrderService = /** @class */ (function () {
     OrderService.prototype.getLocalOrders = function (date) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var query = "SELECT id, strftime('%d/%m/%Y %H:%M:%S', sale_date) sale_date, price_order, payment_method FROM Orders WHERE strftime('%Y-%m-%d', sale_date) = '" + date + "' ORDER BY sale_date ASC";
+            var query = "SELECT id, strftime('%d/%m/%Y %H:%M:%S', sale_date) sale_date, price, payment_method, carrier FROM Orders WHERE strftime('%Y-%m-%d', sale_date) = '" + date + "' ORDER BY sale_date ASC";
             _this.conn.executeSql(query, [])
                 .then(function (orders) {
                 var newOrders = [];
                 for (var i = 0; i < orders.rows.length; i++) {
-                    var newOrder = new src_app_models_order_model__WEBPACK_IMPORTED_MODULE_2__["Order"]();
+                    var newOrder = new src_app_models_order_model__WEBPACK_IMPORTED_MODULE_3__["Order"]();
                     newOrder.id = orders.rows.item(i).id;
                     newOrder.sale_date = orders.rows.item(i).sale_date;
-                    newOrder.price_order = orders.rows.item(i).price_order;
+                    newOrder.price = orders.rows.item(i).price;
                     newOrder.payment_method = orders.rows.item(i).payment_method;
-                    console.log('Date: ', orders.rows.item(i).sale_date);
+                    newOrder.carrier = orders.rows.item(i).carrier;
                     newOrders.push(newOrder);
                 }
                 resolve(newOrders);
@@ -1507,13 +1513,17 @@ var OrderService = /** @class */ (function () {
             });
         });
     };
+    OrderService.prototype.uploadOrders = function (order) {
+        return this.http.post(this.util.apiUrl + "/orders", order);
+    };
     OrderService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
         }),
         __metadata("design:paramtypes", [_ionic_native_sqlite_ngx__WEBPACK_IMPORTED_MODULE_1__["SQLite"],
-            _dishes_dishes_service__WEBPACK_IMPORTED_MODULE_3__["DishesService"],
-            _product_product_service__WEBPACK_IMPORTED_MODULE_4__["ProductService"]])
+            _dishes_dishes_service__WEBPACK_IMPORTED_MODULE_4__["DishesService"],
+            _product_product_service__WEBPACK_IMPORTED_MODULE_5__["ProductService"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
     ], OrderService);
     return OrderService;
 }());
@@ -1632,49 +1642,40 @@ var ProductService = /** @class */ (function () {
         return this.http.get(this.util.apiUrl + "/products?image=1");
     };
     ProductService.prototype.getLocalProducts = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
+        var _this = this;
+        return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+            var products, data, i;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-                            var _this = this;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4 /*yield*/, this.conn.executeSql('SELECT id, name, code, description, price, img_url FROM Products ORDER BY name ASC', [])
-                                            .then(function (data) {
-                                            var products = [];
-                                            for (var i = 0; i < data.rows.length; i++) {
-                                                products.push(new src_app_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(i).id), data.rows.item(i).name, data.rows.item(i).code, data.rows.item(i).description, Number(data.rows.item(i).price), _this.util.storageUrl + "/" + data.rows.item(i).code));
-                                            }
-                                            resolve(products);
-                                        })
-                                            .catch(function (error) {
-                                            console.log('Error in product promise');
-                                            reject(error);
-                                        })];
-                                    case 1:
-                                        _a.sent();
-                                        return [2 /*return*/];
-                                }
-                            });
-                        }); })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0:
+                        products = [];
+                        return [4 /*yield*/, this.conn.executeSql('SELECT id, name, code, description, price, img_url FROM Products ORDER BY name ASC', [])];
+                    case 1:
+                        data = _a.sent();
+                        for (i = 0; i < data.rows.length; i++) {
+                            products.push(new src_app_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(i).id), data.rows.item(i).name, data.rows.item(i).code, data.rows.item(i).description, Number(data.rows.item(i).price), this.util.storageUrl + "/" + data.rows.item(i).code));
+                        }
+                        resolve(products);
+                        return [2 /*return*/];
                 }
             });
-        });
+        }); });
     };
     ProductService.prototype.getProduct = function (id) {
         var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.conn.executeSql('SELECT * FROM Products WHERE id = ?', [id])
-                .then(function (data) {
-                var product = new src_app_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(0).id), data.rows.item(0).name, data.rows.item(0).code, data.rows.item(0).description, Number(data.rows.item(0).price), data.rows.item(0).img_url);
-                resolve(product);
-            })
-                .catch(function (err) {
-                reject(err);
+        return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+            var data, product;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.conn.executeSql('SELECT * FROM Products WHERE id = ?', [id])];
+                    case 1:
+                        data = _a.sent();
+                        product = new src_app_models_product_model__WEBPACK_IMPORTED_MODULE_3__["Product"](Number(data.rows.item(0).id), data.rows.item(0).name, data.rows.item(0).code, data.rows.item(0).description, Number(data.rows.item(0).price), data.rows.item(0).img_url);
+                        resolve(product);
+                        return [2 /*return*/];
+                }
             });
-        });
+        }); });
     };
     ProductService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -1701,8 +1702,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Util", function() { return Util; });
 var Util = /** @class */ (function () {
     function Util() {
-        this.ip = "192.168.0.13";
-        this.port = 8080;
+        this.ip = "192.168.0.19";
+        this.port = 8000;
         this.apiUrl = "http://" + this.ip + ":" + this.port + "/api";
         this.storageUrl = "http://" + this.ip + ":" + this.port + "/storage";
     }

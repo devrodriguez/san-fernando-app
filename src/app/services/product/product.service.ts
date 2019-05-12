@@ -64,49 +64,42 @@ export class ProductService {
     return this.http.get(`${this.util.apiUrl}/products?image=1`);
   }
 
-  async getLocalProducts() {
-    return await new Promise(async (resolve, reject) => {
-      await this.conn.executeSql('SELECT id, name, code, description, price, img_url FROM Products ORDER BY name ASC', [])
-      .then(data => {
-        let products: Product[] = [];
+  getLocalProducts() {
+    return new Promise(async (resolve, reject) => {
+      let products: Product[] = [];
 
-        for(var i = 0; i < data.rows.length; i++){
-          products.push(new Product(
-            Number(data.rows.item(i).id),
-            data.rows.item(i).name,
-            data.rows.item(i).code,
-            data.rows.item(i).description,
-            Number(data.rows.item(i).price),
-            `${this.util.storageUrl}/${data.rows.item(i).code}`
-          ));
-        }
+      let data = await this.conn.executeSql('SELECT id, name, code, description, price, img_url FROM Products ORDER BY name ASC', []);
+      
+      for(var i = 0; i < data.rows.length; i++){
+        products.push(new Product(
+          Number(data.rows.item(i).id),
+          data.rows.item(i).name,
+          data.rows.item(i).code,
+          data.rows.item(i).description,
+          Number(data.rows.item(i).price),
+          `${this.util.storageUrl}/${data.rows.item(i).code}`
+        ));
+      }
 
-        resolve(products);
-      })
-      .catch(error => {
-        console.log('Error in product promise');
-        reject(error);
-      });
+      resolve(products);
     });
   }
 
   getProduct(id: number) {
-    return new Promise((resolve, reject) => {
-      this.conn.executeSql('SELECT * FROM Products WHERE id = ?', [id])
-      .then(data => {
-        let product: Product = new Product(
-          Number(data.rows.item(0).id),
-          data.rows.item(0).name,
-          data.rows.item(0).code,
-          data.rows.item(0).description,
-          Number(data.rows.item(0).price),
-          data.rows.item(0).img_url
-        );
-        resolve(product);
-      })
-      .catch(err => {
-        reject(err);
-      })
+    return new Promise(async (resolve, reject) => {
+      let data = await this.conn.executeSql('SELECT * FROM Products WHERE id = ?', [id]);
+
+      let product: Product = new Product(
+        Number(data.rows.item(0).id),
+        data.rows.item(0).name,
+        data.rows.item(0).code,
+        data.rows.item(0).description,
+        Number(data.rows.item(0).price),
+        data.rows.item(0).img_url
+      );
+      
+      resolve(product);
+      
     });
   }
 }

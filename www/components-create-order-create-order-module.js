@@ -125,7 +125,7 @@ var CreateOrderPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <ion-buttons slot=\"start\">\r\n      <ion-menu-button></ion-menu-button>\r\n    </ion-buttons>\r\n    <ion-title>\r\n      Crear Orden\r\n    </ion-title>\r\n    <ion-buttons slot=\"end\">\r\n      <ion-button (click)=\"getRemoteData()\">\r\n        <ion-icon slot=\"icon-only\" name=\"refresh\"></ion-icon>\r\n      </ion-button>\r\n    </ion-buttons>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n  <ion-grid>\r\n    <ion-row>\r\n      <!-- Order Detail -->\r\n      <ion-col size=\"4\">\r\n        <ion-item text-center *ngIf=\"order.dishes.length > 0 || order.products > 0\">\r\n          <ion-label>Orden</ion-label>\r\n        </ion-item>\r\n        <ion-list>\r\n          <ion-item *ngFor=\"let dish of order.dishes;let i = index\" class=\"picture-animated fade-in\">\r\n            <ion-thumbnail item-start>\r\n              <img [src]=\"dish.data_img\">\r\n            </ion-thumbnail>\r\n            <ion-label padding-start>{{dish.name}}</ion-label>\r\n            <ion-button item-end shape=\"round\" color=\"danger\" (click)=\"deletePartialDishOrder(dish, i)\">\r\n              <ion-icon name=\"trash\"></ion-icon>\r\n            </ion-button>\r\n          </ion-item>\r\n          <ion-item *ngFor=\"let product of order.products;let i = index\" class=\"picture-animated fade-in\">\r\n            <ion-thumbnail item-start>\r\n              <img [src]=\"product.data_img\">\r\n            </ion-thumbnail>\r\n            <ion-label padding-start>{{product.name}}</ion-label>\r\n            <ion-button item-end shape=\"round\" color=\"danger\" (click)=\"deletePartialProductOrder(product, i)\">\r\n              <ion-icon name=\"trash\"></ion-icon>\r\n            </ion-button>\r\n          </ion-item>\r\n        </ion-list>\r\n        <ion-button color=\"danger\" expand=\"full\" (click)=\"deletePartialOrder()\" *ngIf=\"order.price_order > 0\">Eliminar Orden</ion-button>\r\n      </ion-col>\r\n      <!-- Dishes & Products -->\r\n      <ion-col size=\"8\">\r\n          <div scrollY=\"true\">\r\n            <ion-grid>\r\n                <ion-row>\r\n                  <ion-col *ngFor=\"let dish of dishes\" size=\"12\" size-sm=\"6\" size-md=\"4\">\r\n                    <ion-card class=\"picture-animated fade-in\" (click)=\"addPartialDishOrder(dish)\">\r\n                      <ion-badge color=\"success\" style=\"position: absolute;top:5px;left:5px;\">{{dish.price | currency:'COP':'$':'1.0'}}</ion-badge>\r\n                      <ion-img [src]=\"dish.data_img\"></ion-img>\r\n                      <ion-card-content>\r\n                        <ion-card-subtitle>\r\n                          {{dish.name}}\r\n                        </ion-card-subtitle>\r\n                      </ion-card-content>\r\n                    </ion-card>\r\n                  </ion-col>\r\n                  <ion-col *ngFor=\"let product of products\" size=\"12\" size-sm=\"6\" size-md=\"4\">\r\n                    <ion-card class=\"picture-animated fade-in\" (click)=\"addPartialProductOrder(product)\" style=\"position: relative;\">\r\n                      <ion-badge color=\"success\" style=\"position: absolute;top:5px;left:5px;\">{{product.price | currency:'COP':'$':'1.0'}}</ion-badge>\r\n                      <ion-img [src]=\"product.data_img\"></ion-img>\r\n                      <ion-card-content>\r\n                        <ion-card-subtitle text-center>\r\n                            {{product.name}}\r\n                        </ion-card-subtitle>\r\n                      </ion-card-content>\r\n                    </ion-card>\r\n                  </ion-col>\r\n                </ion-row>\r\n              </ion-grid>\r\n          </div>\r\n      </ion-col>\r\n    </ion-row>\r\n  </ion-grid>\r\n</ion-content>\r\n<ion-footer>\r\n  <ion-button color=\"secondary\" expand=\"full\" (click)=\"createOrder()\">Crear Orden {{order.price_order | currency:'COP':'$':'1.0'}}</ion-button>\r\n</ion-footer>\r\n"
+module.exports = "<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <ion-buttons slot=\"start\">\r\n      <ion-menu-button></ion-menu-button>\r\n    </ion-buttons>\r\n    <ion-title>\r\n      Crear Orden\r\n    </ion-title>\r\n    <ion-buttons slot=\"end\">\r\n      <ion-button (click)=\"getRemoteData()\">\r\n        <ion-icon slot=\"icon-only\" name=\"refresh\"></ion-icon>\r\n      </ion-button>\r\n    </ion-buttons>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n  <ion-grid>\r\n    <ion-row>\r\n      <!-- Order Detail -->\r\n      <ion-col size=\"4\">\r\n        <ion-item text-center *ngIf=\"order.dishes.length > 0 || order.products > 0\">\r\n          <ion-label>Orden</ion-label>\r\n        </ion-item>\r\n        <ion-list>\r\n          <ion-item *ngFor=\"let dish of order.dishes;let i = index\" class=\"picture-animated fade-in\">\r\n            <ion-thumbnail item-start>\r\n              <img [src]=\"dish.data_img\">\r\n            </ion-thumbnail>\r\n            <ion-label padding-start>{{dish.name}}</ion-label>\r\n            <ion-button item-end shape=\"round\" color=\"danger\" (click)=\"deletePartialDishOrder(dish, i)\">\r\n              <ion-icon name=\"trash\"></ion-icon>\r\n            </ion-button>\r\n          </ion-item>\r\n          <ion-item *ngFor=\"let product of order.products;let i = index\" class=\"picture-animated fade-in\">\r\n            <ion-thumbnail item-start>\r\n              <img [src]=\"product.data_img\">\r\n            </ion-thumbnail>\r\n            <ion-label padding-start>{{product.name}}</ion-label>\r\n            <ion-button item-end shape=\"round\" color=\"danger\" (click)=\"deletePartialProductOrder(product, i)\">\r\n              <ion-icon name=\"trash\"></ion-icon>\r\n            </ion-button>\r\n          </ion-item>\r\n        </ion-list>\r\n        <ion-button color=\"danger\" expand=\"full\" (click)=\"deletePartialOrder()\" *ngIf=\"order.price > 0\">Eliminar Orden</ion-button>\r\n      </ion-col>\r\n      <!-- Dishes & Products -->\r\n      <ion-col size=\"8\">\r\n          <div scrollY=\"true\">\r\n            <ion-grid>\r\n                <ion-row>\r\n                  <ion-col *ngFor=\"let dish of dishes\" size=\"12\" size-sm=\"6\" size-md=\"4\">\r\n                    <ion-card class=\"picture-animated fade-in\" (click)=\"addPartialDishOrder(dish)\">\r\n                      <ion-badge color=\"success\" style=\"position: absolute;top:5px;left:5px;\">{{dish.price | currency:'COP':'$':'1.0'}}</ion-badge>\r\n                      <ion-img [src]=\"dish.data_img\"></ion-img>\r\n                      <ion-card-content>\r\n                        <ion-card-subtitle>\r\n                          {{dish.name}}\r\n                        </ion-card-subtitle>\r\n                      </ion-card-content>\r\n                    </ion-card>\r\n                  </ion-col>\r\n                  <ion-col *ngFor=\"let product of products\" size=\"12\" size-sm=\"6\" size-md=\"4\">\r\n                    <ion-card class=\"picture-animated fade-in\" (click)=\"addPartialProductOrder(product)\" style=\"position: relative;\">\r\n                      <ion-badge color=\"success\" style=\"position: absolute;top:5px;left:5px;\">{{product.price | currency:'COP':'$':'1.0'}}</ion-badge>\r\n                      <ion-img [src]=\"product.data_img\"></ion-img>\r\n                      <ion-card-content>\r\n                        <ion-card-subtitle text-center>\r\n                            {{product.name}}\r\n                        </ion-card-subtitle>\r\n                      </ion-card-content>\r\n                    </ion-card>\r\n                  </ion-col>\r\n                </ion-row>\r\n              </ion-grid>\r\n          </div>\r\n      </ion-col>\r\n    </ion-row>\r\n  </ion-grid>\r\n</ion-content>\r\n<ion-footer>\r\n  <ion-button color=\"secondary\" expand=\"full\" (click)=\"createOrder()\">Crear Orden {{order.price | currency:'COP':'$':'1.0'}}</ion-button>\r\n</ion-footer>\r\n"
 
 /***/ }),
 
@@ -232,8 +232,8 @@ var CreateOrderPage = /** @class */ (function () {
         this.actionSheetController = actionSheetController;
         this.order = new src_app_models_order_model__WEBPACK_IMPORTED_MODULE_6__["Order"]();
         this.dataLocal = false;
-        this.products = [];
-        this.dishes = [];
+        this.products = new Array();
+        this.dishes = new Array();
     }
     CreateOrderPage.prototype.ngOnInit = function () {
         var _this = this;
@@ -248,6 +248,7 @@ var CreateOrderPage = /** @class */ (function () {
             })
                 .catch(function (err) {
                 console.error('Error on load data');
+                _this.loadingOff();
             })
                 .finally(function () {
                 _this.loadingOff();
@@ -255,17 +256,32 @@ var CreateOrderPage = /** @class */ (function () {
         });
     };
     CreateOrderPage.prototype.getRemoteData = function () {
-        var _this = this;
-        this.loadingOn()
-            .then(function () { return __awaiter(_this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, Promise.all([
-                            this.getRemoteDishes(),
-                            this.getRemoteProducts()
-                        ])
-                            .then(function () {
+                    case 0: return [4 /*yield*/, this.loadingOn()
+                            .then(function () { return __awaiter(_this, void 0, void 0, function () {
+                            var _this = this;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, Promise.all([
+                                            this.getRemoteDishes(),
+                                            this.getRemoteProducts()
+                                        ])
+                                            .then(function () {
+                                            _this.loadingOff();
+                                        })];
+                                    case 1:
+                                        _a.sent();
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); })
+                            .catch(function (err) {
+                            _this.loadingOff();
+                        })
+                            .finally(function () {
                             _this.loadingOff();
                         })];
                     case 1:
@@ -273,9 +289,6 @@ var CreateOrderPage = /** @class */ (function () {
                         return [2 /*return*/];
                 }
             });
-        }); })
-            .finally(function () {
-            _this.loadingOff();
         });
     };
     CreateOrderPage.prototype.getRemoteDishes = function () {
@@ -283,57 +296,41 @@ var CreateOrderPage = /** @class */ (function () {
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.dishesService.getDishes().subscribe(function (dishes) { return __awaiter(_this, void 0, void 0, function () {
-                            var _this = this;
+                    case 0: return [4 /*yield*/, this.dishesService.getDishes().subscribe(function (dishes) {
+                            _this.dishesService.deleteDishes();
+                            var promises = [];
+                            dishes.forEach(function (dish) {
+                                promises.push(_this.dishesService.addDish(new src_app_models_dish_model__WEBPACK_IMPORTED_MODULE_8__["DishModel"](dish.id, dish.name, dish.price, dish.img_url)));
+                                // Add local storage image
+                                _this.nativeStorage.setItem(dish.code, dish.data_img)
+                                    .then(function () {
+                                    console.log('Dish stored' + dish.code);
+                                })
+                                    .catch(function (err) {
+                                    console.log(err);
+                                });
+                            });
+                            Promise.all(promises)
+                                .then(function (data) {
+                                _this.getLocalDishes();
+                            });
+                        }, function (error) { return __awaiter(_this, void 0, void 0, function () {
+                            var toast;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
-                                    case 0: return [4 /*yield*/, this.dishesService.deleteDishes()
-                                            .then(function () { return __awaiter(_this, void 0, void 0, function () {
-                                            var promises;
-                                            var _this = this;
-                                            return __generator(this, function (_a) {
-                                                switch (_a.label) {
-                                                    case 0:
-                                                        promises = [];
-                                                        dishes.forEach(function (dish) { return __awaiter(_this, void 0, void 0, function () {
-                                                            return __generator(this, function (_a) {
-                                                                promises.push(this.dishesService.addDish(new src_app_models_dish_model__WEBPACK_IMPORTED_MODULE_8__["DishModel"](dish.id, dish.name, dish.price, dish.img_url)));
-                                                                // Add local storage image
-                                                                this.nativeStorage.setItem(dish.code, dish.data_img)
-                                                                    .then(function () {
-                                                                    console.log('Dish stored' + dish.code);
-                                                                })
-                                                                    .catch(function (err) {
-                                                                    console.log(err);
-                                                                });
-                                                                return [2 /*return*/];
-                                                            });
-                                                        }); });
-                                                        return [4 /*yield*/, Promise.all(promises)
-                                                                .then(function (data) { return __awaiter(_this, void 0, void 0, function () {
-                                                                return __generator(this, function (_a) {
-                                                                    switch (_a.label) {
-                                                                        case 0: return [4 /*yield*/, this.getLocalDishes()];
-                                                                        case 1:
-                                                                            _a.sent();
-                                                                            return [2 /*return*/];
-                                                                    }
-                                                                });
-                                                            }); })];
-                                                    case 1:
-                                                        _a.sent();
-                                                        return [2 /*return*/];
-                                                }
-                                            });
-                                        }); })];
+                                    case 0:
+                                        console.error(error);
+                                        return [4 /*yield*/, this.toastController.create({
+                                                message: 'Error al obtener platos',
+                                                duration: 5000
+                                            })];
                                     case 1:
-                                        _a.sent();
+                                        toast = _a.sent();
+                                        toast.present();
                                         return [2 /*return*/];
                                 }
                             });
-                        }); }, function (error) {
-                            console.error(error);
-                        })];
+                        }); })];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -349,56 +346,54 @@ var CreateOrderPage = /** @class */ (function () {
                     case 0: 
                     // Get products from API source    
                     return [4 /*yield*/, this.productService.getProducts().subscribe(function (products) { return __awaiter(_this, void 0, void 0, function () {
+                            var promises;
                             var _this = this;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
-                                    case 0: return [4 /*yield*/, this.productService.deleteProducts()
-                                            .then(function () { return __awaiter(_this, void 0, void 0, function () {
-                                            var promises;
-                                            var _this = this;
-                                            return __generator(this, function (_a) {
-                                                switch (_a.label) {
-                                                    case 0:
-                                                        promises = [];
-                                                        products.forEach(function (product) {
-                                                            promises.push(_this.productService.addProduct(new src_app_models_product_model__WEBPACK_IMPORTED_MODULE_7__["Product"](product.id, product.name, product.code, product.description, product.price, product.img_url)));
-                                                            // Add local storage image
-                                                            _this.nativeStorage.setItem(product.code, product.data_img)
-                                                                .then(function () {
-                                                                console.log('Product stored' + product.code);
-                                                            })
-                                                                .catch(function (err) {
-                                                                console.log(err);
-                                                            });
-                                                        });
-                                                        return [4 /*yield*/, Promise.all(promises)
-                                                                .then(function (data) { return __awaiter(_this, void 0, void 0, function () {
-                                                                return __generator(this, function (_a) {
-                                                                    switch (_a.label) {
-                                                                        case 0: return [4 /*yield*/, this.getLocalProducts()];
-                                                                        case 1:
-                                                                            _a.sent();
-                                                                            return [2 /*return*/];
-                                                                    }
-                                                                });
-                                                            }); })];
-                                                    case 1:
-                                                        _a.sent();
-                                                        return [2 /*return*/];
-                                                }
-                                            });
-                                        }); })
-                                            .catch(function (err) {
-                                            console.log(err);
-                                        })];
+                                    case 0: 
+                                    // Eliminar productos locales
+                                    return [4 /*yield*/, this.productService.deleteProducts()];
                                     case 1:
+                                        // Eliminar productos locales
+                                        _a.sent();
+                                        promises = [];
+                                        products.forEach(function (product) {
+                                            promises.push(_this.productService.addProduct(new src_app_models_product_model__WEBPACK_IMPORTED_MODULE_7__["Product"](product.id, product.name, product.code, product.description, product.price, product.img_url)));
+                                            // Add local storage image
+                                            _this.nativeStorage.setItem(product.code, product.data_img)
+                                                .then(function () {
+                                                console.log('Product stored' + product.code);
+                                            })
+                                                .catch(function (err) {
+                                                console.log(err);
+                                            });
+                                        });
+                                        return [4 /*yield*/, Promise.all(promises)
+                                                .then(function () {
+                                                _this.getLocalProducts();
+                                            })];
+                                    case 2:
                                         _a.sent();
                                         return [2 /*return*/];
                                 }
                             });
-                        }); }, function (error) {
-                            _this.loadingOff();
-                        })];
+                        }); }, function (error) { return __awaiter(_this, void 0, void 0, function () {
+                            var toast;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        this.loadingOff();
+                                        return [4 /*yield*/, this.toastController.create({
+                                                message: 'Error al obtener productos',
+                                                duration: 5000
+                                            })];
+                                    case 1:
+                                        toast = _a.sent();
+                                        toast.present();
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); })];
                     case 1:
                         // Get products from API source    
                         _a.sent();
@@ -409,44 +404,29 @@ var CreateOrderPage = /** @class */ (function () {
     };
     CreateOrderPage.prototype.getLocalProducts = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var promises;
+            var promises, localProducts;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         promises = [];
-                        // Get products from local source
-                        return [4 /*yield*/, this.productService.getLocalProducts()
-                                .then(function (products) { return __awaiter(_this, void 0, void 0, function () {
-                                var _this = this;
-                                return __generator(this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0: return [4 /*yield*/, this.products.forEach(function (product) {
-                                                promises.push(_this.nativeStorage.getItem(product.code));
-                                            })];
-                                        case 1:
-                                            _a.sent();
-                                            return [4 /*yield*/, Promise.all(promises)
-                                                    .then(function (data) {
-                                                    _this.products = products;
-                                                    for (var i = 0; i <= _this.products.length; i++) {
-                                                        _this.products[i].data_img = 'data:image/png;base64,' + data[i];
-                                                    }
-                                                })
-                                                    .catch(function (err) {
-                                                    console.error(err);
-                                                })];
-                                        case 2:
-                                            _a.sent();
-                                            return [2 /*return*/];
-                                    }
-                                });
-                            }); })
+                        return [4 /*yield*/, this.productService.getLocalProducts()];
+                    case 1:
+                        localProducts = _a.sent();
+                        this.products = localProducts;
+                        this.products.forEach(function (product) {
+                            promises.push(_this.nativeStorage.getItem(product.code));
+                        });
+                        return [4 /*yield*/, Promise.all(promises)
+                                .then(function (data) {
+                                for (var i = 0; i < _this.products.length; i++) {
+                                    _this.products[i]['data_img'] = "data:image/png;base64," + data[i];
+                                }
+                            })
                                 .catch(function (err) {
                                 console.error(err);
                             })];
-                    case 1:
-                        // Get products from local source
+                    case 2:
                         _a.sent();
                         return [2 /*return*/];
                 }
@@ -455,42 +435,29 @@ var CreateOrderPage = /** @class */ (function () {
     };
     CreateOrderPage.prototype.getLocalDishes = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var promises, localDishes;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.dishesService.getLocalDishes()
-                            .then(function (dishes) { return __awaiter(_this, void 0, void 0, function () {
-                            var _this = this;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4 /*yield*/, this.dishes.forEach(function (dish) { return __awaiter(_this, void 0, void 0, function () {
-                                            var _this = this;
-                                            return __generator(this, function (_a) {
-                                                switch (_a.label) {
-                                                    case 0: return [4 /*yield*/, this.nativeStorage.getItem(dish.code)
-                                                            .then(function (item) { return __awaiter(_this, void 0, void 0, function () {
-                                                            return __generator(this, function (_a) {
-                                                                dish.data_img = "data:imagepng;base64," + item;
-                                                                return [2 /*return*/];
-                                                            });
-                                                        }); })];
-                                                    case 1:
-                                                        _a.sent();
-                                                        return [2 /*return*/];
-                                                }
-                                            });
-                                        }); })];
-                                    case 1:
-                                        _a.sent();
-                                        this.dishes = dishes;
-                                        return [2 /*return*/];
-                                }
-                            });
-                        }); })
-                            .catch(function (err) {
-                            console.error(err);
-                        })];
+                    case 0:
+                        promises = [];
+                        return [4 /*yield*/, this.dishesService.getLocalDishes()];
                     case 1:
+                        localDishes = _a.sent();
+                        this.dishes = localDishes;
+                        this.dishes.forEach(function (dish) { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                promises.push(this.nativeStorage.getItem(dish.code));
+                                return [2 /*return*/];
+                            });
+                        }); });
+                        return [4 /*yield*/, Promise.all(promises)
+                                .then(function (data) {
+                                for (var i = 0; i < _this.dishes.length; i++) {
+                                    _this.dishes[i]['data_img'] = "data:imagepng;base64," + data[i];
+                                }
+                            })];
+                    case 2:
                         _a.sent();
                         return [2 /*return*/];
                 }
@@ -498,11 +465,11 @@ var CreateOrderPage = /** @class */ (function () {
         });
     };
     CreateOrderPage.prototype.addPartialProductOrder = function (product) {
-        this.order.price_order += product.price;
+        this.order.price += product.price;
         this.order.products.push(product);
     };
     CreateOrderPage.prototype.addPartialDishOrder = function (dish) {
-        this.order.price_order += dish.price;
+        this.order.price += dish.price;
         this.order.dishes.push(dish);
     };
     CreateOrderPage.prototype.createOrder = function () {
@@ -511,7 +478,7 @@ var CreateOrderPage = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!(this.order.price_order <= 0)) return [3 /*break*/, 3];
+                        if (!(this.order.price <= 0)) return [3 /*break*/, 3];
                         return [4 /*yield*/, this.alertController.create({
                                 header: 'Orden',
                                 message: 'Seleccione por lo menos un producto',
@@ -524,29 +491,6 @@ var CreateOrderPage = /** @class */ (function () {
                         _a.sent();
                         return [2 /*return*/];
                     case 3:
-                        /*
-                        const alertCreateOrder = await this.alertController.create({
-                          header: 'Orden',
-                          subHeader: 'Informacion de su orden',
-                          message: `El total de la orden es ${this.currencyPipe.transform(this.order.price_order, 'COP', '$', '1.0')}`,
-                          buttons: [
-                            {
-                              text: 'Aceptar',
-                              cssClass: 'primary',
-                              handler: () => {
-                                this.confirmOrder();
-                              }
-                            },
-                            {
-                              cssClass: 'secondary',
-                              text: 'Cancel',
-                              role: 'cancel'
-                            }
-                          ]
-                        });
-                    
-                        await alertCreateOrder.present();
-                        */
                         this.presentActionSheet();
                         return [2 /*return*/];
                 }
@@ -565,15 +509,24 @@ var CreateOrderPage = /** @class */ (function () {
                             buttons: [
                                 {
                                     text: 'Crear',
-                                    handler: function () {
+                                    handler: function (data) {
+                                        console.log('Carrier', data);
+                                        _this.order.carrier = data;
                                         _this.confirmOrder();
                                     }
                                 }
                             ],
                             inputs: [
                                 {
-                                    name: 'Rappi',
-                                    type: 'radio'
+                                    checked: true,
+                                    label: 'Rappi',
+                                    type: 'radio',
+                                    value: 'RP'
+                                },
+                                {
+                                    label: 'Uber Eats',
+                                    type: 'radio',
+                                    value: 'UB'
                                 }
                             ]
                         })];
@@ -586,11 +539,11 @@ var CreateOrderPage = /** @class */ (function () {
         });
     };
     CreateOrderPage.prototype.deletePartialProductOrder = function (product, index) {
-        this.order.price_order -= product.price;
+        this.order.price -= product.price;
         this.order.products.splice(index, 1);
     };
     CreateOrderPage.prototype.deletePartialDishOrder = function (dish, index) {
-        this.order.price_order -= dish.price;
+        this.order.price -= dish.price;
         this.order.dishes.splice(index, 1);
     };
     CreateOrderPage.prototype.deletePartialOrder = function () {
@@ -599,7 +552,6 @@ var CreateOrderPage = /** @class */ (function () {
     CreateOrderPage.prototype.confirmOrder = function () {
         return __awaiter(this, void 0, void 0, function () {
             var toast;
-            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -610,14 +562,11 @@ var CreateOrderPage = /** @class */ (function () {
                             })];
                     case 1:
                         toast = _a.sent();
-                        this.orderService.addLocalOrder(this.order)
-                            .then(function (data) {
-                            _this.order = new src_app_models_order_model__WEBPACK_IMPORTED_MODULE_6__["Order"]();
-                            toast.present();
-                        })
-                            .catch(function (err) {
-                            console.log(err);
-                        });
+                        return [4 /*yield*/, this.orderService.addLocalOrder(this.order)];
+                    case 2:
+                        _a.sent();
+                        this.order = new src_app_models_order_model__WEBPACK_IMPORTED_MODULE_6__["Order"]();
+                        toast.present();
                         return [2 /*return*/];
                 }
             });

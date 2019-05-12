@@ -4,6 +4,11 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Ordenes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="uploadOrders()">
+        <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -16,7 +21,8 @@
     <ion-item *ngFor="let order of orders" (click)="showDetail(order)">
       <ion-icon [name]="order.payment_method == 'E' ? 'cash' : order.payment_method == 'T' ? 'card' : 'bicycle'" slot="start"></ion-icon>
       <ion-label>{{order.sale_date}}</ion-label>
-      <p slot="end">{{order.price_order | currency:'COP':'$':'1.0'}}</p>
+      <ion-badge>{{order.carrier}}</ion-badge>
+      <p slot="end">{{order.price | currency:'COP':'$':'1.0'}}</p>
     </ion-item>
   </ion-list>
 </ion-content>

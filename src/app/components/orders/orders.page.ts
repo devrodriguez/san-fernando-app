@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import * as moment from 'moment';
 
 import { OrderService } from 'src/app/services/order/order.service';
@@ -19,7 +19,8 @@ export class OrdersPage implements OnInit {
 
   constructor(private orderService: OrderService, 
               private router: Router, 
-              private loadingController: LoadingController) {
+              private loadingController: LoadingController,
+              private toastCtrl: ToastController) {
   }
 
   ngOnInit() {
@@ -59,6 +60,30 @@ export class OrdersPage implements OnInit {
 
   async loadingOff() {
     return await this.loading.dismiss();
+  }
+
+  async uploadOrders() {
+    var promises = [];
+
+    const toast = await this.toastCtrl.create({
+      message: 'Ordenes subidas correctamente',
+      duration: 5000
+    });
+
+    this.orders.forEach((order: Order) => {
+      console.log(order);
+      promises.push(this.orderService.uploadOrders(order).subscribe());
+    });
+
+    await Promise.all(promises)
+    .then(async (result) => {
+      console.log('Orders uploaded', result);
+
+      toast.present();
+    })
+    .catch(err => {
+      console.error(err);
+    });
   }
 
 }

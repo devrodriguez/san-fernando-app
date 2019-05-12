@@ -62,7 +62,7 @@ var OrdersPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <ion-buttons slot=\"start\">\r\n      <ion-menu-button></ion-menu-button>\r\n    </ion-buttons>\r\n    <ion-title>Ordenes</ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n  <ion-item>\r\n    <ion-label>Fecha</ion-label>\r\n    <ion-datetime display-format=\"DD/MM/YYYY\" cancelText=\"Cancelar\" [(ngModel)]=\"orderDate\" (ionChange)=\"dateChange($event)\"></ion-datetime>\r\n  </ion-item>\r\n  <ion-list>\r\n    <ion-item *ngFor=\"let order of orders\" (click)=\"showDetail(order)\">\r\n      <ion-icon [name]=\"order.payment_method == 'E' ? 'cash' : order.payment_method == 'T' ? 'card' : 'bicycle'\" slot=\"start\"></ion-icon>\r\n      <ion-label>{{order.sale_date}}</ion-label>\r\n      <p slot=\"end\">{{order.price_order | currency:'COP':'$':'1.0'}}</p>\r\n    </ion-item>\r\n  </ion-list>\r\n</ion-content>\r\n"
+module.exports = "<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <ion-buttons slot=\"start\">\r\n      <ion-menu-button></ion-menu-button>\r\n    </ion-buttons>\r\n    <ion-title>Ordenes</ion-title>\r\n    <ion-buttons slot=\"end\">\r\n      <ion-button (click)=\"uploadOrders()\">\r\n        <ion-icon slot=\"icon-only\" name=\"cloud-upload\"></ion-icon>\r\n      </ion-button>\r\n    </ion-buttons>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n  <ion-item>\r\n    <ion-label>Fecha</ion-label>\r\n    <ion-datetime display-format=\"DD/MM/YYYY\" cancelText=\"Cancelar\" [(ngModel)]=\"orderDate\" (ionChange)=\"dateChange($event)\"></ion-datetime>\r\n  </ion-item>\r\n  <ion-list>\r\n    <ion-item *ngFor=\"let order of orders\" (click)=\"showDetail(order)\">\r\n      <ion-icon [name]=\"order.payment_method == 'E' ? 'cash' : order.payment_method == 'T' ? 'card' : 'bicycle'\" slot=\"start\"></ion-icon>\r\n      <ion-label>{{order.sale_date}}</ion-label>\r\n      <ion-badge>{{order.carrier}}</ion-badge>\r\n      <p slot=\"end\">{{order.price | currency:'COP':'$':'1.0'}}</p>\r\n    </ion-item>\r\n  </ion-list>\r\n</ion-content>\r\n"
 
 /***/ }),
 
@@ -143,10 +143,11 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 var OrdersPage = /** @class */ (function () {
-    function OrdersPage(orderService, router, loadingController) {
+    function OrdersPage(orderService, router, loadingController, toastCtrl) {
         this.orderService = orderService;
         this.router = router;
         this.loadingController = loadingController;
+        this.toastCtrl = toastCtrl;
         this.orders = new Array();
         this.orderDate = moment__WEBPACK_IMPORTED_MODULE_3__().toISOString();
     }
@@ -203,6 +204,42 @@ var OrdersPage = /** @class */ (function () {
             });
         });
     };
+    OrdersPage.prototype.uploadOrders = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var promises, toast;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        promises = [];
+                        return [4 /*yield*/, this.toastCtrl.create({
+                                message: 'Ordenes subidas correctamente',
+                                duration: 5000
+                            })];
+                    case 1:
+                        toast = _a.sent();
+                        this.orders.forEach(function (order) {
+                            console.log(order);
+                            promises.push(_this.orderService.uploadOrders(order).subscribe());
+                        });
+                        return [4 /*yield*/, Promise.all(promises)
+                                .then(function (result) { return __awaiter(_this, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    console.log('Orders uploaded', result);
+                                    toast.present();
+                                    return [2 /*return*/];
+                                });
+                            }); })
+                                .catch(function (err) {
+                                console.error(err);
+                            })];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     OrdersPage = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-orders',
@@ -211,7 +248,8 @@ var OrdersPage = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [src_app_services_order_order_service__WEBPACK_IMPORTED_MODULE_4__["OrderService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
-            _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["LoadingController"]])
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["LoadingController"],
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["ToastController"]])
     ], OrdersPage);
     return OrdersPage;
 }());
