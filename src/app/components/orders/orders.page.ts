@@ -16,6 +16,7 @@ export class OrdersPage implements OnInit {
   orders: Array<Order> = new Array<Order>();
   loading: any;
   orderDate: string = moment().toISOString();
+  totalSale: Number = 0;
 
   constructor(private orderService: OrderService, 
               private router: Router, 
@@ -34,6 +35,10 @@ export class OrdersPage implements OnInit {
     this.orderService.getLocalOrders(date)
     .then((orders: Array<Order>) => {
       this.orders = orders;
+      this.totalSale = orders.reduce((preOrder, curOrder, indice, vector) => {
+        return preOrder + curOrder.price;
+      }, 0)
+      
       this.loadingOff();
     })
     .catch(err => {

@@ -24,6 +24,11 @@ export class AppComponent {
       title: 'Ver Ordenes',
       url: '/orders',
       icon: 'list'
+    },
+    {
+      title: 'Inventario',
+      url: '/inventory',
+      icon: 'archive'
     }
   ];
 

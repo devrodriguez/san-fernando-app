@@ -847,6 +847,10 @@ var map = {
 		"./src/app/components/home/home.module.ts",
 		"components-home-home-module"
 	],
+	"./components/inventory/inventory.module": [
+		"./src/app/components/inventory/inventory.module.ts",
+		"components-inventory-inventory-module"
+	],
 	"./components/order/order.module": [
 		"./src/app/components/order/order.module.ts",
 		"components-order-order-module"
@@ -921,6 +925,10 @@ var routes = [
     {
         path: 'create-order',
         loadChildren: './components/create-order/create-order.module#CreateOrderPageModule'
+    },
+    {
+        path: 'inventory',
+        loadChildren: './components/inventory/inventory.module#InventoryPageModule'
     }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -997,6 +1005,11 @@ var AppComponent = /** @class */ (function () {
                 title: 'Ver Ordenes',
                 url: '/orders',
                 icon: 'list'
+            },
+            {
+                title: 'Inventario',
+                url: '/inventory',
+                icon: 'archive'
             }
         ];
         this.initializeApp();

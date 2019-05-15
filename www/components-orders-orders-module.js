@@ -62,7 +62,7 @@ var OrdersPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <ion-buttons slot=\"start\">\r\n      <ion-menu-button></ion-menu-button>\r\n    </ion-buttons>\r\n    <ion-title>Ordenes</ion-title>\r\n    <ion-buttons slot=\"end\">\r\n      <ion-button (click)=\"uploadOrders()\">\r\n        <ion-icon slot=\"icon-only\" name=\"cloud-upload\"></ion-icon>\r\n      </ion-button>\r\n    </ion-buttons>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n  <ion-item>\r\n    <ion-label>Fecha</ion-label>\r\n    <ion-datetime display-format=\"DD/MM/YYYY\" cancelText=\"Cancelar\" [(ngModel)]=\"orderDate\" (ionChange)=\"dateChange($event)\"></ion-datetime>\r\n  </ion-item>\r\n  <ion-list>\r\n    <ion-item *ngFor=\"let order of orders\" (click)=\"showDetail(order)\">\r\n      <ion-icon [name]=\"order.payment_method == 'E' ? 'cash' : order.payment_method == 'T' ? 'card' : 'bicycle'\" slot=\"start\"></ion-icon>\r\n      <ion-label>{{order.sale_date}}</ion-label>\r\n      <ion-badge>{{order.carrier}}</ion-badge>\r\n      <p slot=\"end\">{{order.price | currency:'COP':'$':'1.0'}}</p>\r\n    </ion-item>\r\n  </ion-list>\r\n</ion-content>\r\n"
+module.exports = "<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <ion-buttons slot=\"start\">\r\n      <ion-menu-button></ion-menu-button>\r\n    </ion-buttons>\r\n    <ion-title>Ordenes</ion-title>\r\n    <ion-buttons slot=\"end\">\r\n      <ion-button (click)=\"uploadOrders()\">\r\n        <ion-icon slot=\"icon-only\" name=\"cloud-upload\"></ion-icon>\r\n      </ion-button>\r\n    </ion-buttons>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content>\r\n  <ion-item>\r\n    <ion-label>Fecha</ion-label>\r\n    <ion-datetime display-format=\"DD/MM/YYYY\" cancelText=\"Cancelar\" [(ngModel)]=\"orderDate\" (ionChange)=\"dateChange($event)\"></ion-datetime>\r\n  </ion-item>\r\n  <ion-list>\r\n    <ion-item *ngFor=\"let order of orders\" (click)=\"showDetail(order)\">\r\n      <ion-icon [name]=\"order.payment_method == 'E' ? 'cash' : order.payment_method == 'T' ? 'card' : 'bicycle'\" slot=\"start\"></ion-icon>\r\n      <ion-label>{{order.sale_date}}</ion-label>\r\n      <ion-badge>{{order.carrier}}</ion-badge>\r\n      <p slot=\"end\">{{order.price | currency:'COP':'$':'1.0'}}</p>\r\n    </ion-item>\r\n  </ion-list>\r\n</ion-content>\r\n<ion-footer>\r\n  <h1 class=\"ion-text-center\">{{totalSale | currency:'COP':'$':'1.0'}}</h1>\r\n</ion-footer>\r\n"
 
 /***/ }),
 
@@ -150,6 +150,7 @@ var OrdersPage = /** @class */ (function () {
         this.toastCtrl = toastCtrl;
         this.orders = new Array();
         this.orderDate = moment__WEBPACK_IMPORTED_MODULE_3__().toISOString();
+        this.totalSale = 0;
     }
     OrdersPage.prototype.ngOnInit = function () {
         var _this = this;
@@ -163,6 +164,9 @@ var OrdersPage = /** @class */ (function () {
         this.orderService.getLocalOrders(date)
             .then(function (orders) {
             _this.orders = orders;
+            _this.totalSale = orders.reduce(function (preOrder, curOrder, indice, vector) {
+                return preOrder + curOrder.price;
+            }, 0);
             _this.loadingOff();
         })
             .catch(function (err) {

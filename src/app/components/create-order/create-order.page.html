@@ -79,5 +79,8 @@
   </ion-grid>
 </ion-content>
 <ion-footer>
-  <ion-button color="secondary" expand="full" (click)="createOrder()">Crear Orden {{order.price | currency:'COP':'$':'1.0'}}</ion-button>
+  <ion-button color="secondary" expand="full" size="large" (click)="createOrder()">
+    <ion-icon name="calculator" slot="start"></ion-icon>
+    {{order.price | currency:'COP':'$':'1.0'}}
+  </ion-button>
 </ion-footer>

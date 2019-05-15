@@ -22,7 +22,12 @@ const routes: Routes = [
   { 
     path: 'create-order', 
     loadChildren: './components/create-order/create-order.module#CreateOrderPageModule' 
+  },
+  { 
+    path: 'inventory', 
+    loadChildren: './components/inventory/inventory.module#InventoryPageModule' 
   }
+
 ];
 
 @NgModule({
