@@ -11,11 +11,11 @@ export class InventoryService {
 
   constructor(private http: HttpClient) { }
 
-  async getInventory() {
-    await this.http.get(`${this.util.apiUrl}/inventory`);
+  getInventory() {
+    return this.http.get(`${this.util.apiUrl}/inventory`);
   }
 
   async updateStock(id: number, units: number) {
-    await this.http.put(`${this.util.apiUrl}/inventory/${id}`, units);
+    return await this.http.put(`${this.util.apiUrl}/inventory/${id}`, units);
   }
 }

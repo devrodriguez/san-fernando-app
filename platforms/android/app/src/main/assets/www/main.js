@@ -1715,7 +1715,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Util", function() { return Util; });
 var Util = /** @class */ (function () {
     function Util() {
-        this.ip = "192.168.0.19";
+        this.ip = "192.168.0.16";
         this.port = 8000;
         this.apiUrl = "http://" + this.ip + ":" + this.port + "/api";
         this.storageUrl = "http://" + this.ip + ":" + this.port + "/storage";

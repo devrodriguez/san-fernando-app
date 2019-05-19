@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { InventoryService } from 'src/app/services/inventory/inventory.service';
+import { InventoryModel } from 'src/app/models/inventory.model';
+import { LoadingController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-inventory',
@@ -7,9 +11,41 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InventoryPage implements OnInit {
 
-  constructor() { }
+  inventory: InventoryModel[] = [];
+  loading: any;
+
+  constructor(private inventoryService: InventoryService,
+              private loadingController: LoadingController) { }
 
   ngOnInit() {
+    this.getInventory();
+  }
+
+  getInventory() {
+    this.loadingOn()
+    .then(() => {
+      this.inventoryService.getInventory().subscribe((inventory: InventoryModel[]) => {
+        console.log('Get inventory: ', inventory);
+        this.inventory = inventory;
+
+        this.loadingOff();
+      }, (error) => {
+        console.log(error);
+        this.loadingOff();
+      });  
+    });    
+  }
+
+  async loadingOn() {
+    this.loading = await this.loadingController.create({
+      message: 'Cargando'
+    });
+
+    return await this.loading.present();
+  }
+
+  async loadingOff() {
+    return await this.loading.dismiss();
   }
 
 }
