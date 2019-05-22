@@ -48,4 +48,8 @@ export class InventoryPage implements OnInit {
     return await this.loading.dismiss();
   }
 
+  async Edit() {
+    
+  }
+
 }

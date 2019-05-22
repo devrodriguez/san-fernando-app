@@ -62,7 +62,7 @@ var InventoryPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>Inventario</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-list>\n    <ion-list-header>Stock</ion-list-header>\n    <ion-item *ngFor=\"let item of inventory\">\n      <ion-label>{{item.code}}</ion-label>\n      <ion-input type=\"number\" placeholder=\"Cantidad\" slot=\"end\"></ion-input>\n    </ion-item>\n  </ion-list>\n</ion-content>\n"
+module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>Inventario</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-list>\n    <ion-list-header color=\"secondary\">Stock</ion-list-header>\n    <ion-item *ngFor=\"let item of inventory\">\n      <ion-label size=\"10\">{{item.name}}</ion-label>\n      <ion-input type=\"number\" slot=\"end\" placeholder=\"Cantidad\" size=\"2\" [(ngModel)]=\"item.available_amount\"></ion-input>\n    </ion-item>\n  </ion-list>\n</ion-content>\n\n<ion-footer>\n  <ion-button color=\"secondary\" expand=\"full\" size=\"default\" (click)=\"Edit()\">\n    <ion-icon name=\"save\"></ion-icon>\n    Guardar\n  </ion-button>\n</ion-footer>\n"
 
 /***/ }),
 
@@ -185,6 +185,13 @@ var InventoryPage = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.loading.dismiss()];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
+            });
+        });
+    };
+    InventoryPage.prototype.Edit = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
             });
         });
     };
