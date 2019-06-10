@@ -1715,7 +1715,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Util", function() { return Util; });
 var Util = /** @class */ (function () {
     function Util() {
-        this.ip = "192.168.0.19";
+        this.ip = "192.168.0.24";
         this.port = 8000;
         this.apiUrl = "http://" + this.ip + ":" + this.port + "/api";
         this.storageUrl = "http://" + this.ip + ":" + this.port + "/storage";
@@ -1788,7 +1788,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\swprojects\san-fernando-app\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! c:\swprojects\san-fernando-app\src\main.ts */"./src/main.ts");
 
 
 /***/ })

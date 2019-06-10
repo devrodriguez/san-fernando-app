@@ -4,6 +4,11 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Inventario</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="getInventory()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -18,7 +23,7 @@
 </ion-content>
 
 <ion-footer>
-  <ion-button color="secondary" expand="full" size="default" (click)="Edit()">
+  <ion-button color="secondary" expand="full" size="default" (click)="updateStock()">
     <ion-icon name="save"></ion-icon>
     Guardar
   </ion-button>

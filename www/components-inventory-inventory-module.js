@@ -62,7 +62,7 @@ var InventoryPageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>Inventario</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-list>\n    <ion-list-header color=\"secondary\">Stock</ion-list-header>\n    <ion-item *ngFor=\"let item of inventory\">\n      <ion-label size=\"10\">{{item.name}}</ion-label>\n      <ion-input type=\"number\" slot=\"end\" placeholder=\"Cantidad\" size=\"2\" [(ngModel)]=\"item.available_amount\"></ion-input>\n    </ion-item>\n  </ion-list>\n</ion-content>\n\n<ion-footer>\n  <ion-button color=\"secondary\" expand=\"full\" size=\"default\" (click)=\"Edit()\">\n    <ion-icon name=\"save\"></ion-icon>\n    Guardar\n  </ion-button>\n</ion-footer>\n"
+module.exports = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\">\n      <ion-menu-button></ion-menu-button>\n    </ion-buttons>\n    <ion-title>Inventario</ion-title>\n    <ion-buttons slot=\"end\">\n      <ion-button (click)=\"getInventory()\">\n        <ion-icon slot=\"icon-only\" name=\"refresh\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-list>\n    <ion-list-header color=\"secondary\">Stock</ion-list-header>\n    <ion-item *ngFor=\"let item of inventory\">\n      <ion-label size=\"10\">{{item.name}}</ion-label>\n      <ion-input type=\"number\" slot=\"end\" placeholder=\"Cantidad\" size=\"2\" [(ngModel)]=\"item.available_amount\"></ion-input>\n    </ion-item>\n  </ion-list>\n</ion-content>\n\n<ion-footer>\n  <ion-button color=\"secondary\" expand=\"full\" size=\"default\" (click)=\"updateStock()\">\n    <ion-icon name=\"save\"></ion-icon>\n    Guardar\n  </ion-button>\n</ion-footer>\n"
 
 /***/ }),
 
@@ -150,12 +150,26 @@ var InventoryPage = /** @class */ (function () {
         var _this = this;
         this.loadingOn()
             .then(function () {
-            _this.inventoryService.getInventory().subscribe(function (inventory) {
+            _this.inventoryService.getInventory()
+                .subscribe(function (inventory) {
                 console.log('Get inventory: ', inventory);
                 _this.inventory = inventory;
                 _this.loadingOff();
             }, function (error) {
                 console.log(error);
+                _this.loadingOff();
+            });
+        });
+    };
+    InventoryPage.prototype.updateStock = function () {
+        var _this = this;
+        this.loadingOn()
+            .then(function () {
+            _this.inventoryService.updateStock(_this.inventory)
+                .subscribe(function () {
+                console.log('Stock updated');
+                _this.loadingOff();
+            }, function (error) {
                 _this.loadingOff();
             });
         });
@@ -279,7 +293,10 @@ var InventoryService = /** @class */ (function () {
     InventoryService.prototype.getInventory = function () {
         return this.http.get(this.util.apiUrl + "/inventory");
     };
-    InventoryService.prototype.updateStock = function (id, units) {
+    InventoryService.prototype.updateStock = function (inventory) {
+        return this.http.post(this.util.apiUrl + "/inventory", inventory);
+    };
+    InventoryService.prototype.updateProductStock = function (id, units) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {

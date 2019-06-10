@@ -24,7 +24,8 @@ export class InventoryPage implements OnInit {
   getInventory() {
     this.loadingOn()
     .then(() => {
-      this.inventoryService.getInventory().subscribe((inventory: InventoryModel[]) => {
+      this.inventoryService.getInventory()
+      .subscribe((inventory: InventoryModel[]) => {
         console.log('Get inventory: ', inventory);
         this.inventory = inventory;
 
@@ -34,6 +35,19 @@ export class InventoryPage implements OnInit {
         this.loadingOff();
       });  
     });    
+  }
+
+  updateStock() {
+    this.loadingOn()
+    .then(() => {
+      this.inventoryService.updateStock(this.inventory)
+      .subscribe(() => {
+        console.log('Stock updated');
+        this.loadingOff();
+      }, (error) => {
+        this.loadingOff();
+      })
+    })
   }
 
   async loadingOn() {
